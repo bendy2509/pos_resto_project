@@ -33,7 +33,7 @@ partial class DashboardForm
     {
         menuStrip1 = new System.Windows.Forms.MenuStrip();
         fichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        déconnexionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         gestionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         commandesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,16 +96,17 @@ partial class DashboardForm
         // 
         // fichierToolStripMenuItem
         // 
-        fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { déconnexionToolStripMenuItem, quitterToolStripMenuItem });
+        fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { logoutToolStripMenuItem, quitterToolStripMenuItem });
         fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
         fichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
         fichierToolStripMenuItem.Text = "Fichier";
         // 
-        // déconnexionToolStripMenuItem
+        // logoutToolStripMenuItem
         // 
-        déconnexionToolStripMenuItem.Name = "déconnexionToolStripMenuItem";
-        déconnexionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-        déconnexionToolStripMenuItem.Text = "Déconnexion";
+        logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+        logoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        logoutToolStripMenuItem.Text = "Déconnexion";
+        logoutToolStripMenuItem.Click += logout_click;
         // 
         // quitterToolStripMenuItem
         // 
@@ -123,25 +124,25 @@ partial class DashboardForm
         // commandesToolStripMenuItem
         // 
         commandesToolStripMenuItem.Name = "commandesToolStripMenuItem";
-        commandesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        commandesToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
         commandesToolStripMenuItem.Text = "Commandes";
         // 
         // menusToolStripMenuItem
         // 
         menusToolStripMenuItem.Name = "menusToolStripMenuItem";
-        menusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        menusToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
         menusToolStripMenuItem.Text = "Menus";
         // 
         // clientsToolStripMenuItem
         // 
         clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
-        clientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        clientsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
         clientsToolStripMenuItem.Text = "Clients";
         // 
         // paiementsToolStripMenuItem
         // 
         paiementsToolStripMenuItem.Name = "paiementsToolStripMenuItem";
-        paiementsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        paiementsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
         paiementsToolStripMenuItem.Text = "Paiements";
         // 
         // rapportsToolStripMenuItem
@@ -540,7 +541,7 @@ partial class DashboardForm
     private System.Windows.Forms.DataGridView dataGridViewRecent;
     private System.Windows.Forms.Label labelChartTitle;
     private System.Windows.Forms.ToolStripMenuItem fichierToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem déconnexionToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem quitterToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem gestionToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem commandesToolStripMenuItem;

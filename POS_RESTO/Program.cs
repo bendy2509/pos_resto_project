@@ -12,31 +12,37 @@ namespace POS_RESTO
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+        
             try
             {
-                // On utilise MySqlConnection pour le type de connexion
+                // Test connexion MySQL
                 using (MySqlConnection conn = DatabaseConfig.GetConnection())
                 {
                     conn.Open(); 
                     conn.Close();
                 }
-                // MessageBox.Show("Connexion MySQL reussie !", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Console.WriteLine("Connexion MySQL réussie !");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erreur de connexion MySQL :\n" + ex.Message, "Echec", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // On arrete l'execution
+                MessageBox.Show("Erreur de connexion MySQL :\n" + ex.Message, 
+                    "Échec", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-
-            // Lance le formulaire principal
-            // Application.Run(new Form1());
+        
+            // Afficher d'abord le LoginForm
+            var loginForm = new Forms.LoginForm();
             
-            // Tester le formulaire de login
-            Application.Run(new Forms.LoginForm());
-            
-            // Tester le dashboard
-            // Application.Run(new Forms.DashboardForm());
+            if (loginForm.ShowDialog() == DialogResult.OK) 
+            {
+                // Puis ouvrir le DashboardForm
+                Application.Run(new Forms.DashboardForm());
+            }
+            else
+            {
+                // Login annule ou echoue
+                Application.Exit();
+            }
         }
     }
 }

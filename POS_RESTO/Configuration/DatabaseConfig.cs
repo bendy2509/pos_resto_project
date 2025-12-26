@@ -7,14 +7,14 @@ namespace POS_RESTO.Configuration
     {
         public static MySqlConnection GetConnection()
         {
-            // Paramètres mis à jour
+            // Parametres mis a jour
             string host = "localhost";
-            string port = "3310"; // Votre port spécifique
+            string port = "3310";
             string database = "posresto";
             string user = "pos_resto_admin";
             string password = "groupabb";
             
-            // On ajoute "Port={port};" dans la chaîne
+            // On ajoute "Port={port};" dans la chaine
             string connString = $"Server={host};Port={port};Database={database};Uid={user};Pwd={password};";
             
             return new MySqlConnection(connString);

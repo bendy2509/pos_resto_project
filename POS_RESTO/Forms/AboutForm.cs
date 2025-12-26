@@ -16,6 +16,6 @@ public partial class AboutForm : Form
 
     private void btnCloseAbout(object sender, EventArgs e)
     {
-        
+        this.Close();
     }
 }

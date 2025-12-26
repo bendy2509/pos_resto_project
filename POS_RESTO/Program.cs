@@ -21,7 +21,7 @@ namespace POS_RESTO
                     conn.Open(); 
                     conn.Close();
                 }
-                MessageBox.Show("Connexion MySQL reussie !", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // MessageBox.Show("Connexion MySQL reussie !", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

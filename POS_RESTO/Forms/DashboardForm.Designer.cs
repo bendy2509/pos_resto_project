@@ -72,6 +72,7 @@ partial class DashboardForm
         panelChart = new System.Windows.Forms.Panel();
         labelChartTitle = new System.Windows.Forms.Label();
         dataGridViewRecent = new System.Windows.Forms.DataGridView();
+        toolStrip1 = new System.Windows.Forms.ToolStrip();
         menuStrip1.SuspendLayout();
         statusStrip1.SuspendLayout();
         panelHeader.SuspendLayout();
@@ -103,13 +104,13 @@ partial class DashboardForm
         // déconnexionToolStripMenuItem
         // 
         déconnexionToolStripMenuItem.Name = "déconnexionToolStripMenuItem";
-        déconnexionToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+        déconnexionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         déconnexionToolStripMenuItem.Text = "Déconnexion";
         // 
         // quitterToolStripMenuItem
         // 
         quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
-        quitterToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+        quitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         quitterToolStripMenuItem.Text = "Quitter";
         // 
         // gestionToolStripMenuItem
@@ -122,25 +123,25 @@ partial class DashboardForm
         // commandesToolStripMenuItem
         // 
         commandesToolStripMenuItem.Name = "commandesToolStripMenuItem";
-        commandesToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+        commandesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         commandesToolStripMenuItem.Text = "Commandes";
         // 
         // menusToolStripMenuItem
         // 
         menusToolStripMenuItem.Name = "menusToolStripMenuItem";
-        menusToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+        menusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         menusToolStripMenuItem.Text = "Menus";
         // 
         // clientsToolStripMenuItem
         // 
         clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
-        clientsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+        clientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         clientsToolStripMenuItem.Text = "Clients";
         // 
         // paiementsToolStripMenuItem
         // 
         paiementsToolStripMenuItem.Name = "paiementsToolStripMenuItem";
-        paiementsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+        paiementsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         paiementsToolStripMenuItem.Text = "Paiements";
         // 
         // rapportsToolStripMenuItem
@@ -464,11 +465,20 @@ partial class DashboardForm
         dataGridViewRecent.Size = new System.Drawing.Size(1160, 274);
         dataGridViewRecent.TabIndex = 0;
         // 
+        // toolStrip1
+        // 
+        toolStrip1.Location = new System.Drawing.Point(0, 324);
+        toolStrip1.Name = "toolStrip1";
+        toolStrip1.Size = new System.Drawing.Size(1200, 25);
+        toolStrip1.TabIndex = 5;
+        toolStrip1.Text = "toolStrip1";
+        // 
         // DashboardForm
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         ClientSize = new System.Drawing.Size(1200, 700);
+        Controls.Add(toolStrip1);
         Controls.Add(panelChart);
         Controls.Add(flowPanelStats);
         Controls.Add(panelHeader);
@@ -499,6 +509,8 @@ partial class DashboardForm
         ResumeLayout(false);
         PerformLayout();
     }
+
+    private System.Windows.Forms.ToolStrip toolStrip1;
 
     #endregion
 

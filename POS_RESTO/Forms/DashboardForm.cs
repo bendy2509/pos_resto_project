@@ -135,4 +135,10 @@ public partial class DashboardForm : Form
             Application.Exit();
         }
     }
+
+    private void about_click(object sender, EventArgs e)
+    {
+        var aboutForm = new AboutForm();
+        aboutForm.ShowDialog();
+    }
 }

@@ -23,7 +23,7 @@ namespace POS_RESTO
                     conn.Open(); 
                     conn.Close();
                 }
-                Console.WriteLine("Connexion MySQL réussie !");
+                Console.WriteLine("Connexion MySQL reussie !");
             }
             catch (Exception ex)
             {

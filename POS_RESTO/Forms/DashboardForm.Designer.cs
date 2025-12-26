@@ -104,14 +104,14 @@ partial class DashboardForm
         // logoutToolStripMenuItem
         // 
         logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-        logoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        logoutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
         logoutToolStripMenuItem.Text = "Déconnexion";
         logoutToolStripMenuItem.Click += logout_click;
         // 
         // quitterToolStripMenuItem
         // 
         quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
-        quitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        quitterToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
         quitterToolStripMenuItem.Text = "Quitter";
         quitterToolStripMenuItem.Click += quit_click;
         // 
@@ -175,8 +175,9 @@ partial class DashboardForm
         // àProposToolStripMenuItem
         // 
         àProposToolStripMenuItem.Name = "àProposToolStripMenuItem";
-        àProposToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+        àProposToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         àProposToolStripMenuItem.Text = "À propos";
+        àProposToolStripMenuItem.Click += about_click;
         // 
         // statusStrip1
         // 

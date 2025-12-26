@@ -12,7 +12,7 @@ namespace POS_RESTO.Configuration
             string port = "3310"; // Votre port spécifique
             string database = "posresto";
             string user = "pos_resto_admin";
-            string password = "Servilus_2509@";
+            string password = "groupabb";
             
             // On ajoute "Port={port};" dans la chaîne
             string connString = $"Server={host};Port={port};Database={database};Uid={user};Pwd={password};";

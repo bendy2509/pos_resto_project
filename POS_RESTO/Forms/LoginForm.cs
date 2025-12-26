@@ -35,7 +35,7 @@ public partial class LoginForm : Form
         try
         {
             // Verifier dans la base de données
-            if (VerifierIdentifiantsMySQL(username, password))
+            if (VerifierIdentifiantsMySql(username, password))
             {
                 // Succes - fermer le LoginForm avec DialogResult.OK
                 this.DialogResult = DialogResult.OK;
@@ -56,7 +56,7 @@ public partial class LoginForm : Form
         }
     }
     
-    private bool VerifierIdentifiantsMySQL(string username, string password)
+    private bool VerifierIdentifiantsMySql(string username, string password)
     {
         using (var conn = DatabaseConfig.GetConnection())
         {

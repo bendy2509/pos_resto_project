@@ -113,6 +113,7 @@ partial class DashboardForm
         quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
         quitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         quitterToolStripMenuItem.Text = "Quitter";
+        quitterToolStripMenuItem.Click += quit_click;
         // 
         // gestionToolStripMenuItem
         // 

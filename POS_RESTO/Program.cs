@@ -2,6 +2,8 @@ using System;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using POS_RESTO.Configuration;
+using POS_RESTO.Utils;
+using POS_RESTO.Forms;
 
 namespace POS_RESTO
 {
@@ -30,18 +32,37 @@ namespace POS_RESTO
                 return;
             }
         
-            // Afficher d'abord le LoginForm
-            var loginForm = new Forms.LoginForm();
-            
-            if (loginForm.ShowDialog() == DialogResult.OK) 
+            // Boucle principale
+            bool keepRunning = true;
+    
+            while (keepRunning)
             {
-                // Puis ouvrir le DashboardForm
-                Application.Run(new Forms.DashboardForm());
-            }
-            else
-            {
-                // Login annule ou echoue
-                Application.Exit();
+                // Afficher login
+                using (var login = new LoginForm())
+                {
+                    if (login.ShowDialog() == DialogResult.OK && Session.IsLoggedIn)
+                    {
+                        // Afficher dashboard
+                        using (var dashboard = new DashboardForm())
+                        {
+                            dashboard.ShowDialog();
+                            // A la fermeture du dashboard
+                            if (!Session.IsLoggedIn)
+                            {
+                                // L'utilisateur s'est deconnecte, on recommence
+                                continue;
+                            }
+
+                            // L'utilisateur a ferme l'application
+                            keepRunning = false;
+                        }
+                    }
+                    else
+                    {
+                        // Login annule ou echoue
+                        keepRunning = false;
+                    }
+                }
             }
         }
     }

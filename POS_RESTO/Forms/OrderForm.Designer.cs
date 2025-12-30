@@ -33,250 +33,439 @@ partial class OrderForm
     /// </summary>
     private void InitializeComponent()
     {
-        splitContainer = new System.Windows.Forms.SplitContainer();
-        lblMenusTitle = new System.Windows.Forms.Label();
-        dgvMenus = new System.Windows.Forms.DataGridView();
-        dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        lblQuantity = new System.Windows.Forms.Label();
-        numQuantity = new System.Windows.Forms.NumericUpDown();
-        btnAddToCart = new System.Windows.Forms.Button();
-        lblCartTitle = new System.Windows.Forms.Label();
-        lblClient = new System.Windows.Forms.Label();
-        cmbClients = new System.Windows.Forms.ComboBox();
-        lstCart = new System.Windows.Forms.ListBox();
-        btnRemoveFromCart = new System.Windows.Forms.Button();
-        lblTotal = new System.Windows.Forms.Label();
-        btnConfirmOrder = new System.Windows.Forms.Button();
-        btnCancel = new System.Windows.Forms.Button();
+        splitContainer = new SplitContainer();
+        panelLeft = new Panel();
+        lblMenusTitle = new Label();
+        dgvMenus = new DataGridView();
+        colId = new DataGridViewTextBoxColumn();
+        colName = new DataGridViewTextBoxColumn();
+        colCategory = new DataGridViewTextBoxColumn();
+        colPrice = new DataGridViewTextBoxColumn();
+        colStock = new DataGridViewTextBoxColumn();
+        panelQuantity = new Panel();
+        lblQuantity = new Label();
+        numQuantity = new NumericUpDown();
+        btnAddToCart = new Button();
+        panelRight = new Panel();
+        lblCartTitle = new Panel();
+        lblCartTitleText = new Label();
+        lblClient = new Label();
+        cmbClients = new ComboBox();
+        panelCart = new Panel();
+        lstCart = new ListBox();
+        panelCartActions = new Panel();
+        btnRemoveFromCart = new Button();
+        lblTotal = new Label();
+        panelBottom = new Panel();
+        btnCancel = new Button();
+        btnConfirmOrder = new Button();
         ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
         splitContainer.Panel1.SuspendLayout();
         splitContainer.Panel2.SuspendLayout();
         splitContainer.SuspendLayout();
+        panelLeft.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dgvMenus).BeginInit();
+        panelQuantity.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)numQuantity).BeginInit();
+        panelRight.SuspendLayout();
+        lblCartTitle.SuspendLayout();
+        panelCart.SuspendLayout();
+        panelCartActions.SuspendLayout();
+        panelBottom.SuspendLayout();
         SuspendLayout();
+        
         // 
         // splitContainer
         // 
-        splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-        splitContainer.Location = new System.Drawing.Point(0, 0);
+        splitContainer.Dock = DockStyle.Fill;
+        splitContainer.Location = new Point(0, 0);
         splitContainer.Name = "splitContainer";
+        splitContainer.Panel1MinSize = 400;
+        splitContainer.Panel2MinSize = 300;
+        
         // 
-        // splitContainer.Panel1
+        // splitContainer.Panel1 - Panneau gauche (Menus)
         // 
-        splitContainer.Panel1.AutoScroll = true;
-        splitContainer.Panel1.Controls.Add(lblMenusTitle);
-        splitContainer.Panel1.Controls.Add(dgvMenus);
-        splitContainer.Panel1.Controls.Add(lblQuantity);
-        splitContainer.Panel1.Controls.Add(numQuantity);
-        splitContainer.Panel1.Controls.Add(btnAddToCart);
-        splitContainer.Panel1.Padding = new System.Windows.Forms.Padding(10);
+        splitContainer.Panel1.Controls.Add(panelLeft);
+        
         // 
-        // splitContainer.Panel2
+        // splitContainer.Panel2 - Panneau droit (Panier)
         // 
-        splitContainer.Panel2.BackColor = System.Drawing.Color.WhiteSmoke;
-        splitContainer.Panel2.Controls.Add(lblCartTitle);
-        splitContainer.Panel2.Controls.Add(lblClient);
-        splitContainer.Panel2.Controls.Add(cmbClients);
-        splitContainer.Panel2.Controls.Add(lstCart);
-        splitContainer.Panel2.Controls.Add(btnRemoveFromCart);
-        splitContainer.Panel2.Controls.Add(lblTotal);
-        splitContainer.Panel2.Controls.Add(btnConfirmOrder);
-        splitContainer.Panel2.Controls.Add(btnCancel);
-        splitContainer.Panel2.Padding = new System.Windows.Forms.Padding(10);
-        splitContainer.Size = new System.Drawing.Size(750, 561);
-        splitContainer.SplitterDistance = 605;
+        splitContainer.Panel2.BackColor = Color.WhiteSmoke;
+        splitContainer.Panel2.Controls.Add(panelRight);
+        
+        splitContainer.Size = new Size(1000, 650);
+        splitContainer.SplitterDistance = 650;
+        splitContainer.SplitterWidth = 10;
         splitContainer.TabIndex = 0;
+        
+        // 
+        // panelLeft - Conteneur principal gauche
+        // 
+        panelLeft.BackColor = Color.White;
+        panelLeft.Controls.Add(lblMenusTitle);
+        panelLeft.Controls.Add(dgvMenus);
+        panelLeft.Controls.Add(panelQuantity);
+        panelLeft.Dock = DockStyle.Fill;
+        panelLeft.Padding = new Padding(20, 20, 20, 10);
+        
         // 
         // lblMenusTitle
         // 
-        lblMenusTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-        lblMenusTitle.Location = new System.Drawing.Point(10, 10);
+        lblMenusTitle.Dock = DockStyle.Top;
+        lblMenusTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+        lblMenusTitle.ForeColor = Color.FromArgb(0, 123, 255);
+        lblMenusTitle.Location = new Point(20, 20);
         lblMenusTitle.Name = "lblMenusTitle";
-        lblMenusTitle.Size = new System.Drawing.Size(300, 30);
+        lblMenusTitle.Size = new Size(610, 40);
         lblMenusTitle.TabIndex = 0;
         lblMenusTitle.Text = "MENUS DISPONIBLES";
+        lblMenusTitle.TextAlign = ContentAlignment.MiddleLeft;
+        
         // 
         // dgvMenus
         // 
-        dgvMenus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5 });
-        dgvMenus.Location = new System.Drawing.Point(10, 50);
+        dgvMenus.AllowUserToAddRows = false;
+        dgvMenus.AllowUserToDeleteRows = false;
+        dgvMenus.BackgroundColor = Color.White;
+        dgvMenus.BorderStyle = BorderStyle.Fixed3D;
+        dgvMenus.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvMenus.Columns.AddRange(new DataGridViewColumn[] {
+            colId,
+            colName,
+            colCategory,
+            colPrice,
+            colStock
+        });
+        dgvMenus.Dock = DockStyle.Fill;
+        dgvMenus.GridColor = Color.FromArgb(240, 240, 240);
+        dgvMenus.Location = new Point(20, 60);
+        dgvMenus.Margin = new Padding(10);
         dgvMenus.Name = "dgvMenus";
         dgvMenus.ReadOnly = true;
-        dgvMenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-        dgvMenus.Size = new System.Drawing.Size(570, 400);
+        dgvMenus.RowHeadersVisible = false;
+        dgvMenus.RowTemplate.Height = 25;
+        dgvMenus.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dgvMenus.Size = new Size(610, 470);
         dgvMenus.TabIndex = 1;
         dgvMenus.SelectionChanged += DgvMenus_SelectionChanged;
+        
         // 
-        // dataGridViewTextBoxColumn1
+        // colId
         // 
-        dataGridViewTextBoxColumn1.HeaderText = "ID";
-        dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-        dataGridViewTextBoxColumn1.ReadOnly = true;
+        colId.HeaderText = "ID";
+        colId.Name = "colId";
+        colId.ReadOnly = true;
+        colId.Width = 50;
+        
         // 
-        // dataGridViewTextBoxColumn2
+        // colName
         // 
-        dataGridViewTextBoxColumn2.HeaderText = "Nom";
-        dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-        dataGridViewTextBoxColumn2.ReadOnly = true;
+        colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        colName.HeaderText = "Nom";
+        colName.Name = "colName";
+        colName.ReadOnly = true;
+        
         // 
-        // dataGridViewTextBoxColumn3
+        // colCategory
         // 
-        dataGridViewTextBoxColumn3.HeaderText = "Categorie";
-        dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-        dataGridViewTextBoxColumn3.ReadOnly = true;
+        colCategory.HeaderText = "Catégorie";
+        colCategory.Name = "colCategory";
+        colCategory.ReadOnly = true;
+        colCategory.Width = 100;
+        
         // 
-        // dataGridViewTextBoxColumn4
+        // colPrice
         // 
-        dataGridViewTextBoxColumn4.HeaderText = "Prix HTG";
-        dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-        dataGridViewTextBoxColumn4.ReadOnly = true;
+        colPrice.HeaderText = "Prix (HTG)";
+        colPrice.Name = "colPrice";
+        colPrice.ReadOnly = true;
+        colPrice.Width = 100;
+        
         // 
-        // dataGridViewTextBoxColumn5
+        // colStock
         // 
-        dataGridViewTextBoxColumn5.HeaderText = "Stock";
-        dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-        dataGridViewTextBoxColumn5.ReadOnly = true;
+        colStock.HeaderText = "Stock";
+        colStock.Name = "colStock";
+        colStock.ReadOnly = true;
+        colStock.Width = 80;
+        
+        // 
+        // panelQuantity - Panneau pour la quantité
+        // 
+        panelQuantity.BackColor = Color.White;
+        panelQuantity.Controls.Add(lblQuantity);
+        panelQuantity.Controls.Add(numQuantity);
+        panelQuantity.Controls.Add(btnAddToCart);
+        panelQuantity.Dock = DockStyle.Bottom;
+        panelQuantity.Location = new Point(20, 530);
+        panelQuantity.Name = "panelQuantity";
+        panelQuantity.Padding = new Padding(0, 10, 0, 0);
+        panelQuantity.Size = new Size(610, 60);
+        panelQuantity.TabIndex = 2;
+        
         // 
         // lblQuantity
         // 
-        lblQuantity.Location = new System.Drawing.Point(10, 460);
+        lblQuantity.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        lblQuantity.Location = new Point(0, 15);
         lblQuantity.Name = "lblQuantity";
-        lblQuantity.Size = new System.Drawing.Size(60, 25);
-        lblQuantity.TabIndex = 2;
-        lblQuantity.Text = "Quantite:";
+        lblQuantity.Size = new Size(80, 25);
+        lblQuantity.TabIndex = 0;
+        lblQuantity.Text = "Quantité:";
+        lblQuantity.TextAlign = ContentAlignment.MiddleLeft;
+        
         // 
         // numQuantity
         // 
-        numQuantity.Location = new System.Drawing.Point(80, 460);
+        numQuantity.Font = new Font("Segoe UI", 10F);
+        numQuantity.Location = new Point(90, 15);
         numQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
         numQuantity.Name = "numQuantity";
-        numQuantity.Size = new System.Drawing.Size(80, 23);
-        numQuantity.TabIndex = 3;
+        numQuantity.Size = new Size(80, 25);
+        numQuantity.TabIndex = 1;
         numQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
+        
         // 
         // btnAddToCart
         // 
-        btnAddToCart.BackColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
-        btnAddToCart.ForeColor = System.Drawing.Color.White;
-        btnAddToCart.Location = new System.Drawing.Point(170, 460);
+        btnAddToCart.BackColor = Color.FromArgb(0, 123, 255);
+        btnAddToCart.FlatAppearance.BorderSize = 0;
+        btnAddToCart.FlatStyle = FlatStyle.Flat;
+        btnAddToCart.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        btnAddToCart.ForeColor = Color.White;
+        btnAddToCart.ImageAlign = ContentAlignment.MiddleLeft;
+        btnAddToCart.Location = new Point(190, 10);
         btnAddToCart.Name = "btnAddToCart";
-        btnAddToCart.Size = new System.Drawing.Size(150, 30);
-        btnAddToCart.TabIndex = 4;
-        btnAddToCart.Text = "Ajouter au panier";
+        btnAddToCart.Padding = new Padding(10, 0, 10, 0);
+        btnAddToCart.Size = new Size(180, 35);
+        btnAddToCart.TabIndex = 2;
+        btnAddToCart.Text = "  Ajouter au panier";
         btnAddToCart.UseVisualStyleBackColor = false;
         btnAddToCart.Click += BtnAddToCart_Click;
+        
+        // 
+        // panelRight - Conteneur principal droit
+        // 
+        panelRight.BackColor = Color.White;
+        panelRight.Controls.Add(lblCartTitle);
+        panelRight.Controls.Add(lblClient);
+        panelRight.Controls.Add(cmbClients);
+        panelRight.Controls.Add(panelCart);
+        panelRight.Controls.Add(panelCartActions);
+        panelRight.Controls.Add(panelBottom);
+        panelRight.Dock = DockStyle.Fill;
+        panelRight.Padding = new Padding(20, 20, 20, 10);
+        
         // 
         // lblCartTitle
         // 
-        lblCartTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-        lblCartTitle.Location = new System.Drawing.Point(10, 10);
+        lblCartTitle.BackColor = Color.FromArgb(0, 123, 255);
+        lblCartTitle.Controls.Add(lblCartTitleText);
+        lblCartTitle.Dock = DockStyle.Top;
+        lblCartTitle.Location = new Point(20, 20);
         lblCartTitle.Name = "lblCartTitle";
-        lblCartTitle.Size = new System.Drawing.Size(300, 30);
+        lblCartTitle.Padding = new Padding(10, 5, 10, 5);
+        lblCartTitle.Size = new Size(300, 50);
         lblCartTitle.TabIndex = 0;
-        lblCartTitle.Text = "PANIER";
+        
+        // 
+        // lblCartTitleText
+        // 
+        lblCartTitleText.Dock = DockStyle.Fill;
+        lblCartTitleText.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+        lblCartTitleText.ForeColor = Color.White;
+        lblCartTitleText.Location = new Point(10, 5);
+        lblCartTitleText.Name = "lblCartTitleText";
+        lblCartTitleText.Size = new Size(280, 40);
+        lblCartTitleText.TabIndex = 0;
+        lblCartTitleText.Text = "PANIER";
+        lblCartTitleText.TextAlign = ContentAlignment.MiddleCenter;
+        
         // 
         // lblClient
         // 
-        lblClient.Location = new System.Drawing.Point(10, 50);
+        lblClient.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        lblClient.Location = new Point(20, 80);
         lblClient.Name = "lblClient";
-        lblClient.Size = new System.Drawing.Size(50, 25);
+        lblClient.Size = new Size(60, 25);
         lblClient.TabIndex = 1;
         lblClient.Text = "Client:";
+        lblClient.TextAlign = ContentAlignment.MiddleLeft;
+        
         // 
         // cmbClients
         // 
-        cmbClients.Location = new System.Drawing.Point(70, 50);
+        cmbClients.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbClients.Font = new Font("Segoe UI", 10F);
+        cmbClients.FormattingEnabled = true;
+        cmbClients.Location = new Point(90, 80);
         cmbClients.Name = "cmbClients";
-        cmbClients.Size = new System.Drawing.Size(300, 23);
+        cmbClients.Size = new Size(230, 25);
         cmbClients.TabIndex = 2;
+        
+        // 
+        // panelCart - Conteneur pour la liste du panier
+        // 
+        panelCart.BackColor = Color.White;
+        panelCart.BorderStyle = BorderStyle.FixedSingle;
+        panelCart.Controls.Add(lstCart);
+        panelCart.Location = new Point(20, 115);
+        panelCart.Name = "panelCart";
+        panelCart.Padding = new Padding(1);
+        panelCart.Size = new Size(300, 300);
+        panelCart.TabIndex = 3;
+        
         // 
         // lstCart
         // 
-        lstCart.Location = new System.Drawing.Point(10, 90);
+        lstCart.BackColor = Color.White;
+        lstCart.BorderStyle = BorderStyle.None;
+        lstCart.Dock = DockStyle.Fill;
+        lstCart.Font = new Font("Segoe UI", 10F);
+        lstCart.FormattingEnabled = true;
+        lstCart.ItemHeight = 17;
+        lstCart.Location = new Point(1, 1);
         lstCart.Name = "lstCart";
-        lstCart.Size = new System.Drawing.Size(360, 289);
-        lstCart.TabIndex = 3;
+        lstCart.Size = new Size(296, 296);
+        lstCart.TabIndex = 0;
+        
+        // 
+        // panelCartActions - Panneau pour les actions du panier
+        // 
+        panelCartActions.Controls.Add(btnRemoveFromCart);
+        panelCartActions.Controls.Add(lblTotal);
+        panelCartActions.Location = new Point(20, 425);
+        panelCartActions.Name = "panelCartActions";
+        panelCartActions.Size = new Size(300, 50);
+        panelCartActions.TabIndex = 4;
+        
         // 
         // btnRemoveFromCart
         // 
-        btnRemoveFromCart.Location = new System.Drawing.Point(10, 400);
+        btnRemoveFromCart.BackColor = Color.FromArgb(220, 53, 69);
+        btnRemoveFromCart.FlatAppearance.BorderSize = 0;
+        btnRemoveFromCart.FlatStyle = FlatStyle.Flat;
+        btnRemoveFromCart.Font = new Font("Segoe UI", 10F);
+        btnRemoveFromCart.ForeColor = Color.White;
+        btnRemoveFromCart.Location = new Point(0, 10);
         btnRemoveFromCart.Name = "btnRemoveFromCart";
-        btnRemoveFromCart.Size = new System.Drawing.Size(100, 30);
-        btnRemoveFromCart.TabIndex = 4;
+        btnRemoveFromCart.Size = new Size(100, 35);
+        btnRemoveFromCart.TabIndex = 0;
         btnRemoveFromCart.Text = "Retirer";
+        btnRemoveFromCart.UseVisualStyleBackColor = false;
         btnRemoveFromCart.Click += BtnRemoveFromCart_Click;
+        
         // 
         // lblTotal
         // 
-        lblTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-        lblTotal.Location = new System.Drawing.Point(120, 400);
+        lblTotal.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+        lblTotal.ForeColor = Color.FromArgb(40, 167, 69);
+        lblTotal.Location = new Point(110, 10);
         lblTotal.Name = "lblTotal";
-        lblTotal.Size = new System.Drawing.Size(150, 30);
-        lblTotal.TabIndex = 5;
+        lblTotal.Size = new Size(190, 35);
+        lblTotal.TabIndex = 1;
         lblTotal.Text = "Total: 0 HTG";
+        lblTotal.TextAlign = ContentAlignment.MiddleRight;
+        
         // 
-        // btnConfirmOrder
+        // panelBottom - Panneau pour les boutons en bas
         // 
-        btnConfirmOrder.BackColor = System.Drawing.Color.FromArgb(((int)((byte)40)), ((int)((byte)167)), ((int)((byte)69)));
-        btnConfirmOrder.ForeColor = System.Drawing.Color.White;
-        btnConfirmOrder.Location = new System.Drawing.Point(10, 450);
-        btnConfirmOrder.Name = "btnConfirmOrder";
-        btnConfirmOrder.Size = new System.Drawing.Size(150, 35);
-        btnConfirmOrder.TabIndex = 6;
-        btnConfirmOrder.Text = "Valider Commande";
-        btnConfirmOrder.UseVisualStyleBackColor = false;
-        btnConfirmOrder.Click += BtnConfirmOrder_Click;
+        panelBottom.Controls.Add(btnCancel);
+        panelBottom.Controls.Add(btnConfirmOrder);
+        panelBottom.Dock = DockStyle.Bottom;
+        panelBottom.Location = new Point(20, 485);
+        panelBottom.Name = "panelBottom";
+        panelBottom.Padding = new Padding(0, 10, 0, 0);
+        panelBottom.Size = new Size(300, 65);
+        panelBottom.TabIndex = 5;
+        
         // 
         // btnCancel
         // 
-        btnCancel.Location = new System.Drawing.Point(170, 450);
+        btnCancel.BackColor = Color.FromArgb(108, 117, 125);
+        btnCancel.FlatAppearance.BorderSize = 0;
+        btnCancel.FlatStyle = FlatStyle.Flat;
+        btnCancel.Font = new Font("Segoe UI", 10F);
+        btnCancel.ForeColor = Color.White;
+        btnCancel.Location = new Point(170, 10);
         btnCancel.Name = "btnCancel";
-        btnCancel.Size = new System.Drawing.Size(100, 35);
-        btnCancel.TabIndex = 7;
+        btnCancel.Size = new Size(120, 40);
+        btnCancel.TabIndex = 1;
         btnCancel.Text = "Annuler";
+        btnCancel.UseVisualStyleBackColor = false;
         btnCancel.Click += BtnCancel_Click;
+        
+        // 
+        // btnConfirmOrder
+        // 
+        btnConfirmOrder.BackColor = Color.FromArgb(40, 167, 69);
+        btnConfirmOrder.FlatAppearance.BorderSize = 0;
+        btnConfirmOrder.FlatStyle = FlatStyle.Flat;
+        btnConfirmOrder.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        btnConfirmOrder.ForeColor = Color.White;
+        btnConfirmOrder.Location = new Point(30, 10);
+        btnConfirmOrder.Name = "btnConfirmOrder";
+        btnConfirmOrder.Size = new Size(120, 40);
+        btnConfirmOrder.TabIndex = 0;
+        btnConfirmOrder.Text = "Valider";
+        btnConfirmOrder.UseVisualStyleBackColor = false;
+        btnConfirmOrder.Click += BtnConfirmOrder_Click;
+        
         // 
         // OrderForm
         // 
-        ClientSize = new System.Drawing.Size(750, 561);
+        ClientSize = new Size(1000, 650);
         Controls.Add(splitContainer);
-        FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+        Font = new Font("Segoe UI", 9F);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
-        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        MinimumSize = new Size(800, 500);
+        StartPosition = FormStartPosition.CenterScreen;
         Text = "Nouvelle Commande";
+        
         splitContainer.Panel1.ResumeLayout(false);
         splitContainer.Panel2.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
         splitContainer.ResumeLayout(false);
+        panelLeft.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)dgvMenus).EndInit();
+        panelQuantity.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)numQuantity).EndInit();
+        panelRight.ResumeLayout(false);
+        lblCartTitle.ResumeLayout(false);
+        panelCart.ResumeLayout(false);
+        panelCartActions.ResumeLayout(false);
+        panelBottom.ResumeLayout(false);
         ResumeLayout(false);
     }
 
     #endregion
     
-    private DataGridView dgvMenus;
-    private ListBox lstCart;
-    private ComboBox cmbClients;
-    private Button btnAddToCart;
-    private Button btnRemoveFromCart;
-    private Button btnConfirmOrder;
-    private Button btnCancel;
-    private Label lblTotal;
-    private NumericUpDown numQuantity;
-    private System.Windows.Forms.SplitContainer splitContainer;
+    private SplitContainer splitContainer;
+    private Panel panelLeft;
+    private Panel panelRight;
     private Label lblMenusTitle;
+    private DataGridView dgvMenus;
+    private Panel panelQuantity;
     private Label lblQuantity;
-    private Label lblCartTitle;
+    private NumericUpDown numQuantity;
+    private Button btnAddToCart;
+    private Panel lblCartTitle;
+    private Label lblCartTitleText;
     private Label lblClient;
-    private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-    private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-    private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-    private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-    private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+    private ComboBox cmbClients;
+    private Panel panelCart;
+    private ListBox lstCart;
+    private Panel panelCartActions;
+    private Button btnRemoveFromCart;
+    private Label lblTotal;
+    private Panel panelBottom;
+    private Button btnCancel;
+    private Button btnConfirmOrder;
+    private DataGridViewTextBoxColumn colId;
+    private DataGridViewTextBoxColumn colName;
+    private DataGridViewTextBoxColumn colCategory;
+    private DataGridViewTextBoxColumn colPrice;
+    private DataGridViewTextBoxColumn colStock;
 }

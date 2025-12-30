@@ -1,4 +1,8 @@
-﻿namespace POS_RESTO.Views
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace POS_RESTO.Views
 {
     partial class ClientsUserControl
     {
@@ -8,15 +12,18 @@
         {
             if (disposing && (components != null))
                 components.Dispose();
+            
+            if (disposing && searchTimer != null)
+            {
+                searchTimer.Dispose();
+            }
+            
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             dgvClients = new System.Windows.Forms.DataGridView();
             btnAddClient = new System.Windows.Forms.Button();
             btnEditClient = new System.Windows.Forms.Button();
@@ -28,7 +35,7 @@
             lblSearch = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)dgvClients).BeginInit();
             panelTools.SuspendLayout();
-            SuspendLayout();
+            this.SuspendLayout();
             // 
             // dgvClients
             // 
@@ -44,6 +51,7 @@
             dgvClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgvClients.Size = new System.Drawing.Size(656, 296);
             dgvClients.TabIndex = 0;
+            dgvClients.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvClients_CellDoubleClick);
             // 
             // btnAddClient
             // 
@@ -58,7 +66,7 @@
             btnAddClient.TabIndex = 2;
             btnAddClient.Text = "Nouveau Client";
             btnAddClient.UseVisualStyleBackColor = false;
-            btnAddClient.Click += BtnAddClient_Click;
+            btnAddClient.Click += new System.EventHandler(this.BtnAddClient_Click);
             // 
             // btnEditClient
             // 
@@ -73,7 +81,7 @@
             btnEditClient.TabIndex = 3;
             btnEditClient.Text = "Modifier";
             btnEditClient.UseVisualStyleBackColor = false;
-            btnEditClient.Click += BtnEditClient_Click;
+            btnEditClient.Click += new System.EventHandler(this.BtnEditClient_Click);
             // 
             // btnDeleteClient
             // 
@@ -88,7 +96,7 @@
             btnDeleteClient.TabIndex = 4;
             btnDeleteClient.Text = "Supprimer";
             btnDeleteClient.UseVisualStyleBackColor = false;
-            btnDeleteClient.Click += BtnDeleteClient_Click;
+            btnDeleteClient.Click += new System.EventHandler(this.BtnDeleteClient_Click);
             // 
             // txtSearch
             // 
@@ -97,7 +105,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new System.Drawing.Size(200, 25);
             txtSearch.TabIndex = 1;
-            txtSearch.TextChanged += TxtSearch_TextChanged;
+            txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             // 
             // lblStatus
             // 
@@ -148,17 +156,18 @@
             // 
             // ClientsUserControl
             // 
-            BackColor = System.Drawing.Color.White;
-            Controls.Add(dgvClients);
-            Controls.Add(lblStatus);
-            Controls.Add(panelTools);
-            Controls.Add(lblTitle);
-            Padding = new System.Windows.Forms.Padding(20);
-            Size = new System.Drawing.Size(696, 461);
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(dgvClients);
+            this.Controls.Add(lblStatus);
+            this.Controls.Add(panelTools);
+            this.Controls.Add(lblTitle);
+            this.Padding = new System.Windows.Forms.Padding(20);
+            this.Size = new System.Drawing.Size(696, 461);
+            this.Load += ClientsUserControl_Load;
             ((System.ComponentModel.ISupportInitialize)dgvClients).EndInit();
             panelTools.ResumeLayout(false);
             panelTools.PerformLayout();
-            ResumeLayout(false);
+            this.ResumeLayout(false);
         }
 
         private System.Windows.Forms.Label lblTitle;

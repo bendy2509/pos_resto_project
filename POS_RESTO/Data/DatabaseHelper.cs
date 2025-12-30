@@ -77,5 +77,27 @@ namespace POS_RESTO.Data
                 }
             }
         }
+        
+        // Méthode pour lire un seul enregistrement avec un DataReader
+        public static void ExecuteReader(string query, Action<MySqlDataReader> action, params MySqlParameter[] parameters)
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    if (parameters != null && parameters.Length > 0)
+                        cmd.Parameters.AddRange(parameters);
+                    
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            action(reader);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

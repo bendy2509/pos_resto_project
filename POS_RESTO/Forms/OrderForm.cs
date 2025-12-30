@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using System.Data;
-using System.Collections.Generic;
-using POS_RESTO.Configuration;
+using POS_RESTO.Data;
+using POS_RESTO.Models;
 
 namespace POS_RESTO.Forms
 {
     public partial class OrderForm : Form
     {
+        private List<OrderDao.CartItem> cartItems = 
+            new List<OrderDao.CartItem>();
+        
         public OrderForm()
         {
             InitializeComponent();
@@ -21,30 +23,23 @@ namespace POS_RESTO.Forms
             try
             {
                 dgvMenus.Rows.Clear();
-                string query = "SELECT menu_id, name, category, unit_price, stock_quantity FROM Menus WHERE stock_quantity > 0";
+                var menus = OrderDao.GetAvailableMenus();
                 
-                using (var conn = DatabaseConfig.GetConnection())
+                foreach (var menu in menus)
                 {
-                    conn.Open();
-                    using (var cmd = new MySqlCommand(query, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            dgvMenus.Rows.Add(
-                                reader["menu_id"],
-                                reader["name"],
-                                reader["category"],
-                                reader["unit_price"],
-                                reader["stock_quantity"]
-                            );
-                        }
-                    }
+                    dgvMenus.Rows.Add(
+                        menu.MenuId,
+                        menu.Name,
+                        menu.Category,
+                        menu.UnitPrice,
+                        menu.StockQuantity
+                    );
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($@"Erreur chargement menus: {ex.Message}");
+                MessageBox.Show($"Erreur chargement menus: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -53,23 +48,11 @@ namespace POS_RESTO.Forms
             try
             {
                 cmbClients.Items.Clear();
-                string query = "SELECT client_id, CONCAT(first_name, ' ', last_name) as nom FROM Clients ORDER BY last_name";
+                var clients = OrderDao.GetClientsForComboBox();
                 
-                using (var conn = DatabaseConfig.GetConnection())
+                foreach (var client in clients)
                 {
-                    conn.Open();
-                    using (var cmd = new MySqlCommand(query, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            cmbClients.Items.Add(new ClientItem
-                            {
-                                Id = Convert.ToInt32(reader["client_id"]),
-                                Name = reader["nom"].ToString()
-                            });
-                        }
-                    }
+                    cmbClients.Items.Add(client);
                 }
                 
                 if (cmbClients.Items.Count > 0)
@@ -77,7 +60,8 @@ namespace POS_RESTO.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement clients: {ex.Message}");
+                MessageBox.Show($"Erreur chargement clients: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -85,7 +69,8 @@ namespace POS_RESTO.Forms
         {
             if (dgvMenus.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Veuillez sélectionner un menu.");
+                MessageBox.Show("Veuillez sélectionner un menu.", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -94,16 +79,28 @@ namespace POS_RESTO.Forms
             string menuName = selectedRow.Cells[1].Value.ToString();
             decimal price = Convert.ToDecimal(selectedRow.Cells[3].Value);
             int quantity = (int)numQuantity.Value;
+            
+            // Vérifier le stock
+            int stock = Convert.ToInt32(selectedRow.Cells[4].Value);
+            if (quantity > stock)
+            {
+                MessageBox.Show($"Stock insuffisant! Il reste seulement {stock} unité(s).", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            string cartItem = $"{menuName} x{quantity} - {price * quantity} HTG";
-            lstCart.Items.Add(new CartItem
+            // Ajouter au panier
+            var cartItem = new OrderDao.CartItem
             {
                 MenuId = menuId,
                 MenuName = menuName,
                 Price = price,
                 Quantity = quantity
-            });
-
+            };
+            
+            cartItems.Add(cartItem);
+            lstCart.Items.Add(cartItem);
+            
             UpdateTotal();
         }
 
@@ -111,6 +108,7 @@ namespace POS_RESTO.Forms
         {
             if (lstCart.SelectedIndex >= 0)
             {
+                cartItems.RemoveAt(lstCart.SelectedIndex);
                 lstCart.Items.RemoveAt(lstCart.SelectedIndex);
                 UpdateTotal();
             }
@@ -118,69 +116,37 @@ namespace POS_RESTO.Forms
 
         private void BtnConfirmOrder_Click(object sender, EventArgs e)
         {
-            if (lstCart.Items.Count == 0)
+            if (cartItems.Count == 0)
             {
-                MessageBox.Show(@"Le panier est vide.");
+                MessageBox.Show("Le panier est vide.", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             if (cmbClients.SelectedItem == null)
             {
-                MessageBox.Show(@"Veuillez sélectionner un client.");
+                MessageBox.Show("Veuillez sélectionner un client.", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                var clientId = ((ClientItem)cmbClients.SelectedItem).Id;
+                var clientId = ((OrderDao.ClientItem)cmbClients.SelectedItem).Id;
                 
-                using (var conn = DatabaseConfig.GetConnection())
-                {
-                    conn.Open();
-                    
-                    // Insérer la commande
-                    string orderQuery = "INSERT INTO Orders (client_id, order_date) VALUES (@clientId, NOW()); SELECT LAST_INSERT_ID();";
-                    int orderId;
-                    
-                    using (var cmd = new MySqlCommand(orderQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@clientId", clientId);
-                        orderId = Convert.ToInt32(cmd.ExecuteScalar());
-                    }
-                    
-                    // Insérer les détails de la commande
-                    foreach (CartItem item in lstCart.Items)
-                    {
-                        string detailQuery = @"INSERT INTO OrderDetails (order_id, menu_id, quantity, unit_price) 
-                                             VALUES (@orderId, @menuId, @quantity, @unitPrice)";
-                        
-                        using (var cmd = new MySqlCommand(detailQuery, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@orderId", orderId);
-                            cmd.Parameters.AddWithValue("@menuId", item.MenuId);
-                            cmd.Parameters.AddWithValue("@quantity", item.Quantity);
-                            cmd.Parameters.AddWithValue("@unitPrice", item.Price);
-                            cmd.ExecuteNonQuery();
-                        }
-                        
-                        // Mettre à jour le stock
-                        string updateStock = "UPDATE Menus SET quantity = quantity - @quantity WHERE menu_id = @menuId";
-                        using (var cmd = new MySqlCommand(updateStock, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@quantity", item.Quantity);
-                            cmd.Parameters.AddWithValue("@menuId", item.MenuId);
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    
-                    MessageBox.Show(@"Commande validée avec succès!");
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
+                // Créer les commandes (une par élément du panier)
+                OrderDao.CreateMultipleOrders(clientId, cartItems);
+                
+                MessageBox.Show("Commande validée avec succès!", "Succès",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@$"Erreur validation commande: {ex.Message}");
+                MessageBox.Show($"Erreur validation commande: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -193,35 +159,26 @@ namespace POS_RESTO.Forms
         private void UpdateTotal()
         {
             decimal total = 0;
-            foreach (CartItem item in lstCart.Items)
+            foreach (OrderDao.CartItem item in cartItems)
             {
                 total += item.Price * item.Quantity;
             }
             lblTotal.Text = $"Total: {total:N0} HTG";
         }
-    }
-
-    internal class ClientItem
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
         
-        public override string ToString()
+        // Événement pour mettre à jour la quantité maximale selon le stock
+        private void DgvMenus_SelectionChanged(object sender, EventArgs e)
         {
-            return Name;
-        }
-    }
-
-    internal class CartItem
-    {
-        public int MenuId { get; set; }
-        public string MenuName { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
-        
-        public override string ToString()
-        {
-            return $"{MenuName} x{Quantity} - {Price * Quantity} HTG";
+            if (dgvMenus.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvMenus.SelectedRows[0];
+                int stock = Convert.ToInt32(selectedRow.Cells[4].Value);
+                numQuantity.Maximum = stock;
+                if (numQuantity.Value > stock)
+                {
+                    numQuantity.Value = stock;
+                }
+            }
         }
     }
 }

@@ -8,24 +8,133 @@ namespace POS_RESTO.Data
 {
     public static class MenuDao
     {
+        // Méthode utilisée dans LoadMenuData()
+        public static Menu GetMenuById(int menuId)
+        {
+            try
+            {
+                string query = "SELECT * FROM Menus WHERE menu_id = @id";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", menuId);
+                        
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new Menu
+                                {
+                                    MenuId = Convert.ToInt32(reader["menu_id"]),
+                                    Name = reader["name"].ToString(),
+                                    Category = reader["category"].ToString(),
+                                    UnitPrice = Convert.ToDecimal(reader["unit_price"]),
+                                    StockQuantity = Convert.ToInt32(reader["stock_quantity"]),
+                                    Description = reader["description"]?.ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement menu: {ex.Message}", ex);
+            }
+            
+            return null;
+        }
+        
+        // Méthode utilisée dans BtnSave_Click()
+        public static void SaveMenu(Menu menu)
+        {
+            try
+            {
+                string query;
+                
+                if (menu.MenuId > 0)
+                {
+                    query = @"UPDATE Menus SET 
+                             name = @name,
+                             category = @category,
+                             unit_price = @price,
+                             stock_quantity = @stock,
+                             description = @desc
+                             WHERE menu_id = @id";
+                }
+                else
+                {
+                    query = @"INSERT INTO Menus (name, category, unit_price, stock_quantity, description) 
+                             VALUES (@name, @category, @price, @stock, @desc)";
+                }
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", menu.Name);
+                        cmd.Parameters.AddWithValue("@category", menu.Category);
+                        cmd.Parameters.AddWithValue("@price", menu.UnitPrice);
+                        cmd.Parameters.AddWithValue("@stock", menu.StockQuantity);
+                        cmd.Parameters.AddWithValue("@desc", menu.Description ?? (object)DBNull.Value);
+                        
+                        if (menu.MenuId > 0)
+                        {
+                            cmd.Parameters.AddWithValue("@id", menu.MenuId);
+                        }
+                        
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur sauvegarde menu: {ex.Message}", ex);
+            }
+        }
+        
+        // Méthodes supplémentaires pour compléter le DAO
         public static List<Menu> GetAllMenus()
         {
             var menus = new List<Menu>();
             
-            string query = "SELECT * FROM Menus ORDER BY category, name";
-            var dt = DatabaseHelper.ExecuteQuery(query);
-            
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                menus.Add(new Menu
+                string query = "SELECT * FROM Menus ORDER BY category, name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
                 {
-                    MenuId = Convert.ToInt32(row["menu_id"]),
-                    Name = row["name"].ToString(),
-                    Category = row["category"].ToString(),
-                    StockQuantity = Convert.ToInt32(row["stock_quantity"]),
-                    UnitPrice = Convert.ToDecimal(row["unit_price"]),
-                    Description = row["description"]?.ToString()
-                });
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                menus.Add(new Menu
+                                {
+                                    MenuId = Convert.ToInt32(reader["menu_id"]),
+                                    Name = reader["name"].ToString(),
+                                    Category = reader["category"].ToString(),
+                                    UnitPrice = Convert.ToDecimal(reader["unit_price"]),
+                                    StockQuantity = Convert.ToInt32(reader["stock_quantity"]),
+                                    Description = reader["description"]?.ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement menus: {ex.Message}", ex);
             }
             
             return menus;
@@ -35,88 +144,343 @@ namespace POS_RESTO.Data
         {
             var menus = new List<Menu>();
             
-            string query = "SELECT * FROM Menus WHERE category = @category AND stock_quantity > 0";
-            var param = new MySqlParameter("@category", MySqlDbType.VarChar) { Value = category };
-            
-            var dt = DatabaseHelper.ExecuteQuery(query, param);
-            
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                menus.Add(new Menu
+                string query = "SELECT * FROM Menus WHERE category = @category AND stock_quantity > 0 ORDER BY name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
                 {
-                    MenuId = Convert.ToInt32(row["menu_id"]),
-                    Name = row["name"].ToString(),
-                    Category = row["category"].ToString(),
-                    StockQuantity = Convert.ToInt32(row["stock_quantity"]),
-                    UnitPrice = Convert.ToDecimal(row["unit_price"]),
-                    Description = row["description"]?.ToString()
-                });
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@category", category);
+                        
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                menus.Add(new Menu
+                                {
+                                    MenuId = Convert.ToInt32(reader["menu_id"]),
+                                    Name = reader["name"].ToString(),
+                                    Category = reader["category"].ToString(),
+                                    UnitPrice = Convert.ToDecimal(reader["unit_price"]),
+                                    StockQuantity = Convert.ToInt32(reader["stock_quantity"]),
+                                    Description = reader["description"]?.ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement menus par catégorie: {ex.Message}", ex);
             }
             
             return menus;
         }
         
-        public static int AddMenu(Menu menu)
+        public static DataTable GetAllMenusDataTable()
         {
-            string query = @"
-                INSERT INTO Menus (name, category, stock_quantity, unit_price, description) 
-                VALUES (@name, @category, @stock, @price, @description)";
+            DataTable dt = new DataTable();
             
-            var parameters = new[]
+            try
             {
-                new MySqlParameter("@name", MySqlDbType.VarChar) { Value = menu.Name },
-                new MySqlParameter("@category", MySqlDbType.VarChar) { Value = menu.Category },
-                new MySqlParameter("@stock", MySqlDbType.Int32) { Value = menu.StockQuantity },
-                new MySqlParameter("@price", MySqlDbType.Decimal) { Value = menu.UnitPrice },
-                new MySqlParameter("@description", MySqlDbType.VarChar) { Value = menu.Description ?? (object)DBNull.Value }
-            };
+                string query = "SELECT * FROM Menus ORDER BY category, name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement DataTable menus: {ex.Message}", ex);
+            }
             
-            return DatabaseHelper.ExecuteNonQuery(query, parameters);
+            return dt;
+        }
+        
+        public static int DeleteMenu(int menuId)
+        {
+            try
+            {
+                string query = "DELETE FROM Menus WHERE menu_id = @id";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", menuId);
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur suppression menu: {ex.Message}", ex);
+            }
         }
         
         public static void UpdateStock(int menuId, int quantityChange)
         {
-            string query = "UPDATE Menus SET stock_quantity = stock_quantity + @change WHERE menu_id = @id";
-            
-            var parameters = new[]
+            try
             {
-                new MySqlParameter("@change", MySqlDbType.Int32) { Value = quantityChange },
-                new MySqlParameter("@id", MySqlDbType.Int32) { Value = menuId }
-            };
-            
-            DatabaseHelper.ExecuteNonQuery(query, parameters);
+                string query = "UPDATE Menus SET stock_quantity = stock_quantity + @change WHERE menu_id = @id";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@change", quantityChange);
+                        cmd.Parameters.AddWithValue("@id", menuId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur mise à jour stock: {ex.Message}", ex);
+            }
         }
         
-        // Récupérer le menu le plus vendu
-        public static Menu GetBestSellingMenu(DateTime date)
+        public static List<Menu> GetLowStockMenus(int threshold = 10)
         {
-            string query = @"
-                SELECT m.*, SUM(o.quantity) as total_sold
-                FROM Orders o
-                JOIN Menus m ON o.menu_id = m.menu_id
-                WHERE DATE(o.order_date) = @date
-                GROUP BY m.menu_id
-                ORDER BY total_sold DESC
-                LIMIT 1";
+            var menus = new List<Menu>();
             
-            var param = new MySqlParameter("@date", MySqlDbType.Date) { Value = date.Date };
-            var dt = DatabaseHelper.ExecuteQuery(query, param);
-            
-            if (dt.Rows.Count > 0)
+            try
             {
-                var row = dt.Rows[0];
-                return new Menu
+                string query = "SELECT * FROM Menus WHERE stock_quantity <= @threshold ORDER BY stock_quantity ASC";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
                 {
-                    MenuId = Convert.ToInt32(row["menu_id"]),
-                    Name = row["name"].ToString(),
-                    Category = row["category"].ToString(),
-                    StockQuantity = Convert.ToInt32(row["stock_quantity"]),
-                    UnitPrice = Convert.ToDecimal(row["unit_price"]),
-                    Description = row["description"]?.ToString()
-                };
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@threshold", threshold);
+                        
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                menus.Add(new Menu
+                                {
+                                    MenuId = Convert.ToInt32(reader["menu_id"]),
+                                    Name = reader["name"].ToString(),
+                                    Category = reader["category"].ToString(),
+                                    UnitPrice = Convert.ToDecimal(reader["unit_price"]),
+                                    StockQuantity = Convert.ToInt32(reader["stock_quantity"]),
+                                    Description = reader["description"]?.ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement menus faible stock: {ex.Message}", ex);
             }
             
-            return null;
+            return menus;
+        }
+        
+        public static decimal GetMenuPrice(int menuId)
+        {
+            try
+            {
+                string query = "SELECT unit_price FROM Menus WHERE menu_id = @id";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", menuId);
+                        var result = cmd.ExecuteScalar();
+                        return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur récupération prix menu: {ex.Message}", ex);
+            }
+        }
+        
+        public static DataTable GetAllMenusDataTableForDisplay()
+        {
+            DataTable dt = new DataTable();
+            
+            try
+            {
+                string query = @"
+                    SELECT 
+                        menu_id as 'ID',
+                        name as 'Nom',
+                        category as 'Catégorie',
+                        FORMAT(unit_price, 2) as 'Prix (HTG)',
+                        stock_quantity as 'Stock',
+                        description as 'Description'
+                    FROM Menus 
+                    ORDER BY category, name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement DataTable menus: {ex.Message}", ex);
+            }
+            
+            return dt;
+        }
+        
+        public static DataTable GetMenusByCategoryDataTable(string category)
+        {
+            DataTable dt = new DataTable();
+            
+            try
+            {
+                string query = @"
+                    SELECT 
+                        menu_id as 'ID',
+                        name as 'Nom',
+                        category as 'Catégorie',
+                        FORMAT(unit_price, 2) as 'Prix (HTG)',
+                        stock_quantity as 'Stock',
+                        description as 'Description'
+                    FROM Menus 
+                    WHERE category = @category
+                    ORDER BY name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@category", category);
+                        
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement menus par catégorie: {ex.Message}", ex);
+            }
+            
+            return dt;
+        }
+        
+        public static DataTable SearchMenusDataTable(string searchTerm)
+        {
+            DataTable dt = new DataTable();
+            
+            try
+            {
+                string query = @"
+                    SELECT 
+                        menu_id as 'ID',
+                        name as 'Nom',
+                        category as 'Catégorie',
+                        FORMAT(unit_price, 2) as 'Prix (HTG)',
+                        stock_quantity as 'Stock',
+                        description as 'Description'
+                    FROM Menus 
+                    WHERE name LIKE @search 
+                       OR category LIKE @search 
+                       OR description LIKE @search
+                    ORDER BY category, name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@search", $"%{searchTerm}%");
+                        
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur recherche menus: {ex.Message}", ex);
+            }
+            
+            return dt;
+        }
+        
+        public static DataTable GetLowStockMenusDataTable(int threshold = 10)
+        {
+            DataTable dt = new DataTable();
+            
+            try
+            {
+                string query = @"
+                    SELECT 
+                        menu_id as 'ID',
+                        name as 'Nom',
+                        category as 'Catégorie',
+                        FORMAT(unit_price, 2) as 'Prix (HTG)',
+                        stock_quantity as 'Stock',
+                        description as 'Description'
+                    FROM Menus 
+                    WHERE stock_quantity <= @threshold
+                    ORDER BY stock_quantity ASC, name";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@threshold", threshold);
+                        
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement menus faible stock: {ex.Message}", ex);
+            }
+            
+            return dt;
         }
     }
 }

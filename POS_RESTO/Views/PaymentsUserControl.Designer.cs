@@ -1,8 +1,31 @@
-﻿namespace POS_RESTO.Views
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace POS_RESTO.Views
 {
     partial class PaymentsUserControl
     {
         private System.ComponentModel.IContainer components = null;
+        private DataGridView dgvPayments;
+        private Button btnNewPayment;
+        private Button btnRefresh;
+        private Button btnToday;
+        private Button btnThisWeek;
+        private Button btnThisMonth;
+        private Button btnExport;
+        private DateTimePicker dtpFrom;
+        private DateTimePicker dtpTo;
+        private Label lblTitle;
+        private Panel panelTools;
+        private Label lblFrom;
+        private Label lblTo;
+        private Label lblStatus;
+        private Panel panelStatistics;
+        private Label lblTotalAmount;
+        private Label lblCashAmount;
+        private Label lblCardAmount;
+        private Label lblChequeAmount;
         
         protected override void Dispose(bool disposing)
         {
@@ -10,202 +33,216 @@
                 components.Dispose();
             base.Dispose(disposing);
         }
-        
-        
-        private System.Windows.Forms.DataGridView dgvPayments;
-        private Button btnNewPayment;
-        private Button btnRefresh;
-        private DateTimePicker dtpFrom;
-        private DateTimePicker dtpTo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Commande;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Montant;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mode;
-        private System.Windows.Forms.Label lblFrom;
-        private System.Windows.Forms.Label lblTo;
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            dgvPayments = new System.Windows.Forms.DataGridView();
-            ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Commande = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Montant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Mode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            btnNewPayment = new System.Windows.Forms.Button();
-            btnRefresh = new System.Windows.Forms.Button();
-            dtpFrom = new System.Windows.Forms.DateTimePicker();
-            dtpTo = new System.Windows.Forms.DateTimePicker();
-            lblTitle = new System.Windows.Forms.Label();
-            panelTools = new System.Windows.Forms.Panel();
-            lblFrom = new System.Windows.Forms.Label();
-            lblTo = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
+            dgvPayments = new DataGridView();
+            btnNewPayment = new Button();
+            btnRefresh = new Button();
+            btnToday = new Button();
+            btnThisWeek = new Button();
+            btnThisMonth = new Button();
+            btnExport = new Button();
+            dtpFrom = new DateTimePicker();
+            dtpTo = new DateTimePicker();
+            lblTitle = new Label();
+            panelTools = new Panel();
+            lblFrom = new Label();
+            lblTo = new Label();
+            lblStatus = new Label();
+            panelStatistics = new Panel();
+            lblTotalAmount = new Label();
+            lblCashAmount = new Label();
+            lblCardAmount = new Label();
+            lblChequeAmount = new Label();
+            
             ((System.ComponentModel.ISupportInitialize)dgvPayments).BeginInit();
             panelTools.SuspendLayout();
-            SuspendLayout();
-            // 
-            // dgvPayments
-            // 
-            dgvPayments.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dgvPayments.BackgroundColor = System.Drawing.Color.White;
-            dgvPayments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { ID, Commande, Montant, Date, Mode });
-            dgvPayments.Dock = System.Windows.Forms.DockStyle.Fill;
-            dgvPayments.Location = new System.Drawing.Point(20, 120);
-            dgvPayments.Name = "dgvPayments";
-            dgvPayments.ReadOnly = true;
-            dgvPayments.RowHeadersVisible = false;
-            dgvPayments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvPayments.Size = new System.Drawing.Size(613, 316);
-            dgvPayments.TabIndex = 0;
-            // 
-            // ID
-            // 
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            // 
-            // Commande
-            // 
-            Commande.HeaderText = "Commande";
-            Commande.Name = "Commande";
-            Commande.ReadOnly = true;
-            // 
-            // Montant
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            Montant.DefaultCellStyle = dataGridViewCellStyle1;
-            Montant.HeaderText = "Montant HTG";
-            Montant.Name = "Montant";
-            Montant.ReadOnly = true;
-            // 
-            // Date
-            // 
-            Date.HeaderText = "Date";
-            Date.Name = "Date";
-            Date.ReadOnly = true;
-            // 
-            // Mode
-            // 
-            Mode.HeaderText = "Mode";
-            Mode.Name = "Mode";
-            Mode.ReadOnly = true;
-            // 
-            // btnNewPayment
-            // 
-            btnNewPayment.BackColor = System.Drawing.Color.FromArgb(((int)((byte)40)), ((int)((byte)167)), ((int)((byte)69)));
-            btnNewPayment.FlatAppearance.BorderSize = 0;
-            btnNewPayment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnNewPayment.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            btnNewPayment.ForeColor = System.Drawing.Color.White;
-            btnNewPayment.Location = new System.Drawing.Point(330, 10);
-            btnNewPayment.Name = "btnNewPayment";
-            btnNewPayment.Size = new System.Drawing.Size(160, 35);
-            btnNewPayment.TabIndex = 4;
-            btnNewPayment.Text = "Nouveau Paiement";
-            btnNewPayment.UseVisualStyleBackColor = false;
-            btnNewPayment.Click += BtnNewPayment_Click;
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)((byte)108)), ((int)((byte)117)), ((int)((byte)125)));
-            btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnRefresh.Font = new System.Drawing.Font("Segoe UI", 10F);
-            btnRefresh.ForeColor = System.Drawing.Color.White;
-            btnRefresh.Location = new System.Drawing.Point(500, 10);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new System.Drawing.Size(100, 35);
-            btnRefresh.TabIndex = 5;
-            btnRefresh.Text = "Rafraichir";
-            btnRefresh.UseVisualStyleBackColor = false;
-            btnRefresh.Click += BtnRefresh_Click;
-            // 
-            // dtpFrom
-            // 
-            dtpFrom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtpFrom.Location = new System.Drawing.Point(35, 12);
-            dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new System.Drawing.Size(120, 25);
-            dtpFrom.TabIndex = 1;
-            dtpFrom.Value = new System.DateTime(2025, 12, 22, 18, 18, 23, 209);
-            dtpFrom.ValueChanged += DateFilter_Changed;
-            // 
-            // dtpTo
-            // 
-            dtpTo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtpTo.Location = new System.Drawing.Point(195, 12);
-            dtpTo.Name = "dtpTo";
-            dtpTo.Size = new System.Drawing.Size(120, 25);
-            dtpTo.TabIndex = 3;
-            dtpTo.Value = new System.DateTime(2025, 12, 29, 18, 18, 23, 350);
-            dtpTo.ValueChanged += DateFilter_Changed;
-            // 
+            panelStatistics.SuspendLayout();
+            this.SuspendLayout();
+            
             // lblTitle
-            // 
-            lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
-            lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
-            lblTitle.Location = new System.Drawing.Point(20, 20);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new System.Drawing.Size(613, 50);
-            lblTitle.TabIndex = 2;
+            lblTitle.Dock = DockStyle.Top;
             lblTitle.Text = "GESTION DES PAIEMENTS";
-            // 
+            lblTitle.Font = new Font("Segoe UI", 20, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(0, 123, 255);
+            lblTitle.Height = 50;
+            lblTitle.Padding = new Padding(20, 20, 20, 0);
+            lblTitle.TextAlign = ContentAlignment.MiddleLeft;
+            
             // panelTools
-            // 
-            panelTools.BackColor = System.Drawing.Color.White;
+            panelTools.Dock = DockStyle.Top;
+            panelTools.Height = 70;
+            panelTools.BackColor = Color.White;
+            panelTools.Padding = new Padding(20, 10, 20, 10);
+            
+            // Filtres dates
+            lblFrom.Text = "Du:";
+            lblFrom.Font = new Font("Segoe UI", 10);
+            lblFrom.Location = new Point(0, 17);
+            lblFrom.Size = new Size(30, 25);
+            
+            dtpFrom.Font = new Font("Segoe UI", 10);
+            dtpFrom.Format = DateTimePickerFormat.Short;
+            dtpFrom.Size = new Size(120, 25);
+            dtpFrom.Location = new Point(35, 14);
+            dtpFrom.Value = DateTime.Today.AddDays(-7);
+            dtpFrom.ValueChanged += DateFilter_Changed;
+            
+            lblTo.Text = "Au:";
+            lblTo.Font = new Font("Segoe UI", 10);
+            lblTo.Location = new Point(165, 17);
+            lblTo.Size = new Size(25, 25);
+            
+            dtpTo.Font = new Font("Segoe UI", 10);
+            dtpTo.Format = DateTimePickerFormat.Short;
+            dtpTo.Size = new Size(120, 25);
+            dtpTo.Location = new Point(195, 14);
+            dtpTo.Value = DateTime.Today;
+            dtpTo.ValueChanged += DateFilter_Changed;
+            
+            // Boutons de période rapide
+            btnToday.Text = "Aujourd'hui";
+            btnToday.BackColor = Color.FromArgb(23, 162, 184);
+            btnToday.ForeColor = Color.White;
+            btnToday.FlatStyle = FlatStyle.Flat;
+            btnToday.FlatAppearance.BorderSize = 0;
+            btnToday.Font = new Font("Segoe UI", 9);
+            btnToday.Size = new Size(100, 25);
+            btnToday.Location = new Point(330, 14);
+            btnToday.Click += BtnToday_Click;
+            
+            btnThisWeek.Text = "Cette semaine";
+            btnThisWeek.BackColor = Color.FromArgb(111, 66, 193);
+            btnThisWeek.ForeColor = Color.White;
+            btnThisWeek.FlatStyle = FlatStyle.Flat;
+            btnThisWeek.FlatAppearance.BorderSize = 0;
+            btnThisWeek.Font = new Font("Segoe UI", 9);
+            btnThisWeek.Size = new Size(100, 25);
+            btnThisWeek.Location = new Point(440, 14);
+            btnThisWeek.Click += BtnThisWeek_Click;
+            
+            btnThisMonth.Text = "Ce mois";
+            btnThisMonth.BackColor = Color.FromArgb(253, 126, 20);
+            btnThisMonth.ForeColor = Color.White;
+            btnThisMonth.FlatStyle = FlatStyle.Flat;
+            btnThisMonth.FlatAppearance.BorderSize = 0;
+            btnThisMonth.Font = new Font("Segoe UI", 9);
+            btnThisMonth.Size = new Size(100, 25);
+            btnThisMonth.Location = new Point(550, 14);
+            btnThisMonth.Click += BtnThisMonth_Click;
+            
+            // Boutons d'action
+            btnNewPayment.Text = "Nouveau Paiement";
+            btnNewPayment.BackColor = Color.FromArgb(40, 167, 69);
+            btnNewPayment.ForeColor = Color.White;
+            btnNewPayment.FlatStyle = FlatStyle.Flat;
+            btnNewPayment.FlatAppearance.BorderSize = 0;
+            btnNewPayment.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            btnNewPayment.Size = new Size(160, 35);
+            btnNewPayment.Location = new Point(660, 10);
+            btnNewPayment.Click += BtnNewPayment_Click;
+            
+            btnRefresh.Text = "Rafraîchir";
+            btnRefresh.BackColor = Color.FromArgb(108, 117, 125);
+            btnRefresh.ForeColor = Color.White;
+            btnRefresh.FlatStyle = FlatStyle.Flat;
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.Font = new Font("Segoe UI", 10);
+            btnRefresh.Size = new Size(100, 35);
+            btnRefresh.Location = new Point(830, 10);
+            btnRefresh.Click += BtnRefresh_Click;
+            
+            btnExport.Text = "Exporter";
+            btnExport.BackColor = Color.FromArgb(23, 162, 184);
+            btnExport.ForeColor = Color.White;
+            btnExport.FlatStyle = FlatStyle.Flat;
+            btnExport.FlatAppearance.BorderSize = 0;
+            btnExport.Font = new Font("Segoe UI", 10);
+            btnExport.Size = new Size(100, 35);
+            btnExport.Location = new Point(940, 10);
+            btnExport.Click += BtnExport_Click;
+            
             panelTools.Controls.Add(lblFrom);
             panelTools.Controls.Add(dtpFrom);
             panelTools.Controls.Add(lblTo);
             panelTools.Controls.Add(dtpTo);
+            panelTools.Controls.Add(btnToday);
+            panelTools.Controls.Add(btnThisWeek);
+            panelTools.Controls.Add(btnThisMonth);
             panelTools.Controls.Add(btnNewPayment);
             panelTools.Controls.Add(btnRefresh);
-            panelTools.Dock = System.Windows.Forms.DockStyle.Top;
-            panelTools.Location = new System.Drawing.Point(20, 70);
-            panelTools.Name = "panelTools";
-            panelTools.Size = new System.Drawing.Size(613, 50);
-            panelTools.TabIndex = 1;
-            // 
-            // lblFrom
-            // 
-            lblFrom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblFrom.Location = new System.Drawing.Point(0, 15);
-            lblFrom.Name = "lblFrom";
-            lblFrom.Size = new System.Drawing.Size(30, 25);
-            lblFrom.TabIndex = 0;
-            lblFrom.Text = "Du:";
-            // 
-            // lblTo
-            // 
-            lblTo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblTo.Location = new System.Drawing.Point(165, 15);
-            lblTo.Name = "lblTo";
-            lblTo.Size = new System.Drawing.Size(25, 25);
-            lblTo.TabIndex = 2;
-            lblTo.Text = "Au:";
-            // 
+            panelTools.Controls.Add(btnExport);
+            
+            // panelStatistics
+            panelStatistics.Dock = DockStyle.Top;
+            panelStatistics.Height = 40;
+            panelStatistics.BackColor = Color.FromArgb(248, 249, 250);
+            panelStatistics.Padding = new Padding(20, 5, 20, 5);
+            
+            lblTotalAmount.Text = "Total: 0 HTG";
+            lblTotalAmount.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblTotalAmount.ForeColor = Color.FromArgb(40, 167, 69);
+            lblTotalAmount.Location = new Point(0, 10);
+            lblTotalAmount.Size = new Size(150, 25);
+            
+            lblCashAmount.Text = "Espèces: 0 HTG";
+            lblCashAmount.Font = new Font("Segoe UI", 9);
+            lblCashAmount.ForeColor = Color.FromArgb(108, 117, 125);
+            lblCashAmount.Location = new Point(160, 10);
+            lblCashAmount.Size = new Size(120, 25);
+            
+            lblCardAmount.Text = "Carte: 0 HTG";
+            lblCardAmount.Font = new Font("Segoe UI", 9);
+            lblCardAmount.ForeColor = Color.FromArgb(108, 117, 125);
+            lblCardAmount.Location = new Point(290, 10);
+            lblCardAmount.Size = new Size(120, 25);
+            
+            lblChequeAmount.Text = "Chèque: 0 HTG";
+            lblChequeAmount.Font = new Font("Segoe UI", 9);
+            lblChequeAmount.ForeColor = Color.FromArgb(108, 117, 125);
+            lblChequeAmount.Location = new Point(420, 10);
+            lblChequeAmount.Size = new Size(120, 25);
+            
+            panelStatistics.Controls.Add(lblTotalAmount);
+            panelStatistics.Controls.Add(lblCashAmount);
+            panelStatistics.Controls.Add(lblCardAmount);
+            panelStatistics.Controls.Add(lblChequeAmount);
+            
+            // dgvPayments
+            dgvPayments.Dock = DockStyle.Fill;
+            dgvPayments.BackgroundColor = Color.White;
+            dgvPayments.ReadOnly = true;
+            dgvPayments.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPayments.RowHeadersVisible = false;
+            dgvPayments.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPayments.AllowUserToAddRows = false;
+            dgvPayments.AllowUserToDeleteRows = false;
+            dgvPayments.CellDoubleClick += DgvPayments_CellDoubleClick;
+            
+            // lblStatus
+            lblStatus.Dock = DockStyle.Bottom;
+            lblStatus.Text = "Chargement...";
+            lblStatus.Font = new Font("Segoe UI", 9);
+            lblStatus.ForeColor = Color.Gray;
+            lblStatus.Height = 30;
+            lblStatus.Padding = new Padding(20, 0, 20, 5);
+            lblStatus.TextAlign = ContentAlignment.MiddleLeft;
+            
             // PaymentsUserControl
-            // 
-            BackColor = System.Drawing.Color.White;
-            Controls.Add(dgvPayments);
-            Controls.Add(panelTools);
-            Controls.Add(lblTitle);
-            Padding = new System.Windows.Forms.Padding(20);
-            Size = new System.Drawing.Size(653, 456);
+            this.BackColor = Color.White;
+            this.Controls.Add(dgvPayments);
+            this.Controls.Add(lblStatus);
+            this.Controls.Add(panelStatistics);
+            this.Controls.Add(panelTools);
+            this.Controls.Add(lblTitle);
+            this.Size = new Size(1200, 600);
+            
             ((System.ComponentModel.ISupportInitialize)dgvPayments).EndInit();
             panelTools.ResumeLayout(false);
-            ResumeLayout(false);
+            panelStatistics.ResumeLayout(false);
+            this.ResumeLayout(false);
         }
-
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Panel panelTools;
     }
 }

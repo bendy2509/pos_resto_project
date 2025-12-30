@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using POS_RESTO.Configuration;
+using POS_RESTO.Data;
 using POS_RESTO.Forms;
 
 namespace POS_RESTO.Views
@@ -15,80 +15,75 @@ namespace POS_RESTO.Views
             LoadMenus();
         }
         
-        private void SetupDataGridViewColumns()
-        {
-            var colId = new DataGridViewTextBoxColumn();
-            colId.Name = "ID";
-            colId.HeaderText = "ID";
-            colId.Width = 50;
-            
-            var colNom = new DataGridViewTextBoxColumn();
-            colNom.Name = "Nom";
-            colNom.HeaderText = "Nom";
-            colNom.Width = 150;
-            
-            var colCategorie = new DataGridViewTextBoxColumn();
-            colCategorie.Name = "Categorie";
-            colCategorie.HeaderText = "Categorie";
-            colCategorie.Width = 100;
-            
-            var colPrix = new DataGridViewTextBoxColumn();
-            colPrix.Name = "Prix";
-            colPrix.HeaderText = "Prix HTG";
-            colPrix.Width = 100;
-            
-            var colStock = new DataGridViewTextBoxColumn();
-            colStock.Name = "Stock";
-            colStock.HeaderText = "Stock";
-            colStock.Width = 80;
-            
-            var colDescription = new DataGridViewTextBoxColumn();
-            colDescription.Name = "Description";
-            colDescription.HeaderText = "Description";
-            colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            
-            dgvMenus.Columns.AddRange(new DataGridViewColumn[] {
-                colId, colNom, colCategorie, colPrix, colStock, colDescription
-            });
-        }
-        
         private void LoadMenus()
         {
             try
             {
-                dgvMenus.Rows.Clear();
+                DataTable dt;
                 
-                string query = "SELECT * FROM Menus";
                 if (cmbFilterCategory.SelectedIndex > 0)
                 {
-                    query += $" WHERE category = '{cmbFilterCategory.SelectedItem}'";
+                    string category = cmbFilterCategory.SelectedItem.ToString();
+                    dt = MenuDao.GetMenusByCategoryDataTable(category);
                 }
-                query += " ORDER BY category, name";
-                
-                using (var conn = DatabaseConfig.GetConnection())
+                else
                 {
-                    conn.Open();
-                    
-                    using (var cmd = new MySqlCommand(query, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            dgvMenus.Rows.Add(
-                                reader["menu_id"],
-                                reader["name"],
-                                reader["category"],
-                                $"{Convert.ToDecimal(reader["unit_price"]):N0}",
-                                reader["stock_quantity"],
-                                reader["description"]
-                            );
-                        }
-                    }
+                    dt = MenuDao.GetAllMenusDataTableForDisplay();
                 }
+                
+                dgvMenus.DataSource = dt;
+                
+                // Formater les colonnes
+                if (dgvMenus.Columns.Contains("ID"))
+                {
+                    dgvMenus.Columns["ID"].Visible = false;
+                    dgvMenus.Columns["ID"].Width = 0;
+                }
+                
+                if (dgvMenus.Columns.Contains("Prix (HTG)"))
+                {
+                    dgvMenus.Columns["Prix (HTG)"].DefaultCellStyle.Alignment = 
+                        DataGridViewContentAlignment.MiddleRight;
+                }
+                
+                if (dgvMenus.Columns.Contains("Stock"))
+                {
+                    dgvMenus.Columns["Stock"].DefaultCellStyle.Alignment = 
+                        DataGridViewContentAlignment.MiddleCenter;
+                    
+                    // Colorer le stock faible
+                    dgvMenus.CellFormatting += (sender, e) =>
+                    {
+                        if (e.ColumnIndex == dgvMenus.Columns["Stock"].Index && e.Value != null)
+                        {
+                            if (int.TryParse(e.Value.ToString(), out int stock))
+                            {
+                                if (stock == 0)
+                                {
+                                    e.CellStyle.ForeColor = Color.FromArgb(220, 53, 69);
+                                    e.CellStyle.Font = new Font(dgvMenus.Font, FontStyle.Bold);
+                                    e.CellStyle.BackColor = Color.FromArgb(255, 245, 245);
+                                }
+                                else if (stock <= 5)
+                                {
+                                    e.CellStyle.ForeColor = Color.FromArgb(255, 193, 7);
+                                    e.CellStyle.Font = new Font(dgvMenus.Font, FontStyle.Bold);
+                                }
+                            }
+                        }
+                    };
+                }
+                
+                dgvMenus.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                
+                // Afficher le statut
+                lblStatus.Text = $"{dt.Rows.Count} menus trouvés";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement menus: {ex.Message}");
+                MessageBox.Show($"Erreur chargement menus: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = "Erreur de chargement";
             }
         }
         
@@ -105,18 +100,28 @@ namespace POS_RESTO.Views
         {
             if (dgvMenus.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Veuillez selectionner un menu a modifier");
+                MessageBox.Show("Veuillez sélectionner un menu à modifier", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             
-            object idValue = dgvMenus.SelectedRows[0].Cells[0].Value;
-            if (idValue != null && int.TryParse(idValue.ToString(), out int menuId))
+            try
             {
-                var menuForm = new MenuForm(menuId);
-                if (menuForm.ShowDialog() == DialogResult.OK)
+                int menuId = GetSelectedMenuId();
+                
+                if (menuId > 0)
                 {
-                    LoadMenus();
+                    var menuForm = new MenuForm(menuId);
+                    if (menuForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadMenus();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -124,44 +129,42 @@ namespace POS_RESTO.Views
         {
             if (dgvMenus.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Veuillez selectionner un menu a supprimer");
+                MessageBox.Show("Veuillez sélectionner un menu à supprimer", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             
-            object idValue = dgvMenus.SelectedRows[0].Cells[0].Value;
-            object nomValue = dgvMenus.SelectedRows[0].Cells[1].Value;
-            
-            if (idValue != null && nomValue != null && 
-                int.TryParse(idValue.ToString(), out int menuId))
+            try
             {
-                string menuName = nomValue.ToString();
+                int menuId = GetSelectedMenuId();
+                string menuName = GetSelectedMenuName();
                 
-                if (MessageBox.Show($"Voulez-vous vraiment supprimer le menu '{menuName}' ?",
-                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (menuId > 0 && !string.IsNullOrEmpty(menuName))
                 {
-                    try
+                    if (MessageBox.Show($"Voulez-vous vraiment supprimer le menu '{menuName}' ?",
+                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        string query = "DELETE FROM Menus WHERE menu_id = @id";
-                        
-                        using (var conn = DatabaseConfig.GetConnection())
+                        try
                         {
-                            conn.Open();
+                            MenuDao.DeleteMenu(menuId);
+                            LoadMenus();
                             
-                            using (var cmd = new MySqlCommand(query, conn))
-                            {
-                                cmd.Parameters.AddWithValue("@id", menuId);
-                                cmd.ExecuteNonQuery();
-                            }
+                            MessageBox.Show("Menu supprimé avec succès", "Succès",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        
-                        LoadMenus();
-                        MessageBox.Show("Menu supprime avec succes");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Erreur suppression: {ex.Message}");
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Erreur suppression: {ex.Message}\n\n" +
+                                          "Le menu ne peut pas être supprimé s'il a des commandes associées.", 
+                                "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -169,5 +172,72 @@ namespace POS_RESTO.Views
         {
             LoadMenus();
         }
+        
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            searchTimer.Start();
+        }
+        
+        private void SearchTimer_Tick(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            LoadMenus();
+        }
+        
+        private void DgvMenus_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                BtnEditMenu_Click(sender, e);
+            }
+        }
+        
+        private int GetSelectedMenuId()
+        {
+            if (dgvMenus.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvMenus.SelectedRows[0];
+                
+                if (selectedRow.DataBoundItem is DataRowView rowView)
+                {
+                    if (rowView["ID"] != DBNull.Value)
+                    {
+                        return Convert.ToInt32(rowView["ID"]);
+                    }
+                }
+                
+                if (dgvMenus.Columns.Contains("ID") && 
+                    selectedRow.Cells["ID"].Value != null && 
+                    selectedRow.Cells["ID"].Value != DBNull.Value)
+                {
+                    return Convert.ToInt32(selectedRow.Cells["ID"].Value);
+                }
+            }
+            
+            return 0;
+        }
+        
+        private string GetSelectedMenuName()
+        {
+            if (dgvMenus.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvMenus.SelectedRows[0];
+                
+                if (dgvMenus.Columns.Contains("Nom") && 
+                    selectedRow.Cells["Nom"].Value != null)
+                {
+                    return selectedRow.Cells["Nom"].Value.ToString();
+                }
+            }
+            
+            return "";
+        }
+        
+        private void MenusUserControl_Load(object sender, EventArgs e)
+        {
+            // Le timer est déjà initialisé dans InitializeComponent
+        }
+        
     }
 }

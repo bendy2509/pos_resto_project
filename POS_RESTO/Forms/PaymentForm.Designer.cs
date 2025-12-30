@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace POS_RESTO.Forms;
 
@@ -31,7 +33,7 @@ partial class PaymentForm
     /// </summary>
     private void InitializeComponent()
     {
-        this.Size = new Size(400, 350);
+        this.Size = new Size(450, 450);
         this.StartPosition = FormStartPosition.CenterScreen;
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
@@ -64,18 +66,32 @@ partial class PaymentForm
         numOrderId.Size = new Size(150, 25);
         numOrderId.ValueChanged += NumOrderId_ValueChanged;
         
+        // Détails de la commande
+        lblOrderDetails = new Label();
+        lblOrderDetails.Text = "";
+        lblOrderDetails.Font = new Font("Segoe UI", 9);
+        lblOrderDetails.ForeColor = Color.Gray;
+        lblOrderDetails.Location = new Point(0, 90);
+        lblOrderDetails.Size = new Size(400, 25);
+        
         // Montant commande
         lblOrderTotal = new Label();
         lblOrderTotal.Text = "Montant commande: -- HTG";
-        lblOrderTotal.Font = new Font("Segoe UI", 10);
-        lblOrderTotal.Location = new Point(0, 95);
-        lblOrderTotal.Size = new Size(300, 25);
+        lblOrderTotal.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+        lblOrderTotal.Location = new Point(0, 120);
+        lblOrderTotal.Size = new Size(400, 25);
+        
+        // Séparateur
+        var separator = new Label();
+        separator.BorderStyle = BorderStyle.Fixed3D;
+        separator.Location = new Point(0, 150);
+        separator.Size = new Size(400, 2);
         
         // Montant à payer
         var lblAmount = new Label();
-        lblAmount.Text = "Montant paye:*";
+        lblAmount.Text = "Montant payé:*";
         lblAmount.Font = new Font("Segoe UI", 10);
-        lblAmount.Location = new Point(0, 130);
+        lblAmount.Location = new Point(0, 165);
         lblAmount.Size = new Size(120, 25);
         
         numAmount = new NumericUpDown();
@@ -83,21 +99,21 @@ partial class PaymentForm
         numAmount.Minimum = 0;
         numAmount.Maximum = 10000000;
         numAmount.Font = new Font("Segoe UI", 10);
-        numAmount.Location = new Point(130, 130);
+        numAmount.Location = new Point(130, 165);
         numAmount.Size = new Size(150, 25);
         
         // Mode de paiement
         var lblPaymentMode = new Label();
         lblPaymentMode.Text = "Mode paiement:*";
         lblPaymentMode.Font = new Font("Segoe UI", 10);
-        lblPaymentMode.Location = new Point(0, 170);
+        lblPaymentMode.Location = new Point(0, 205);
         lblPaymentMode.Size = new Size(120, 25);
         
         cmbPaymentMode = new ComboBox();
         cmbPaymentMode.Items.AddRange(new object[] { "cash", "card", "cheque" });
         cmbPaymentMode.SelectedIndex = 0;
         cmbPaymentMode.Font = new Font("Segoe UI", 10);
-        cmbPaymentMode.Location = new Point(130, 170);
+        cmbPaymentMode.Location = new Point(130, 205);
         cmbPaymentMode.Size = new Size(150, 25);
         
         // Boutons
@@ -134,7 +150,9 @@ partial class PaymentForm
         panel.Controls.Add(lblTitle);
         panel.Controls.Add(lblOrderId);
         panel.Controls.Add(numOrderId);
+        panel.Controls.Add(lblOrderDetails);
         panel.Controls.Add(lblOrderTotal);
+        panel.Controls.Add(separator);
         panel.Controls.Add(lblAmount);
         panel.Controls.Add(numAmount);
         panel.Controls.Add(lblPaymentMode);
@@ -147,11 +165,11 @@ partial class PaymentForm
 
     #endregion
     
-    
     private NumericUpDown numOrderId;
     private NumericUpDown numAmount;
     private ComboBox cmbPaymentMode;
     private Button btnSave;
     private Button btnCancel;
     private Label lblOrderTotal;
+    private Label lblOrderDetails; // Nouveau label pour afficher plus de détails
 }

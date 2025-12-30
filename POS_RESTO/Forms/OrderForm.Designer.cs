@@ -110,6 +110,7 @@ partial class OrderForm
         dgvMenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
         dgvMenus.Size = new System.Drawing.Size(570, 400);
         dgvMenus.TabIndex = 1;
+        dgvMenus.SelectionChanged += DgvMenus_SelectionChanged;
         // 
         // dataGridViewTextBoxColumn1
         // 

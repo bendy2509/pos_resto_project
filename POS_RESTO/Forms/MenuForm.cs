@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using POS_RESTO.Configuration;
+using POS_RESTO.Data;
+using POS_RESTO.Models;
 
 namespace POS_RESTO.Forms
 {
     public partial class MenuForm : Form
     {
+        // private int? menuId;
         public MenuForm(int? id = null)
         {
             menuId = id;
             InitializeComponent();
+            
+            // Ajouter l'événement pour le bouton Annuler si ce n'est pas déjà fait
+            if (btnCancel != null)
+                btnCancel.Click += BtnCancel_Click;
             
             if (menuId.HasValue)
             {
@@ -30,33 +35,20 @@ namespace POS_RESTO.Forms
         {
             try
             {
-                string query = "SELECT * FROM Menus WHERE menu_id = @id";
-                
-                using (var conn = DatabaseConfig.GetConnection())
+                var menu = MenuDao.GetMenuById(menuId.Value);
+                if (menu != null)
                 {
-                    conn.Open();
-                    
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id", menuId.Value);
-                        
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                txtName.Text = reader["name"].ToString();
-                                cmbCategory.Text = reader["category"].ToString();
-                                numPrice.Value = Convert.ToDecimal(reader["unit_price"]);
-                                numStock.Value = Convert.ToDecimal(reader["stock_quantity"]);
-                                txtDescription.Text = reader["description"]?.ToString() ?? "";
-                            }
-                        }
-                    }
+                    txtName.Text = menu.Name;
+                    cmbCategory.Text = menu.Category;
+                    numPrice.Value = menu.UnitPrice;
+                    numStock.Value = menu.StockQuantity;
+                    txtDescription.Text = menu.Description ?? "";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement menu: {ex.Message}");
+                MessageBox.Show($"Erreur chargement menu: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -64,73 +56,56 @@ namespace POS_RESTO.Forms
         {
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Veuillez saisir le nom du menu");
+                MessageBox.Show("Veuillez saisir le nom du menu", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtName.Focus();
                 return;
             }
             
             if (string.IsNullOrWhiteSpace(cmbCategory.Text))
             {
-                MessageBox.Show("Veuillez selectionner une categorie");
+                MessageBox.Show("Veuillez sélectionner une catégorie", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbCategory.Focus();
                 return;
             }
             
             if (numPrice.Value <= 0)
             {
-                MessageBox.Show("Le prix doit etre superieur a 0");
+                MessageBox.Show("Le prix doit être supérieur à 0", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 numPrice.Focus();
                 return;
             }
             
             try
             {
-                string query;
+                var menu = new Menu
+                {
+                    Name = txtName.Text,
+                    Category = cmbCategory.Text,
+                    UnitPrice = numPrice.Value,
+                    StockQuantity = (int)numStock.Value,
+                    Description = string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text
+                };
                 
                 if (menuId.HasValue)
                 {
-                    query = @"UPDATE Menus SET 
-                             name = @name,
-                             category = @category,
-                             unit_price = @price,
-                             stock_quantity = @stock,
-                             description = @desc
-                             WHERE menu_id = @id";
-                }
-                else
-                {
-                    query = @"INSERT INTO Menus (name, category, unit_price, stock_quantity, description) 
-                             VALUES (@name, @category, @price, @stock, @desc)";
+                    menu.MenuId = menuId.Value;
                 }
                 
-                using (var conn = DatabaseConfig.GetConnection())
-                {
-                    conn.Open();
-                    
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@name", txtName.Text);
-                        cmd.Parameters.AddWithValue("@category", cmbCategory.Text);
-                        cmd.Parameters.AddWithValue("@price", numPrice.Value);
-                        cmd.Parameters.AddWithValue("@stock", (int)numStock.Value);
-                        cmd.Parameters.AddWithValue("@desc", txtDescription.Text);
-                        
-                        if (menuId.HasValue)
-                        {
-                            cmd.Parameters.AddWithValue("@id", menuId.Value);
-                        }
-                        
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                MenuDao.SaveMenu(menu);
                 
-                MessageBox.Show(menuId.HasValue ? "Menu modifie avec succes" : "Menu ajoute avec succes");
+                MessageBox.Show(menuId.HasValue ? "Menu modifié avec succès" : "Menu ajouté avec succès",
+                    "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur sauvegarde: {ex.Message}");
+                MessageBox.Show($"Erreur sauvegarde: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         

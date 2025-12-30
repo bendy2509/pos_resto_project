@@ -1,8 +1,26 @@
-﻿namespace POS_RESTO.Views
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace POS_RESTO.Views
 {
     partial class OrdersUserControl
     {
         private System.ComponentModel.IContainer components = null;
+        private DataGridView dgvOrders;
+        private Button btnNewOrder;
+        private Button btnRefresh;
+        private Button btnUpdateStatus;
+        private Button btnViewDetails;
+        private Button btnExport;
+        private Button btnClearFilters;
+        private ComboBox cmbFilterStatus;
+        private Label lblStatus;
+        private Label lblTitle;
+        private Panel panelTools;
+        private Label lblFilterStatus;
+        private DateTimePicker dateFilterPicker;
+        private Label lblFilterDate;
         
         protected override void Dispose(bool disposing)
         {
@@ -10,127 +28,187 @@
                 components.Dispose();
             base.Dispose(disposing);
         }
-        
-        
-        private DataGridView dgvOrders;
-        private Button btnNewOrder;
-        private Button btnRefresh;
-        private ComboBox cmbFilterStatus;
-        private Label lblStatus;
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        
+
         private void InitializeComponent()
         {
-            this.dgvOrders = new System.Windows.Forms.DataGridView();
-            this.btnNewOrder = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
-            this.lblStatus = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)this.dgvOrders).BeginInit();
+            this.components = new System.ComponentModel.Container();
+            dgvOrders = new DataGridView();
+            btnNewOrder = new Button();
+            btnRefresh = new Button();
+            btnUpdateStatus = new Button();
+            btnViewDetails = new Button();
+            btnExport = new Button();
+            btnClearFilters = new Button();
+            cmbFilterStatus = new ComboBox();
+            lblStatus = new Label();
+            lblTitle = new Label();
+            panelTools = new Panel();
+            lblFilterStatus = new Label();
+            dateFilterPicker = new DateTimePicker();
+            lblFilterDate = new Label();
+            
+            ((System.ComponentModel.ISupportInitialize)dgvOrders).BeginInit();
+            panelTools.SuspendLayout();
             this.SuspendLayout();
             
-            // 
-            // OrdersUserControl
-            // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Padding = new System.Windows.Forms.Padding(20);
-            this.Dock = System.Windows.Forms.DockStyle.Fill;
-            
-            // Titre
-            var lblTitle = new System.Windows.Forms.Label();
+            // lblTitle
+            lblTitle.Dock = DockStyle.Top;
             lblTitle.Text = "GESTION DES COMMANDES";
-            lblTitle.Font = new System.Drawing.Font("Segoe UI", 20, System.Drawing.FontStyle.Bold);
-            lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 20, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(0, 123, 255);
             lblTitle.Height = 50;
-            lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblTitle.Padding = new Padding(20, 20, 20, 0);
+            lblTitle.TextAlign = ContentAlignment.MiddleLeft;
             
-            // Panel d'outils
-            var panelTools = new System.Windows.Forms.Panel();
-            panelTools.Dock = System.Windows.Forms.DockStyle.Top;
-            panelTools.Height = 50;
-            panelTools.BackColor = System.Drawing.Color.White;
+            // panelTools
+            panelTools.Dock = DockStyle.Top;
+            panelTools.Height = 70;
+            panelTools.BackColor = Color.White;
+            panelTools.Padding = new Padding(20, 10, 20, 10);
             
-            // Bouton nouvelle commande
-            this.btnNewOrder.Text = "Nouvelle Commande";
-            this.btnNewOrder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.btnNewOrder.ForeColor = System.Drawing.Color.White;
-            this.btnNewOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewOrder.FlatAppearance.BorderSize = 0;
-            this.btnNewOrder.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
-            this.btnNewOrder.Size = new System.Drawing.Size(180, 35);
-            this.btnNewOrder.Location = new System.Drawing.Point(0, 10);
-            this.btnNewOrder.Click += BtnNewOrder_Click;
+            // btnNewOrder
+            btnNewOrder.Text = "Nouvelle Commande";
+            btnNewOrder.BackColor = Color.FromArgb(0, 123, 255);
+            btnNewOrder.ForeColor = Color.White;
+            btnNewOrder.FlatStyle = FlatStyle.Flat;
+            btnNewOrder.FlatAppearance.BorderSize = 0;
+            btnNewOrder.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            btnNewOrder.Size = new Size(180, 35);
+            btnNewOrder.Location = new Point(0, 10);
+            btnNewOrder.Click += new System.EventHandler(this.BtnNewOrder_Click);
             
-            // Bouton rafraichir
-            this.btnRefresh.Text = "Rafraichir";
-            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
-            this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.FlatAppearance.BorderSize = 0;
-            this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 10);
-            this.btnRefresh.Size = new System.Drawing.Size(100, 35);
-            this.btnRefresh.Location = new System.Drawing.Point(190, 10);
-            this.btnRefresh.Click += BtnRefresh_Click;
+            // btnRefresh
+            btnRefresh.Text = "Rafraîchir";
+            btnRefresh.BackColor = Color.FromArgb(108, 117, 125);
+            btnRefresh.ForeColor = Color.White;
+            btnRefresh.FlatStyle = FlatStyle.Flat;
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.Font = new Font("Segoe UI", 10);
+            btnRefresh.Size = new Size(100, 35);
+            btnRefresh.Location = new Point(190, 10);
+            btnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             
-            // Filtre par statut
-            var lblFilter = new System.Windows.Forms.Label();
-            lblFilter.Text = "Statut:";
-            lblFilter.Font = new System.Drawing.Font("Segoe UI", 10);
-            lblFilter.Location = new System.Drawing.Point(300, 15);
-            lblFilter.Size = new System.Drawing.Size(50, 25);
+            // btnUpdateStatus
+            btnUpdateStatus.Text = "Changer statut";
+            btnUpdateStatus.BackColor = Color.FromArgb(255, 193, 7);
+            btnUpdateStatus.ForeColor = Color.Black;
+            btnUpdateStatus.FlatStyle = FlatStyle.Flat;
+            btnUpdateStatus.FlatAppearance.BorderSize = 0;
+            btnUpdateStatus.Font = new Font("Segoe UI", 10);
+            btnUpdateStatus.Size = new Size(120, 35);
+            btnUpdateStatus.Location = new Point(400, 10);
+            btnUpdateStatus.Enabled = false;
+            btnUpdateStatus.Click += new System.EventHandler(this.BtnUpdateStatus_Click);
             
-            this.cmbFilterStatus.Items.AddRange(new object[] { 
+            // btnViewDetails
+            btnViewDetails.Text = "Voir détails";
+            btnViewDetails.BackColor = Color.FromArgb(111, 66, 193);
+            btnViewDetails.ForeColor = Color.White;
+            btnViewDetails.FlatStyle = FlatStyle.Flat;
+            btnViewDetails.FlatAppearance.BorderSize = 0;
+            btnViewDetails.Font = new Font("Segoe UI", 10);
+            btnViewDetails.Size = new Size(120, 35);
+            btnViewDetails.Location = new Point(530, 10);
+            btnViewDetails.Enabled = false;
+            btnViewDetails.Click += new System.EventHandler(this.BtnViewDetails_Click);
+            
+            // btnExport
+            btnExport.Text = "Exporter";
+            btnExport.BackColor = Color.FromArgb(23, 162, 184);
+            btnExport.ForeColor = Color.White;
+            btnExport.FlatStyle = FlatStyle.Flat;
+            btnExport.FlatAppearance.BorderSize = 0;
+            btnExport.Font = new Font("Segoe UI", 10);
+            btnExport.Size = new Size(100, 35);
+            btnExport.Location = new Point(800, 10);
+            btnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            
+            // Filtres
+            lblFilterStatus.Text = "Statut:";
+            lblFilterStatus.Font = new Font("Segoe UI", 10);
+            lblFilterStatus.Location = new Point(660, 17);
+            lblFilterStatus.Size = new Size(50, 25);
+            
+            cmbFilterStatus.Items.AddRange(new object[] { 
                 "Tous", 
-                "En cours", 
-                "Prête", 
-                "Servie", 
-                "Annulée" 
+                "en cours", 
+                "terminee", 
+                "annulee" 
             });
-            this.cmbFilterStatus.SelectedIndex = 0;
-            this.cmbFilterStatus.Font = new System.Drawing.Font("Segoe UI", 10);
-            this.cmbFilterStatus.Size = new System.Drawing.Size(150, 25);
-            this.cmbFilterStatus.Location = new System.Drawing.Point(350, 12);
-            this.cmbFilterStatus.SelectedIndexChanged += CmbFilterStatus_SelectedIndexChanged;
+            cmbFilterStatus.SelectedIndex = 0;
+            cmbFilterStatus.Font = new Font("Segoe UI", 10);
+            cmbFilterStatus.Size = new Size(120, 25);
+            cmbFilterStatus.Location = new Point(710, 14);
+            cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.CmbFilterStatus_SelectedIndexChanged);
             
-            panelTools.Controls.Add(this.btnNewOrder);
-            panelTools.Controls.Add(this.btnRefresh);
-            panelTools.Controls.Add(lblFilter);
-            panelTools.Controls.Add(this.cmbFilterStatus);
+            lblFilterDate.Text = "Date:";
+            lblFilterDate.Font = new Font("Segoe UI", 10);
+            lblFilterDate.Location = new Point(840, 17);
+            lblFilterDate.Size = new Size(40, 25);
             
-            // DataGridView pour les commandes
-            this.dgvOrders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvOrders.BackgroundColor = System.Drawing.Color.White;
-            this.dgvOrders.ReadOnly = true;
-            this.dgvOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvOrders.RowHeadersVisible = false;
-            this.dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOrders.AllowUserToAddRows = false;
-            this.dgvOrders.AllowUserToDeleteRows = false;
-            this.dgvOrders.AllowUserToOrderColumns = false;
+            dateFilterPicker.Font = new Font("Segoe UI", 10);
+            dateFilterPicker.Format = DateTimePickerFormat.Short;
+            dateFilterPicker.Size = new Size(120, 25);
+            dateFilterPicker.Location = new Point(880, 14);
+            dateFilterPicker.Checked = false;
+            dateFilterPicker.ValueChanged += new System.EventHandler(this.DateFilterPicker_ValueChanged);
             
-            // Événements du DataGridView
-            this.dgvOrders.CellFormatting += DgvOrders_CellFormatting;
-            this.dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
+            // btnClearFilters
+            btnClearFilters.Text = "Effacer filtres";
+            btnClearFilters.BackColor = Color.FromArgb(52, 58, 64);
+            btnClearFilters.ForeColor = Color.White;
+            btnClearFilters.FlatStyle = FlatStyle.Flat;
+            btnClearFilters.FlatAppearance.BorderSize = 0;
+            btnClearFilters.Font = new Font("Segoe UI", 10);
+            btnClearFilters.Size = new Size(120, 25);
+            btnClearFilters.Location = new Point(1010, 14);
+            btnClearFilters.Click += new System.EventHandler(this.BtnClearFilters_Click);
             
-            // Status label
-            this.lblStatus.Text = "Chargement...";
-            this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 9);
-            this.lblStatus.ForeColor = System.Drawing.Color.Gray;
-            this.lblStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblStatus.Height = 25;
-            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            panelTools.Controls.Add(btnNewOrder);
+            panelTools.Controls.Add(btnRefresh);
+            panelTools.Controls.Add(btnUpdateStatus);
+            panelTools.Controls.Add(btnViewDetails);
+            panelTools.Controls.Add(btnExport);
+            panelTools.Controls.Add(lblFilterStatus);
+            panelTools.Controls.Add(cmbFilterStatus);
+            panelTools.Controls.Add(lblFilterDate);
+            panelTools.Controls.Add(dateFilterPicker);
+            panelTools.Controls.Add(btnClearFilters);
             
-            // Ajouter les contrôles
-            this.Controls.Add(this.dgvOrders);
-            this.Controls.Add(this.lblStatus);
+            // dgvOrders
+            dgvOrders.Dock = DockStyle.Fill;
+            dgvOrders.BackgroundColor = Color.White;
+            dgvOrders.ReadOnly = true;
+            dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvOrders.RowHeadersVisible = false;
+            dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvOrders.AllowUserToAddRows = false;
+            dgvOrders.AllowUserToDeleteRows = false;
+            dgvOrders.AllowUserToOrderColumns = false;
+            dgvOrders.CellFormatting += new DataGridViewCellFormattingEventHandler(this.DgvOrders_CellFormatting);
+            dgvOrders.CellDoubleClick += new DataGridViewCellEventHandler(this.DgvOrders_CellDoubleClick);
+            dgvOrders.SelectionChanged += new System.EventHandler(this.DgvOrders_SelectionChanged);
+            
+            // lblStatus
+            lblStatus.Dock = DockStyle.Bottom;
+            lblStatus.Text = "Chargement...";
+            lblStatus.Font = new Font("Segoe UI", 9);
+            lblStatus.ForeColor = Color.Gray;
+            lblStatus.Height = 30;
+            lblStatus.Padding = new Padding(20, 0, 20, 5);
+            lblStatus.TextAlign = ContentAlignment.MiddleLeft;
+            
+            // OrdersUserControl
+            this.BackColor = Color.White;
+            this.Controls.Add(dgvOrders);
+            this.Controls.Add(lblStatus);
             this.Controls.Add(panelTools);
             this.Controls.Add(lblTitle);
+            this.Size = new Size(1200, 600);
             
-            ((System.ComponentModel.ISupportInitialize)this.dgvOrders).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
+            panelTools.ResumeLayout(false);
+            panelTools.PerformLayout();
             this.ResumeLayout(false);
         }
     }

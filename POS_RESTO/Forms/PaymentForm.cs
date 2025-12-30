@@ -1,52 +1,63 @@
-﻿using MySql.Data.MySqlClient;
-using POS_RESTO.Configuration;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+using POS_RESTO.Data;
 
-namespace POS_RESTO.Forms;
-
-public partial class PaymentForm : Form
+namespace POS_RESTO.Forms
 {
-    public PaymentForm()
+    public partial class PaymentForm : Form
     {
-        InitializeComponent();
-    }
-    
-    private void NumOrderId_ValueChanged(object sender, EventArgs e)
+        private decimal orderTotal = 0;
+        
+        public PaymentForm()
+        {
+            InitializeComponent();
+        }
+        
+        private void NumOrderId_ValueChanged(object sender, EventArgs e)
         {
             if (numOrderId.Value > 0)
             {
                 try
                 {
-                    string query = @"SELECT SUM(m.unit_price * o.quantity) as total
-                                    FROM Orders o
-                                    JOIN Menus m ON o.menu_id = m.menu_id
-                                    WHERE o.order_id = @orderId
-                                    GROUP BY o.order_id";
+                    int orderId = (int)numOrderId.Value;
                     
-                    using (var conn = DatabaseConfig.GetConnection())
+                    // Vérifier si la commande existe
+                    var order = PaymentDao.GetOrderDetails(orderId);
+                    if (order != null)
                     {
-                        conn.Open();
+                        // Calculer le total de la commande
+                        orderTotal = order.Subtotal;
+                        lblOrderTotal.Text = $"Montant commande: {orderTotal:N0} HTG";
+                        lblOrderDetails.Text = $"{order.MenuName} x{order.Quantity} - Client: {order.ClientName}";
                         
-                        using (var cmd = new MySqlCommand(query, conn))
+                        // Vérifier si la commande est déjà payée
+                        if (PaymentDao.IsOrderPaid(orderId))
                         {
-                            cmd.Parameters.AddWithValue("@orderId", (int)numOrderId.Value);
-                            
-                            object result = cmd.ExecuteScalar();
-                            if (result != null)
-                            {
-                                decimal total = Convert.ToDecimal(result);
-                                lblOrderTotal.Text = $"Montant commande: {total:N0} HTG";
-                                numAmount.Maximum = total * 2; // Permet de payer plus que le total (pour les pourboires)
-                            }
-                            else
-                            {
-                                lblOrderTotal.Text = "Commande non trouvee";
-                            }
+                            decimal amountPaid = PaymentDao.GetAmountPaidForOrder(orderId);
+                            lblOrderTotal.Text += $" (Déjà payé: {amountPaid:N0} HTG)";
                         }
+                        
+                        // Configurer le NumericUpDown pour le montant
+                        numAmount.Value = orderTotal; // Par défaut, montant exact
+                        numAmount.Maximum = orderTotal * 2; // Permet de payer plus que le total
+                        numAmount.Minimum = 0;
+                    }
+                    else
+                    {
+                        lblOrderTotal.Text = "Commande non trouvée";
+                        lblOrderDetails.Text = "";
+                        orderTotal = 0;
+                        numAmount.Value = 0;
                     }
                 }
                 catch (Exception ex)
                 {
                     lblOrderTotal.Text = "Erreur chargement";
+                    lblOrderDetails.Text = "";
+                    orderTotal = 0;
+                    MessageBox.Show($"Erreur: {ex.Message}", "Erreur",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -55,44 +66,66 @@ public partial class PaymentForm : Form
         {
             if (numOrderId.Value <= 0)
             {
-                MessageBox.Show("ID commande invalide");
+                MessageBox.Show("ID commande invalide", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 numOrderId.Focus();
                 return;
             }
             
             if (numAmount.Value <= 0)
             {
-                MessageBox.Show("Montant invalide");
+                MessageBox.Show("Montant invalide", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 numAmount.Focus();
+                return;
+            }
+            
+            if (string.IsNullOrWhiteSpace(cmbPaymentMode.Text))
+            {
+                MessageBox.Show("Veuillez sélectionner un mode de paiement", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbPaymentMode.Focus();
                 return;
             }
             
             try
             {
-                string query = @"INSERT INTO Payments (order_id, amount, payment_mode) 
-                                 VALUES (@orderId, @amount, @mode)";
+                int orderId = (int)numOrderId.Value;
+                decimal amount = numAmount.Value;
+                string paymentMode = cmbPaymentMode.Text;
                 
-                using (var conn = DatabaseConfig.GetConnection())
+                // Vérifier si la commande est déjà payée
+                if (PaymentDao.IsOrderPaid(orderId))
                 {
-                    conn.Open();
+                    var result = MessageBox.Show(
+                        $"Un paiement existe déjà pour cette commande. Voulez-vous ajouter un nouveau paiement?",
+                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     
-                    using (var cmd = new MySqlCommand(query, conn))
+                    if (result != DialogResult.Yes)
                     {
-                        cmd.Parameters.AddWithValue("@orderId", (int)numOrderId.Value);
-                        cmd.Parameters.AddWithValue("@amount", numAmount.Value);
-                        cmd.Parameters.AddWithValue("@mode", cmbPaymentMode.Text);
-                        
-                        cmd.ExecuteNonQuery();
+                        return;
                     }
                 }
                 
-                MessageBox.Show("Paiement enregistre avec succes");
+                // Créer le paiement
+                PaymentDao.CreatePayment(orderId, amount, paymentMode);
+                
+                // Mettre à jour le statut de la commande si le paiement est complet
+                if (amount >= orderTotal)
+                {
+                    OrderDao.UpdateOrderStatus(orderId, "terminee");
+                }
+                
+                MessageBox.Show("Paiement enregistré avec succès", "Succès",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur sauvegarde: {ex.Message}");
+                MessageBox.Show($"Erreur sauvegarde: {ex.Message}", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -101,4 +134,5 @@ public partial class PaymentForm : Form
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+    }
 }

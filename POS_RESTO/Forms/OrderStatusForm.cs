@@ -75,8 +75,8 @@ namespace POS_RESTO.Forms
             this.Close();
         }
         
-        private Label lblOrderInfo;
-        private ComboBox cmbStatus;
+        private System.Windows.Forms.Label lblOrderInfo;
+        private System.Windows.Forms.ComboBox cmbStatus;
         private Button btnSave;
         private Button btnCancel;
     }

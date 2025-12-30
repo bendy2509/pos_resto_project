@@ -85,5 +85,18 @@ public partial class LoginForm : Form
         }
         return false;
     }
-
+    
+    private void CheckShowPassword_CheckedChanged(object sender, EventArgs e)
+    {
+        textPassword.UseSystemPasswordChar = !checkShowPassword.Checked;
+    }
+    
+    private void BtnCancel_Click(object sender, EventArgs e)
+    {
+        if (MessageBox.Show(@"Voulez-vous quitter l application ?", 
+                @"Quitter", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+        {
+            this.Close();
+        }
+    }
 }

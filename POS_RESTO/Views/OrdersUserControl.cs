@@ -31,8 +31,7 @@ namespace POS_RESTO.Views
                 var dt = OrderDao.GetOrdersDataTable(statusFilter, dateFilter);
                 dgvOrders.DataSource = dt;
                 
-                // Formater les colonnes
-                FormatDataGridView();
+               
                 
                 // Mettre à jour le statut
                 UpdateStatusLabel(dt.Rows.Count);
@@ -45,39 +44,6 @@ namespace POS_RESTO.Views
                 
                 // Dans la console pour debug
                 Console.WriteLine($"Erreur chargement données: {ex.Message}");
-            }
-        }
-        
-        private void FormatDataGridView()
-        {
-            if (dgvOrders.Columns.Count > 0)
-            {
-                // Masquer l'ID
-                if (dgvOrders.Columns.Contains("ID"))
-                {
-                    dgvOrders.Columns["ID"].Visible = false;
-                }
-                
-                // Formater les colonnes
-                if (dgvOrders.Columns.Contains("Date"))
-                {
-                    dgvOrders.Columns["Date"].Width = 150;
-                }
-                
-                if (dgvOrders.Columns.Contains("Statut"))
-                {
-                    dgvOrders.Columns["Statut"].Width = 100;
-                }
-                
-                if (dgvOrders.Columns.Contains("Total HTG"))
-                {
-                    dgvOrders.Columns["Total HTG"].Width = 120;
-                    dgvOrders.Columns["Total HTG"].DefaultCellStyle.Alignment = 
-                        DataGridViewContentAlignment.MiddleRight;
-                }
-                
-                // Ajuster automatiquement les autres colonnes
-                dgvOrders.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             }
         }
         

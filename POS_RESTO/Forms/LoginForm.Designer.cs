@@ -172,7 +172,6 @@ partial class LoginForm
         textPassword.Font = new System.Drawing.Font("Segoe UI", 11F);
         textPassword.Location = new System.Drawing.Point(450, 295);
         textPassword.Name = "textPassword";
-        textPassword.PasswordChar = '●';
         textPassword.Size = new System.Drawing.Size(400, 27);
         textPassword.TabIndex = 5;
         textPassword.UseSystemPasswordChar = true;
@@ -188,6 +187,8 @@ partial class LoginForm
         checkShowPassword.TabIndex = 6;
         checkShowPassword.Text = "Afficher le mot de passe";
         checkShowPassword.UseVisualStyleBackColor = true;
+        checkShowPassword.Checked = false;
+        checkShowPassword.CheckedChanged += CheckShowPassword_CheckedChanged;
         // 
         // btnLogin
         // 
@@ -217,6 +218,7 @@ partial class LoginForm
         btnCancel.TabIndex = 8;
         btnCancel.Text = "Quitter";
         btnCancel.UseVisualStyleBackColor = false;
+        btnCancel.Click += BtnCancel_Click;
         // 
         // LoginForm
         // 

@@ -62,6 +62,7 @@ namespace POS_RESTO.Views
             dataGridViewRecent.Name = "dataGridViewRecent";
             dataGridViewRecent.ReadOnly = true;
             dataGridViewRecent.RowHeadersVisible = false;
+            dataGridViewRecent.AllowUserToAddRows = false;
             dataGridViewRecent.Size = new Size(350, 180);
             dataGridViewRecent.TabIndex = 0;
             // 
@@ -110,6 +111,7 @@ namespace POS_RESTO.Views
             dataGridViewBestSellers.Name = "dataGridViewBestSellers";
             dataGridViewBestSellers.ReadOnly = true;
             dataGridViewBestSellers.RowHeadersVisible = false;
+            dataGridViewBestSellers.AllowUserToAddRows = false;
             dataGridViewBestSellers.Size = new Size(350, 180);
             dataGridViewBestSellers.TabIndex = 0;
             // 

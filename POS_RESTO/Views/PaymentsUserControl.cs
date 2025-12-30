@@ -34,9 +34,12 @@ namespace POS_RESTO.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement paiements: {ex.Message}", "Erreur",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lblStatus.Text = "Erreur de chargement";
+                // MessageBox.Show($"Erreur chargement paiements: {ex.Message}", "Erreur",
+                //     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // lblStatus.Text = "Erreur de chargement";
+                
+                // Dans la console pour debug
+                Console.WriteLine($"Erreur chargement données: {ex.Message}");
             }
         }
 

@@ -6,22 +6,6 @@ namespace POS_RESTO.Views
 {
     partial class OrdersUserControl
     {
-        private System.ComponentModel.IContainer components = null;
-        private DataGridView dgvOrders;
-        private Button btnNewOrder;
-        private Button btnRefresh;
-        private Button btnUpdateStatus;
-        private Button btnViewDetails;
-        private Button btnExport;
-        private Button btnClearFilters;
-        private ComboBox cmbFilterStatus;
-        private Label lblStatus;
-        private Label lblTitle;
-        private Panel panelTools;
-        private Label lblFilterStatus;
-        private DateTimePicker dateFilterPicker;
-        private Label lblFilterDate;
-        
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -75,7 +59,7 @@ namespace POS_RESTO.Views
             btnNewOrder.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             btnNewOrder.Size = new Size(180, 35);
             btnNewOrder.Location = new Point(0, 10);
-            btnNewOrder.Click += new System.EventHandler(this.BtnNewOrder_Click);
+            btnNewOrder.Click += BtnNewOrder_Click;
             
             // btnRefresh
             btnRefresh.Text = "Rafraîchir";
@@ -86,7 +70,7 @@ namespace POS_RESTO.Views
             btnRefresh.Font = new Font("Segoe UI", 10);
             btnRefresh.Size = new Size(100, 35);
             btnRefresh.Location = new Point(190, 10);
-            btnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
+            btnRefresh.Click += BtnRefresh_Click;
             
             // btnUpdateStatus
             btnUpdateStatus.Text = "Changer statut";
@@ -98,7 +82,7 @@ namespace POS_RESTO.Views
             btnUpdateStatus.Size = new Size(120, 35);
             btnUpdateStatus.Location = new Point(400, 10);
             btnUpdateStatus.Enabled = false;
-            btnUpdateStatus.Click += new System.EventHandler(this.BtnUpdateStatus_Click);
+            btnUpdateStatus.Click += BtnUpdateStatus_Click;
             
             // btnViewDetails
             btnViewDetails.Text = "Voir détails";
@@ -110,7 +94,7 @@ namespace POS_RESTO.Views
             btnViewDetails.Size = new Size(120, 35);
             btnViewDetails.Location = new Point(530, 10);
             btnViewDetails.Enabled = false;
-            btnViewDetails.Click += new System.EventHandler(this.BtnViewDetails_Click);
+            btnViewDetails.Click += BtnViewDetails_Click;
             
             // btnExport
             btnExport.Text = "Exporter";
@@ -121,7 +105,7 @@ namespace POS_RESTO.Views
             btnExport.Font = new Font("Segoe UI", 10);
             btnExport.Size = new Size(100, 35);
             btnExport.Location = new Point(800, 10);
-            btnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            btnExport.Click += BtnExport_Click;
             
             // Filtres
             lblFilterStatus.Text = "Statut:";
@@ -139,7 +123,7 @@ namespace POS_RESTO.Views
             cmbFilterStatus.Font = new Font("Segoe UI", 10);
             cmbFilterStatus.Size = new Size(120, 25);
             cmbFilterStatus.Location = new Point(710, 14);
-            cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.CmbFilterStatus_SelectedIndexChanged);
+            cmbFilterStatus.SelectedIndexChanged += CmbFilterStatus_SelectedIndexChanged;
             
             lblFilterDate.Text = "Date:";
             lblFilterDate.Font = new Font("Segoe UI", 10);
@@ -151,7 +135,7 @@ namespace POS_RESTO.Views
             dateFilterPicker.Size = new Size(120, 25);
             dateFilterPicker.Location = new Point(880, 14);
             dateFilterPicker.Checked = false;
-            dateFilterPicker.ValueChanged += new System.EventHandler(this.DateFilterPicker_ValueChanged);
+            dateFilterPicker.ValueChanged += DateFilterPicker_ValueChanged;
             
             // btnClearFilters
             btnClearFilters.Text = "Effacer filtres";
@@ -162,7 +146,7 @@ namespace POS_RESTO.Views
             btnClearFilters.Font = new Font("Segoe UI", 10);
             btnClearFilters.Size = new Size(120, 25);
             btnClearFilters.Location = new Point(1010, 14);
-            btnClearFilters.Click += new System.EventHandler(this.BtnClearFilters_Click);
+            btnClearFilters.Click += BtnClearFilters_Click;
             
             panelTools.Controls.Add(btnNewOrder);
             panelTools.Controls.Add(btnRefresh);
@@ -185,9 +169,9 @@ namespace POS_RESTO.Views
             dgvOrders.AllowUserToAddRows = false;
             dgvOrders.AllowUserToDeleteRows = false;
             dgvOrders.AllowUserToOrderColumns = false;
-            dgvOrders.CellFormatting += new DataGridViewCellFormattingEventHandler(this.DgvOrders_CellFormatting);
-            dgvOrders.CellDoubleClick += new DataGridViewCellEventHandler(this.DgvOrders_CellDoubleClick);
-            dgvOrders.SelectionChanged += new System.EventHandler(this.DgvOrders_SelectionChanged);
+            dgvOrders.CellFormatting += DgvOrders_CellFormatting;
+            dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
+            dgvOrders.SelectionChanged += DgvOrders_SelectionChanged;
             
             // lblStatus
             lblStatus.Dock = DockStyle.Bottom;
@@ -211,5 +195,21 @@ namespace POS_RESTO.Views
             panelTools.PerformLayout();
             this.ResumeLayout(false);
         }
+        
+        private System.ComponentModel.IContainer components = null;
+        private DataGridView dgvOrders;
+        private Button btnNewOrder;
+        private Button btnRefresh;
+        private Button btnUpdateStatus;
+        private Button btnViewDetails;
+        private Button btnExport;
+        private Button btnClearFilters;
+        private ComboBox cmbFilterStatus;
+        private Label lblStatus;
+        private Label lblTitle;
+        private Panel panelTools;
+        private Label lblFilterStatus;
+        private DateTimePicker dateFilterPicker;
+        private Label lblFilterDate;
     }
 }

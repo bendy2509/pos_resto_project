@@ -20,20 +20,10 @@ namespace POS_RESTO.Forms
 
         private void SetupTimer()
         {
-            timer1 = new Timer();
-            timer1.Interval = 1000;
-            timer1.Tick += Timer1_Tick;
-            timer1.Start();
-
             lblStatusUser.Text = $"Utilisateur: {Session.Username} ({Session.Role})";
             lblStatusTime.Text = DateTime.Now.ToString("HH:mm:ss");
         }
-
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            lblStatusTime.Text = DateTime.Now.ToString("HH:mm:ss");
-        }
-
+        
         private void SetupSidebarButtons()
         {
             btnDashboard.Click += (s, e) => ShowView<DashboardUserControl>();

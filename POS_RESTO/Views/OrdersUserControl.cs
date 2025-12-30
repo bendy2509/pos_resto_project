@@ -39,9 +39,12 @@ namespace POS_RESTO.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement commandes: {ex.Message}", 
-                    "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lblStatus.Text = "Erreur de chargement";
+                // MessageBox.Show($"Erreur chargement commandes: {ex.Message}", 
+                //     "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // lblStatus.Text = "Erreur de chargement";
+                
+                // Dans la console pour debug
+                Console.WriteLine($"Erreur chargement données: {ex.Message}");
             }
         }
         
@@ -75,9 +78,6 @@ namespace POS_RESTO.Views
                 
                 // Ajuster automatiquement les autres colonnes
                 dgvOrders.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-                
-                // Formattage des cellules
-                dgvOrders.CellFormatting += DgvOrders_CellFormatting;
             }
         }
         

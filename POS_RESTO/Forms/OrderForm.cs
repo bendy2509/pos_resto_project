@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using POS_RESTO.Data;
@@ -22,7 +23,14 @@ namespace POS_RESTO.Forms
         {
             try
             {
-                dgvMenus.Rows.Clear();
+                // dgvMenus.Rows.Clear();
+                var dt = new DataTable();
+                dt.Columns.Add("ID", typeof(int));
+                dt.Columns.Add("Nom", typeof(string));
+                dt.Columns.Add("Catégorie", typeof(string));
+                dt.Columns.Add("Prix", typeof(decimal));
+                dt.Columns.Add("Stock", typeof(int));
+                
                 var menus = OrderDao.GetAvailableMenus();
                 
                 foreach (var menu in menus)
@@ -60,8 +68,8 @@ namespace POS_RESTO.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement clients: {ex.Message}", "Erreur",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // MessageBox.Show($"Erreur chargement clients: {ex.Message}", "Erreur",
+                //     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -134,7 +142,7 @@ namespace POS_RESTO.Forms
             {
                 var clientId = ((OrderDao.ClientItem)cmbClients.SelectedItem).Id;
                 
-                // Créer les commandes (une par élément du panier)
+                // Créer les commandes
                 OrderDao.CreateMultipleOrders(clientId, cartItems);
                 
                 MessageBox.Show("Commande validée avec succès!", "Succès",

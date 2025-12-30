@@ -81,8 +81,11 @@ namespace POS_RESTO.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement données: {ex.Message}", 
-                    "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // MessageBox.Show($"Erreur chargement données: {ex.Message}", 
+                //     "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                // Dans la console pour debug
+                Console.WriteLine($"Erreur chargement données: {ex.Message}");
             }
         }
         

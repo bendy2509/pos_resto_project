@@ -41,15 +41,15 @@ namespace POS_RESTO.Views
             // 
             dgvOrders.AllowUserToAddRows = false;
             dgvOrders.AllowUserToDeleteRows = false;
+            dgvOrders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
             dgvOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dgvOrders.BackgroundColor = System.Drawing.Color.White;
-            dgvOrders.Dock = System.Windows.Forms.DockStyle.Fill;
             dgvOrders.Location = new System.Drawing.Point(0, 120);
             dgvOrders.Name = "dgvOrders";
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.Size = new System.Drawing.Size(1200, 450);
+            dgvOrders.Size = new System.Drawing.Size(1079, 450);
             dgvOrders.TabIndex = 0;
             dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
             dgvOrders.CellFormatting += DgvOrders_CellFormatting;
@@ -93,7 +93,7 @@ namespace POS_RESTO.Views
             btnUpdateStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnUpdateStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
             btnUpdateStatus.ForeColor = System.Drawing.Color.Black;
-            btnUpdateStatus.Location = new System.Drawing.Point(424, 9);
+            btnUpdateStatus.Location = new System.Drawing.Point(325, 8);
             btnUpdateStatus.Name = "btnUpdateStatus";
             btnUpdateStatus.Size = new System.Drawing.Size(120, 35);
             btnUpdateStatus.TabIndex = 2;
@@ -109,7 +109,7 @@ namespace POS_RESTO.Views
             btnViewDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnViewDetails.Font = new System.Drawing.Font("Segoe UI", 10F);
             btnViewDetails.ForeColor = System.Drawing.Color.White;
-            btnViewDetails.Location = new System.Drawing.Point(550, 9);
+            btnViewDetails.Location = new System.Drawing.Point(451, 8);
             btnViewDetails.Name = "btnViewDetails";
             btnViewDetails.Size = new System.Drawing.Size(120, 35);
             btnViewDetails.TabIndex = 3;
@@ -124,7 +124,7 @@ namespace POS_RESTO.Views
             btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnExport.Font = new System.Drawing.Font("Segoe UI", 10F);
             btnExport.ForeColor = System.Drawing.Color.White;
-            btnExport.Location = new System.Drawing.Point(1077, 3);
+            btnExport.Location = new System.Drawing.Point(958, 3);
             btnExport.Name = "btnExport";
             btnExport.Size = new System.Drawing.Size(100, 35);
             btnExport.TabIndex = 4;
@@ -139,7 +139,7 @@ namespace POS_RESTO.Views
             btnClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnClearFilters.Font = new System.Drawing.Font("Segoe UI", 10F);
             btnClearFilters.ForeColor = System.Drawing.Color.White;
-            btnClearFilters.Location = new System.Drawing.Point(1068, 39);
+            btnClearFilters.Location = new System.Drawing.Point(949, 39);
             btnClearFilters.Name = "btnClearFilters";
             btnClearFilters.Size = new System.Drawing.Size(120, 25);
             btnClearFilters.TabIndex = 9;
@@ -151,7 +151,7 @@ namespace POS_RESTO.Views
             // 
             cmbFilterStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
             cmbFilterStatus.Items.AddRange(new object[] { "Tous", "en cours", "terminee", "annulee" });
-            cmbFilterStatus.Location = new System.Drawing.Point(732, 14);
+            cmbFilterStatus.Location = new System.Drawing.Point(633, 13);
             cmbFilterStatus.Name = "cmbFilterStatus";
             cmbFilterStatus.Size = new System.Drawing.Size(120, 25);
             cmbFilterStatus.TabIndex = 6;
@@ -159,13 +159,13 @@ namespace POS_RESTO.Views
             // 
             // lblStatus
             // 
-            lblStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
+            lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
             lblStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
             lblStatus.ForeColor = System.Drawing.Color.Gray;
             lblStatus.Location = new System.Drawing.Point(0, 570);
             lblStatus.Name = "lblStatus";
             lblStatus.Padding = new System.Windows.Forms.Padding(20, 0, 20, 5);
-            lblStatus.Size = new System.Drawing.Size(1200, 30);
+            lblStatus.Size = new System.Drawing.Size(1079, 30);
             lblStatus.TabIndex = 1;
             lblStatus.Text = "Chargement...";
             lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -185,6 +185,7 @@ namespace POS_RESTO.Views
             // 
             // panelTools
             // 
+            panelTools.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
             panelTools.BackColor = System.Drawing.Color.White;
             panelTools.Controls.Add(btnNewOrder);
             panelTools.Controls.Add(btnRefresh);
@@ -196,17 +197,16 @@ namespace POS_RESTO.Views
             panelTools.Controls.Add(lblFilterDate);
             panelTools.Controls.Add(dateFilterPicker);
             panelTools.Controls.Add(btnClearFilters);
-            panelTools.Dock = System.Windows.Forms.DockStyle.Top;
             panelTools.Location = new System.Drawing.Point(0, 50);
             panelTools.Name = "panelTools";
             panelTools.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            panelTools.Size = new System.Drawing.Size(1200, 70);
+            panelTools.Size = new System.Drawing.Size(1079, 70);
             panelTools.TabIndex = 2;
             // 
             // lblFilterStatus
             // 
             lblFilterStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblFilterStatus.Location = new System.Drawing.Point(676, 14);
+            lblFilterStatus.Location = new System.Drawing.Point(577, 13);
             lblFilterStatus.Name = "lblFilterStatus";
             lblFilterStatus.Size = new System.Drawing.Size(50, 25);
             lblFilterStatus.TabIndex = 5;
@@ -216,7 +216,7 @@ namespace POS_RESTO.Views
             // lblFilterDate
             // 
             lblFilterDate.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblFilterDate.Location = new System.Drawing.Point(858, 14);
+            lblFilterDate.Location = new System.Drawing.Point(759, 13);
             lblFilterDate.Name = "lblFilterDate";
             lblFilterDate.Size = new System.Drawing.Size(40, 25);
             lblFilterDate.TabIndex = 7;
@@ -227,7 +227,7 @@ namespace POS_RESTO.Views
             dateFilterPicker.Checked = false;
             dateFilterPicker.Font = new System.Drawing.Font("Segoe UI", 10F);
             dateFilterPicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dateFilterPicker.Location = new System.Drawing.Point(922, 14);
+            dateFilterPicker.Location = new System.Drawing.Point(823, 13);
             dateFilterPicker.Name = "dateFilterPicker";
             dateFilterPicker.Size = new System.Drawing.Size(120, 25);
             dateFilterPicker.TabIndex = 8;
@@ -236,10 +236,10 @@ namespace POS_RESTO.Views
             // OrdersUserControl
             // 
             BackColor = System.Drawing.Color.White;
-            Controls.Add(dgvOrders);
             Controls.Add(lblStatus);
             Controls.Add(panelTools);
             Controls.Add(lblTitle);
+            Controls.Add(dgvOrders);
             Size = new System.Drawing.Size(1200, 600);
             ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
             panelTools.ResumeLayout(false);
@@ -247,7 +247,7 @@ namespace POS_RESTO.Views
         }
         
         private System.ComponentModel.IContainer components = null;
-        private DataGridView dgvOrders;
+        private System.Windows.Forms.DataGridView dgvOrders;
         private System.Windows.Forms.Button btnNewOrder;
         private Button btnRefresh;
         private System.Windows.Forms.Button btnUpdateStatus;
@@ -255,9 +255,9 @@ namespace POS_RESTO.Views
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnClearFilters;
         private System.Windows.Forms.ComboBox cmbFilterStatus;
-        private Label lblStatus;
-        private Label lblTitle;
-        private Panel panelTools;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Panel panelTools;
         private System.Windows.Forms.Label lblFilterStatus;
         private System.Windows.Forms.DateTimePicker dateFilterPicker;
         private System.Windows.Forms.Label lblFilterDate;

@@ -151,7 +151,7 @@ BEGIN
       AND debt_amount < 0;
 END //
 
- -- Trigger 3: lorsqu'on change le statut d'une commande a "annulee", on remet le stock a jour
+-- Trigger 3: lorsqu'on change le statut d'une commande a "annulee", on remet le stock a jour
 -- si on passe de annulee a un autre statut on prend en compte les regle d'enregistrement d'une commande normale
 CREATE TRIGGER trg_update_order_status
     AFTER UPDATE
@@ -159,34 +159,31 @@ CREATE TRIGGER trg_update_order_status
     FOR EACH ROW
 BEGIN
     DECLARE v_current_stock INT;
+    
     IF NEW.status = 'annulee' AND OLD.status <> 'annulee' THEN
         -- Remettre le stock a jour
-        SELECT stock_quantity
-        INTO v_current_stock
-        FROM Menus
-        WHERE menu_id = NEW.menu_id
-        ;
-        UPDATE Menus
-        SET stock_quantity = v_current_stock + NEW.quantity
-        WHERE menu_id = NEW.menu_id;
-    ELSIF OLD.status = 'annulee' AND NEW.status <> 'annule'
-    THEN
-        -- Verifier le stock avant de remettre a jour
-        SELECT stock_quantity
-        INTO v_current_stock
-        FROM Menus
-        WHERE menu_id = NEW.menu_id;
+    UPDATE Menus
+    SET stock_quantity = stock_quantity + NEW.quantity
+    WHERE menu_id = NEW.menu_id;
 
-        IF v_current_stock < NEW.quantity THEN
-            SIGNAL SQLSTATE '45000' 
+    ELSEIF OLD.status = 'annulee' AND NEW.status <> 'annulee' THEN
+        -- Verifier le stock avant de remettre a jour
+    SELECT stock_quantity
+    INTO v_current_stock
+    FROM Menus
+    WHERE menu_id = NEW.menu_id;
+
+    IF v_current_stock < NEW.quantity THEN
+            SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Erreur : Stock insuffisant pour ce produit !';
-        ELSE
-        UPDATE Menus
-        SET stock_quantity = v_current_stock - NEW.quantity
-        WHERE menu_id = NEW.menu_id;
-    END IF;
+    ELSE
+    UPDATE Menus
+    SET stock_quantity = v_current_stock - NEW.quantity
+    WHERE menu_id = NEW.menu_id;
+END IF;
+END IF;
 END //
-    
+
 DELIMITER ;
 
 -- =====================================================
@@ -219,4 +216,4 @@ VALUES ('Dupont', 'Jean', 'M', '41705257', 'jean@example.com'),
 
 -- Ajouter une colonne "status" dans la table Orders pour suivre l'etat de la commande (en cours, terminee, annulee).
 ALTER TABLE Orders
-ADD COLUMN status ENUM('en cours', 'terminee', 'annulee') DEFAULT 'en cours';
+    ADD COLUMN status ENUM('en cours', 'terminee', 'annulee') DEFAULT 'en cours';

@@ -49,7 +49,7 @@ namespace POS_RESTO.Views
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.Size = new System.Drawing.Size(1300, 700);
+            dgvOrders.Size = new System.Drawing.Size(1100, 400);
             dgvOrders.TabIndex = 0;
             dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
             dgvOrders.CellFormatting += DgvOrders_CellFormatting;
@@ -165,7 +165,7 @@ namespace POS_RESTO.Views
             lblStatus.Location = new System.Drawing.Point(0, 570);
             lblStatus.Name = "lblStatus";
             lblStatus.Padding = new System.Windows.Forms.Padding(10, 0, 10, 5);
-            lblStatus.Size = new System.Drawing.Size(1400, 30);
+            lblStatus.Size = new System.Drawing.Size(2950, 30);
             lblStatus.TabIndex = 1;
             lblStatus.Text = "Chargement...";
             lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -177,8 +177,7 @@ namespace POS_RESTO.Views
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
             lblTitle.Location = new System.Drawing.Point(0, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new System.Windows.Forms.Padding(20, 20, 20, 0);
-            lblTitle.Size = new System.Drawing.Size(1200, 50);
+            lblTitle.Size = new System.Drawing.Size(1400, 50);
             lblTitle.TabIndex = 3;
             lblTitle.Text = "GESTION DES COMMANDES";
             lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -200,7 +199,7 @@ namespace POS_RESTO.Views
             panelTools.Location = new System.Drawing.Point(0, 50);
             panelTools.Name = "panelTools";
             panelTools.Padding = new System.Windows.Forms.Padding(5, 5, 10, 5);
-            panelTools.Size = new System.Drawing.Size(1500, 70);
+            panelTools.Size = new System.Drawing.Size(1100, 70);
             panelTools.TabIndex = 2;
             // 
             // lblFilterStatus

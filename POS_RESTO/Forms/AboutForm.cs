@@ -5,16 +5,9 @@ public partial class AboutForm : Form
     public AboutForm()
     {
         InitializeComponent();
-        
-        lblCredits.Text = """
-                          Développé par :
-                                          Albikendy JEAN
-                                          Bendy SERVILUS
-                                          Blemy JOSEPH
-                          """;
     }
 
-    private void btnCloseAbout(object sender, EventArgs e)
+    private void btnClose_Click(object sender, EventArgs e)
     {
         this.Close();
     }

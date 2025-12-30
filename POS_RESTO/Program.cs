@@ -14,10 +14,9 @@ namespace POS_RESTO
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-        
+
             try
             {
-                // Test connexion MySQL
                 using (MySqlConnection conn = DatabaseConfig.GetConnection())
                 {
                     conn.Open(); 
@@ -28,41 +27,17 @@ namespace POS_RESTO
             catch (Exception ex)
             {
                 MessageBox.Show("Erreur de connexion MySQL :\n" + ex.Message, 
-                    "Échec", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Echec", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-        
-            // Boucle principale
-            bool keepRunning = true;
-    
-            while (keepRunning)
-            {
-                // Afficher login
-                using (var login = new LoginForm())
-                {
-                    if (login.ShowDialog() == DialogResult.OK && Session.IsLoggedIn)
-                    {
-                        // Afficher dashboard
-                        using (var dashboard = new DashboardForm())
-                        {
-                            dashboard.ShowDialog();
-                            // A la fermeture du dashboard
-                            if (!Session.IsLoggedIn)
-                            {
-                                // L'utilisateur s'est deconnecte, on recommence
-                                continue;
-                            }
 
-                            // L'utilisateur a ferme l'application
-                            keepRunning = false;
-                        }
-                    }
-                    else
-                    {
-                        // Login annule ou echoue
-                        keepRunning = false;
-                    }
-                }
+            // Afficher d abord le LoginForm
+            var loginForm = new LoginForm();
+    
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                // Si login reussi, ouvrir le MainForm
+                Application.Run(new MainForm());
             }
         }
     }

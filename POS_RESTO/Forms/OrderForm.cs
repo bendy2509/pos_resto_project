@@ -12,17 +12,8 @@ namespace POS_RESTO.Forms
         public OrderForm()
         {
             InitializeComponent();
-            InitializeEvents();
             LoadMenus();
             LoadClients();
-        }
-
-        private void InitializeEvents()
-        {
-            btnAddToCart.Click += BtnAddToCart_Click;
-            btnRemoveFromCart.Click += BtnRemoveFromCart_Click;
-            btnConfirmOrder.Click += BtnConfirmOrder_Click;
-            btnCancel.Click += BtnCancel_Click;
         }
 
         private void LoadMenus()
@@ -30,7 +21,7 @@ namespace POS_RESTO.Forms
             try
             {
                 dgvMenus.Rows.Clear();
-                string query = "SELECT menu_id, name, category, unit_price, quantity FROM Menus WHERE quantity > 0";
+                string query = "SELECT menu_id, name, category, unit_price, stock_quantity FROM Menus WHERE stock_quantity > 0";
                 
                 using (var conn = DatabaseConfig.GetConnection())
                 {
@@ -45,7 +36,7 @@ namespace POS_RESTO.Forms
                                 reader["name"],
                                 reader["category"],
                                 reader["unit_price"],
-                                reader["quantity"]
+                                reader["stock_quantity"]
                             );
                         }
                     }
@@ -53,7 +44,7 @@ namespace POS_RESTO.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur chargement menus: {ex.Message}");
+                MessageBox.Show($@"Erreur chargement menus: {ex.Message}");
             }
         }
 
@@ -129,13 +120,13 @@ namespace POS_RESTO.Forms
         {
             if (lstCart.Items.Count == 0)
             {
-                MessageBox.Show("Le panier est vide.");
+                MessageBox.Show(@"Le panier est vide.");
                 return;
             }
 
             if (cmbClients.SelectedItem == null)
             {
-                MessageBox.Show("Veuillez sélectionner un client.");
+                MessageBox.Show(@"Veuillez sélectionner un client.");
                 return;
             }
 
@@ -182,14 +173,14 @@ namespace POS_RESTO.Forms
                         }
                     }
                     
-                    MessageBox.Show("Commande validée avec succès!");
+                    MessageBox.Show(@"Commande validée avec succès!");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur validation commande: {ex.Message}");
+                MessageBox.Show(@$"Erreur validation commande: {ex.Message}");
             }
         }
 

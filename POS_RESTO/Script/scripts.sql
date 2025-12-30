@@ -178,29 +178,9 @@ VALUES ('Dupont', 'Jean', 'M', '41705257', 'jean@example.com'),
        ('Pierre', 'Jacques', 'M', '41705258', 'jacques@example.com');
 
 -- =====================================================
--- VERIFICATION
+-- D'autres idees
 -- =====================================================
 
--- Afficher toutes les tables
-SHOW
-TABLES;
-
--- Verifier les donnees
-SELECT 'Users' as TableName, COUNT(*) as Count
-FROM Users
-UNION ALL
-SELECT 'Menus', COUNT(*)
-FROM Menus
-UNION ALL
-SELECT 'Clients', COUNT(*)
-FROM Clients
-UNION ALL
-SELECT 'Orders', COUNT(*)
-FROM Orders
-UNION ALL
-SELECT 'Payments', COUNT(*)
-FROM Payments;
-
--- Verifier les triggers
-SHOW
-TRIGGERS FROM posresto;
+-- Ajouter une colonne "status" dans la table Orders pour suivre l'etat de la commande (en cours, terminee, annulee).
+ALTER TABLE Orders
+ADD COLUMN status ENUM('en cours', 'terminee', 'annulee') DEFAULT 'en cours';

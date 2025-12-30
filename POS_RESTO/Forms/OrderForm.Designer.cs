@@ -168,6 +168,7 @@ partial class OrderForm
         btnAddToCart.TabIndex = 4;
         btnAddToCart.Text = "Ajouter au panier";
         btnAddToCart.UseVisualStyleBackColor = false;
+        btnAddToCart.Click += BtnAddToCart_Click;
         // 
         // lblCartTitle
         // 
@@ -207,6 +208,7 @@ partial class OrderForm
         btnRemoveFromCart.Size = new System.Drawing.Size(100, 30);
         btnRemoveFromCart.TabIndex = 4;
         btnRemoveFromCart.Text = "Retirer";
+        btnRemoveFromCart.Click += BtnRemoveFromCart_Click;
         // 
         // lblTotal
         // 
@@ -227,6 +229,7 @@ partial class OrderForm
         btnConfirmOrder.TabIndex = 6;
         btnConfirmOrder.Text = "Valider Commande";
         btnConfirmOrder.UseVisualStyleBackColor = false;
+        btnConfirmOrder.Click += BtnConfirmOrder_Click;
         // 
         // btnCancel
         // 
@@ -235,6 +238,7 @@ partial class OrderForm
         btnCancel.Size = new System.Drawing.Size(100, 35);
         btnCancel.TabIndex = 7;
         btnCancel.Text = "Annuler";
+        btnCancel.Click += BtnCancel_Click;
         // 
         // OrderForm
         // 

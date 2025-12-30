@@ -63,7 +63,6 @@ namespace POS_RESTO.Data
             }
         }
         
-        // Méthode pour insérer et récupérer l'ID
         public static int InsertAndGetId(string query, params MySqlParameter[] parameters)
         {
             using (var conn = GetConnection())

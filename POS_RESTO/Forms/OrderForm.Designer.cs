@@ -33,32 +33,35 @@ partial class OrderForm
     /// </summary>
     private void InitializeComponent()
     {
-        splitContainer = new SplitContainer();
-        panelLeft = new Panel();
-        lblMenusTitle = new Label();
-        dgvMenus = new DataGridView();
-        colId = new DataGridViewTextBoxColumn();
-        colName = new DataGridViewTextBoxColumn();
-        colCategory = new DataGridViewTextBoxColumn();
-        colPrice = new DataGridViewTextBoxColumn();
-        colStock = new DataGridViewTextBoxColumn();
-        panelQuantity = new Panel();
-        lblQuantity = new Label();
-        numQuantity = new NumericUpDown();
-        btnAddToCart = new Button();
-        panelRight = new Panel();
-        lblCartTitle = new Panel();
-        lblCartTitleText = new Label();
-        lblClient = new Label();
-        cmbClients = new ComboBox();
-        panelCart = new Panel();
-        lstCart = new ListBox();
-        panelCartActions = new Panel();
-        btnRemoveFromCart = new Button();
-        lblTotal = new Label();
-        panelBottom = new Panel();
-        btnCancel = new Button();
-        btnConfirmOrder = new Button();
+        System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+        System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+        System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+        splitContainer = new System.Windows.Forms.SplitContainer();
+        panelLeft = new System.Windows.Forms.Panel();
+        lblMenusTitle = new System.Windows.Forms.Label();
+        dgvMenus = new System.Windows.Forms.DataGridView();
+        colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+        colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+        colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+        colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+        colStock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+        panelQuantity = new System.Windows.Forms.Panel();
+        lblQuantity = new System.Windows.Forms.Label();
+        numQuantity = new System.Windows.Forms.NumericUpDown();
+        btnAddToCart = new System.Windows.Forms.Button();
+        panelRight = new System.Windows.Forms.Panel();
+        lblCartTitle = new System.Windows.Forms.Panel();
+        lblCartTitleText = new System.Windows.Forms.Label();
+        lblClient = new System.Windows.Forms.Label();
+        cmbClients = new System.Windows.Forms.ComboBox();
+        panelCart = new System.Windows.Forms.Panel();
+        lstCart = new System.Windows.Forms.ListBox();
+        panelCartActions = new System.Windows.Forms.Panel();
+        btnRemoveFromCart = new System.Windows.Forms.Button();
+        lblTotal = new System.Windows.Forms.Label();
+        panelBottom = new System.Windows.Forms.Panel();
+        btnCancel = new System.Windows.Forms.Button();
+        btnConfirmOrder = new System.Windows.Forms.Button();
         ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
         splitContainer.Panel1.SuspendLayout();
         splitContainer.Panel2.SuspendLayout();
@@ -73,83 +76,100 @@ partial class OrderForm
         panelCartActions.SuspendLayout();
         panelBottom.SuspendLayout();
         SuspendLayout();
-        
         // 
         // splitContainer
         // 
-        splitContainer.Dock = DockStyle.Fill;
-        splitContainer.Location = new Point(0, 0);
+        splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+        splitContainer.Location = new System.Drawing.Point(0, 0);
         splitContainer.Name = "splitContainer";
-        splitContainer.Panel1MinSize = 400;
-        splitContainer.Panel2MinSize = 300;
-        
         // 
-        // splitContainer.Panel1 - Panneau gauche (Menus)
+        // splitContainer.Panel1
         // 
         splitContainer.Panel1.Controls.Add(panelLeft);
-        
+        splitContainer.Panel1MinSize = 400;
         // 
-        // splitContainer.Panel2 - Panneau droit (Panier)
+        // splitContainer.Panel2
         // 
-        splitContainer.Panel2.BackColor = Color.WhiteSmoke;
+        splitContainer.Panel2.BackColor = System.Drawing.Color.WhiteSmoke;
         splitContainer.Panel2.Controls.Add(panelRight);
-        
-        splitContainer.Size = new Size(1000, 650);
+        splitContainer.Panel2MinSize = 300;
+        splitContainer.Size = new System.Drawing.Size(1000, 650);
         splitContainer.SplitterDistance = 650;
         splitContainer.SplitterWidth = 10;
         splitContainer.TabIndex = 0;
-        
         // 
-        // panelLeft - Conteneur principal gauche
+        // panelLeft
         // 
-        panelLeft.BackColor = Color.White;
+        panelLeft.BackColor = System.Drawing.Color.White;
         panelLeft.Controls.Add(lblMenusTitle);
         panelLeft.Controls.Add(dgvMenus);
         panelLeft.Controls.Add(panelQuantity);
-        panelLeft.Dock = DockStyle.Fill;
-        panelLeft.Padding = new Padding(20, 20, 20, 10);
-        
+        panelLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+        panelLeft.Location = new System.Drawing.Point(0, 0);
+        panelLeft.Name = "panelLeft";
+        panelLeft.Padding = new System.Windows.Forms.Padding(20, 20, 20, 10);
+        panelLeft.Size = new System.Drawing.Size(650, 650);
+        panelLeft.TabIndex = 0;
         // 
         // lblMenusTitle
         // 
-        lblMenusTitle.Dock = DockStyle.Top;
-        lblMenusTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-        lblMenusTitle.ForeColor = Color.FromArgb(0, 123, 255);
-        lblMenusTitle.Location = new Point(20, 20);
+        lblMenusTitle.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+        lblMenusTitle.AllowDrop = true;
+        lblMenusTitle.AutoEllipsis = true;
+        lblMenusTitle.BackColor = System.Drawing.Color.White;
+        lblMenusTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        lblMenusTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+        lblMenusTitle.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
+        lblMenusTitle.Location = new System.Drawing.Point(3, 9);
         lblMenusTitle.Name = "lblMenusTitle";
-        lblMenusTitle.Size = new Size(610, 40);
+        lblMenusTitle.Size = new System.Drawing.Size(644, 41);
         lblMenusTitle.TabIndex = 0;
         lblMenusTitle.Text = "MENUS DISPONIBLES";
-        lblMenusTitle.TextAlign = ContentAlignment.MiddleLeft;
-        
+        lblMenusTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         // 
         // dgvMenus
         // 
         dgvMenus.AllowUserToAddRows = false;
         dgvMenus.AllowUserToDeleteRows = false;
-        dgvMenus.BackgroundColor = Color.White;
-        dgvMenus.BorderStyle = BorderStyle.Fixed3D;
-        dgvMenus.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dgvMenus.Columns.AddRange(new DataGridViewColumn[] {
-            colId,
-            colName,
-            colCategory,
-            colPrice,
-            colStock
-        });
-        dgvMenus.Dock = DockStyle.Fill;
-        dgvMenus.GridColor = Color.FromArgb(240, 240, 240);
-        dgvMenus.Location = new Point(20, 60);
-        dgvMenus.Margin = new Padding(10);
+        dgvMenus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
+        dgvMenus.BackgroundColor = System.Drawing.Color.White;
+        dgvMenus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+        dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+        dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
+        dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+        dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+        dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+        dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+        dgvMenus.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+        dgvMenus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvMenus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colId, colName, colCategory, colPrice, colStock });
+        dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+        dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+        dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
+        dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+        dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+        dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+        dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+        dgvMenus.DefaultCellStyle = dataGridViewCellStyle2;
+        dgvMenus.GridColor = System.Drawing.Color.FromArgb(((int)((byte)240)), ((int)((byte)240)), ((int)((byte)240)));
+        dgvMenus.Location = new System.Drawing.Point(20, 60);
+        dgvMenus.Margin = new System.Windows.Forms.Padding(10);
         dgvMenus.Name = "dgvMenus";
         dgvMenus.ReadOnly = true;
+        dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+        dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+        dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F);
+        dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+        dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+        dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+        dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+        dgvMenus.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
         dgvMenus.RowHeadersVisible = false;
-        dgvMenus.RowTemplate.Height = 25;
-        dgvMenus.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        dgvMenus.Size = new Size(610, 470);
+        dgvMenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+        dgvMenus.Size = new System.Drawing.Size(610, 470);
         dgvMenus.TabIndex = 1;
         dgvMenus.SelectionChanged += DgvMenus_SelectionChanged;
-        
         // 
         // colId
         // 
@@ -157,31 +177,25 @@ partial class OrderForm
         colId.Name = "colId";
         colId.ReadOnly = true;
         colId.Width = 50;
-        
         // 
         // colName
         // 
-        colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
         colName.HeaderText = "Nom";
         colName.Name = "colName";
         colName.ReadOnly = true;
-        
         // 
         // colCategory
         // 
         colCategory.HeaderText = "Catégorie";
         colCategory.Name = "colCategory";
         colCategory.ReadOnly = true;
-        colCategory.Width = 100;
-        
         // 
         // colPrice
         // 
         colPrice.HeaderText = "Prix (HTG)";
         colPrice.Name = "colPrice";
         colPrice.ReadOnly = true;
-        colPrice.Width = 100;
-        
         // 
         // colStock
         // 
@@ -189,241 +203,225 @@ partial class OrderForm
         colStock.Name = "colStock";
         colStock.ReadOnly = true;
         colStock.Width = 80;
-        
         // 
-        // panelQuantity - Panneau pour la quantité
+        // panelQuantity
         // 
-        panelQuantity.BackColor = Color.White;
+        panelQuantity.BackColor = System.Drawing.Color.White;
         panelQuantity.Controls.Add(lblQuantity);
         panelQuantity.Controls.Add(numQuantity);
         panelQuantity.Controls.Add(btnAddToCart);
-        panelQuantity.Dock = DockStyle.Bottom;
-        panelQuantity.Location = new Point(20, 530);
+        panelQuantity.Dock = System.Windows.Forms.DockStyle.Bottom;
+        panelQuantity.Location = new System.Drawing.Point(20, 580);
         panelQuantity.Name = "panelQuantity";
-        panelQuantity.Padding = new Padding(0, 10, 0, 0);
-        panelQuantity.Size = new Size(610, 60);
+        panelQuantity.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
+        panelQuantity.Size = new System.Drawing.Size(610, 60);
         panelQuantity.TabIndex = 2;
-        
         // 
         // lblQuantity
         // 
-        lblQuantity.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        lblQuantity.Location = new Point(0, 15);
+        lblQuantity.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+        lblQuantity.Location = new System.Drawing.Point(0, 15);
         lblQuantity.Name = "lblQuantity";
-        lblQuantity.Size = new Size(80, 25);
+        lblQuantity.Size = new System.Drawing.Size(80, 25);
         lblQuantity.TabIndex = 0;
         lblQuantity.Text = "Quantité:";
-        lblQuantity.TextAlign = ContentAlignment.MiddleLeft;
-        
+        lblQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
         // 
         // numQuantity
         // 
-        numQuantity.Font = new Font("Segoe UI", 10F);
-        numQuantity.Location = new Point(90, 15);
+        numQuantity.Font = new System.Drawing.Font("Segoe UI", 10F);
+        numQuantity.Location = new System.Drawing.Point(90, 15);
         numQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
         numQuantity.Name = "numQuantity";
-        numQuantity.Size = new Size(80, 25);
+        numQuantity.Size = new System.Drawing.Size(80, 25);
         numQuantity.TabIndex = 1;
         numQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
-        
         // 
         // btnAddToCart
         // 
-        btnAddToCart.BackColor = Color.FromArgb(0, 123, 255);
+        btnAddToCart.BackColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
         btnAddToCart.FlatAppearance.BorderSize = 0;
-        btnAddToCart.FlatStyle = FlatStyle.Flat;
-        btnAddToCart.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        btnAddToCart.ForeColor = Color.White;
-        btnAddToCart.ImageAlign = ContentAlignment.MiddleLeft;
-        btnAddToCart.Location = new Point(190, 10);
+        btnAddToCart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        btnAddToCart.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+        btnAddToCart.ForeColor = System.Drawing.Color.White;
+        btnAddToCart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        btnAddToCart.Location = new System.Drawing.Point(190, 10);
         btnAddToCart.Name = "btnAddToCart";
-        btnAddToCart.Padding = new Padding(10, 0, 10, 0);
-        btnAddToCart.Size = new Size(180, 35);
+        btnAddToCart.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+        btnAddToCart.Size = new System.Drawing.Size(180, 35);
         btnAddToCart.TabIndex = 2;
         btnAddToCart.Text = "  Ajouter au panier";
         btnAddToCart.UseVisualStyleBackColor = false;
         btnAddToCart.Click += BtnAddToCart_Click;
-        
         // 
-        // panelRight - Conteneur principal droit
+        // panelRight
         // 
-        panelRight.BackColor = Color.White;
+        panelRight.BackColor = System.Drawing.Color.White;
         panelRight.Controls.Add(lblCartTitle);
         panelRight.Controls.Add(lblClient);
         panelRight.Controls.Add(cmbClients);
         panelRight.Controls.Add(panelCart);
         panelRight.Controls.Add(panelCartActions);
         panelRight.Controls.Add(panelBottom);
-        panelRight.Dock = DockStyle.Fill;
-        panelRight.Padding = new Padding(20, 20, 20, 10);
-        
+        panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
+        panelRight.Location = new System.Drawing.Point(0, 0);
+        panelRight.Name = "panelRight";
+        panelRight.Padding = new System.Windows.Forms.Padding(20, 20, 20, 10);
+        panelRight.Size = new System.Drawing.Size(340, 650);
+        panelRight.TabIndex = 0;
         // 
         // lblCartTitle
         // 
-        lblCartTitle.BackColor = Color.FromArgb(0, 123, 255);
+        lblCartTitle.BackColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
         lblCartTitle.Controls.Add(lblCartTitleText);
-        lblCartTitle.Dock = DockStyle.Top;
-        lblCartTitle.Location = new Point(20, 20);
+        lblCartTitle.Dock = System.Windows.Forms.DockStyle.Top;
+        lblCartTitle.Location = new System.Drawing.Point(20, 20);
         lblCartTitle.Name = "lblCartTitle";
-        lblCartTitle.Padding = new Padding(10, 5, 10, 5);
-        lblCartTitle.Size = new Size(300, 50);
+        lblCartTitle.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+        lblCartTitle.Size = new System.Drawing.Size(300, 50);
         lblCartTitle.TabIndex = 0;
-        
         // 
         // lblCartTitleText
         // 
-        lblCartTitleText.Dock = DockStyle.Fill;
-        lblCartTitleText.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-        lblCartTitleText.ForeColor = Color.White;
-        lblCartTitleText.Location = new Point(10, 5);
+        lblCartTitleText.Dock = System.Windows.Forms.DockStyle.Fill;
+        lblCartTitleText.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+        lblCartTitleText.ForeColor = System.Drawing.Color.White;
+        lblCartTitleText.Location = new System.Drawing.Point(10, 5);
         lblCartTitleText.Name = "lblCartTitleText";
-        lblCartTitleText.Size = new Size(280, 40);
+        lblCartTitleText.Size = new System.Drawing.Size(280, 40);
         lblCartTitleText.TabIndex = 0;
         lblCartTitleText.Text = "PANIER";
-        lblCartTitleText.TextAlign = ContentAlignment.MiddleCenter;
-        
+        lblCartTitleText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         // 
         // lblClient
         // 
-        lblClient.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        lblClient.Location = new Point(20, 80);
+        lblClient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+        lblClient.Location = new System.Drawing.Point(20, 80);
         lblClient.Name = "lblClient";
-        lblClient.Size = new Size(60, 25);
+        lblClient.Size = new System.Drawing.Size(60, 25);
         lblClient.TabIndex = 1;
         lblClient.Text = "Client:";
-        lblClient.TextAlign = ContentAlignment.MiddleLeft;
-        
+        lblClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
         // 
         // cmbClients
         // 
-        cmbClients.DropDownStyle = ComboBoxStyle.DropDownList;
-        cmbClients.Font = new Font("Segoe UI", 10F);
+        cmbClients.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        cmbClients.Font = new System.Drawing.Font("Segoe UI", 10F);
         cmbClients.FormattingEnabled = true;
-        cmbClients.Location = new Point(90, 80);
+        cmbClients.Location = new System.Drawing.Point(90, 80);
         cmbClients.Name = "cmbClients";
-        cmbClients.Size = new Size(230, 25);
+        cmbClients.Size = new System.Drawing.Size(230, 25);
         cmbClients.TabIndex = 2;
-        
         // 
-        // panelCart - Conteneur pour la liste du panier
+        // panelCart
         // 
-        panelCart.BackColor = Color.White;
-        panelCart.BorderStyle = BorderStyle.FixedSingle;
+        panelCart.BackColor = System.Drawing.Color.White;
+        panelCart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         panelCart.Controls.Add(lstCart);
-        panelCart.Location = new Point(20, 115);
+        panelCart.Location = new System.Drawing.Point(20, 115);
         panelCart.Name = "panelCart";
-        panelCart.Padding = new Padding(1);
-        panelCart.Size = new Size(300, 300);
+        panelCart.Padding = new System.Windows.Forms.Padding(1);
+        panelCart.Size = new System.Drawing.Size(300, 300);
         panelCart.TabIndex = 3;
-        
         // 
         // lstCart
         // 
-        lstCart.BackColor = Color.White;
-        lstCart.BorderStyle = BorderStyle.None;
-        lstCart.Dock = DockStyle.Fill;
-        lstCart.Font = new Font("Segoe UI", 10F);
+        lstCart.BackColor = System.Drawing.Color.White;
+        lstCart.BorderStyle = System.Windows.Forms.BorderStyle.None;
+        lstCart.Dock = System.Windows.Forms.DockStyle.Fill;
+        lstCart.Font = new System.Drawing.Font("Segoe UI", 10F);
         lstCart.FormattingEnabled = true;
-        lstCart.ItemHeight = 17;
-        lstCart.Location = new Point(1, 1);
+        lstCart.Location = new System.Drawing.Point(1, 1);
         lstCart.Name = "lstCart";
-        lstCart.Size = new Size(296, 296);
+        lstCart.Size = new System.Drawing.Size(296, 296);
         lstCart.TabIndex = 0;
-        
         // 
-        // panelCartActions - Panneau pour les actions du panier
+        // panelCartActions
         // 
         panelCartActions.Controls.Add(btnRemoveFromCart);
         panelCartActions.Controls.Add(lblTotal);
-        panelCartActions.Location = new Point(20, 425);
+        panelCartActions.Location = new System.Drawing.Point(20, 425);
         panelCartActions.Name = "panelCartActions";
-        panelCartActions.Size = new Size(300, 50);
+        panelCartActions.Size = new System.Drawing.Size(300, 50);
         panelCartActions.TabIndex = 4;
-        
         // 
         // btnRemoveFromCart
         // 
-        btnRemoveFromCart.BackColor = Color.FromArgb(220, 53, 69);
+        btnRemoveFromCart.BackColor = System.Drawing.Color.FromArgb(((int)((byte)220)), ((int)((byte)53)), ((int)((byte)69)));
         btnRemoveFromCart.FlatAppearance.BorderSize = 0;
-        btnRemoveFromCart.FlatStyle = FlatStyle.Flat;
-        btnRemoveFromCart.Font = new Font("Segoe UI", 10F);
-        btnRemoveFromCart.ForeColor = Color.White;
-        btnRemoveFromCart.Location = new Point(0, 10);
+        btnRemoveFromCart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        btnRemoveFromCart.Font = new System.Drawing.Font("Segoe UI", 10F);
+        btnRemoveFromCart.ForeColor = System.Drawing.Color.White;
+        btnRemoveFromCart.Location = new System.Drawing.Point(0, 10);
         btnRemoveFromCart.Name = "btnRemoveFromCart";
-        btnRemoveFromCart.Size = new Size(100, 35);
+        btnRemoveFromCart.Size = new System.Drawing.Size(100, 35);
         btnRemoveFromCart.TabIndex = 0;
         btnRemoveFromCart.Text = "Retirer";
         btnRemoveFromCart.UseVisualStyleBackColor = false;
         btnRemoveFromCart.Click += BtnRemoveFromCart_Click;
-        
         // 
         // lblTotal
         // 
-        lblTotal.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-        lblTotal.ForeColor = Color.FromArgb(40, 167, 69);
-        lblTotal.Location = new Point(110, 10);
+        lblTotal.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+        lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)40)), ((int)((byte)167)), ((int)((byte)69)));
+        lblTotal.Location = new System.Drawing.Point(110, 10);
         lblTotal.Name = "lblTotal";
-        lblTotal.Size = new Size(190, 35);
+        lblTotal.Size = new System.Drawing.Size(190, 35);
         lblTotal.TabIndex = 1;
         lblTotal.Text = "Total: 0 HTG";
-        lblTotal.TextAlign = ContentAlignment.MiddleRight;
-        
+        lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         // 
-        // panelBottom - Panneau pour les boutons en bas
+        // panelBottom
         // 
         panelBottom.Controls.Add(btnCancel);
         panelBottom.Controls.Add(btnConfirmOrder);
-        panelBottom.Dock = DockStyle.Bottom;
-        panelBottom.Location = new Point(20, 485);
+        panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+        panelBottom.Location = new System.Drawing.Point(20, 575);
         panelBottom.Name = "panelBottom";
-        panelBottom.Padding = new Padding(0, 10, 0, 0);
-        panelBottom.Size = new Size(300, 65);
+        panelBottom.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
+        panelBottom.Size = new System.Drawing.Size(300, 65);
         panelBottom.TabIndex = 5;
-        
         // 
         // btnCancel
         // 
-        btnCancel.BackColor = Color.FromArgb(108, 117, 125);
+        btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)((byte)108)), ((int)((byte)117)), ((int)((byte)125)));
         btnCancel.FlatAppearance.BorderSize = 0;
-        btnCancel.FlatStyle = FlatStyle.Flat;
-        btnCancel.Font = new Font("Segoe UI", 10F);
-        btnCancel.ForeColor = Color.White;
-        btnCancel.Location = new Point(170, 10);
+        btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F);
+        btnCancel.ForeColor = System.Drawing.Color.White;
+        btnCancel.Location = new System.Drawing.Point(170, 10);
         btnCancel.Name = "btnCancel";
-        btnCancel.Size = new Size(120, 40);
+        btnCancel.Size = new System.Drawing.Size(120, 40);
         btnCancel.TabIndex = 1;
         btnCancel.Text = "Annuler";
         btnCancel.UseVisualStyleBackColor = false;
         btnCancel.Click += BtnCancel_Click;
-        
         // 
         // btnConfirmOrder
         // 
-        btnConfirmOrder.BackColor = Color.FromArgb(40, 167, 69);
+        btnConfirmOrder.BackColor = System.Drawing.Color.FromArgb(((int)((byte)40)), ((int)((byte)167)), ((int)((byte)69)));
         btnConfirmOrder.FlatAppearance.BorderSize = 0;
-        btnConfirmOrder.FlatStyle = FlatStyle.Flat;
-        btnConfirmOrder.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        btnConfirmOrder.ForeColor = Color.White;
-        btnConfirmOrder.Location = new Point(30, 10);
+        btnConfirmOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        btnConfirmOrder.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+        btnConfirmOrder.ForeColor = System.Drawing.Color.White;
+        btnConfirmOrder.Location = new System.Drawing.Point(30, 10);
         btnConfirmOrder.Name = "btnConfirmOrder";
-        btnConfirmOrder.Size = new Size(120, 40);
+        btnConfirmOrder.Size = new System.Drawing.Size(120, 40);
         btnConfirmOrder.TabIndex = 0;
         btnConfirmOrder.Text = "Valider";
         btnConfirmOrder.UseVisualStyleBackColor = false;
         btnConfirmOrder.Click += BtnConfirmOrder_Click;
-        
         // 
         // OrderForm
         // 
-        ClientSize = new Size(1000, 650);
+        ClientSize = new System.Drawing.Size(1000, 650);
         Controls.Add(splitContainer);
-        Font = new Font("Segoe UI", 9F);
-        FormBorderStyle = FormBorderStyle.FixedDialog;
+        Font = new System.Drawing.Font("Segoe UI", 9F);
+        FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
         MaximizeBox = false;
-        MinimumSize = new Size(800, 500);
-        StartPosition = FormStartPosition.CenterScreen;
+        MinimumSize = new System.Drawing.Size(800, 500);
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         Text = "Nouvelle Commande";
-        
         splitContainer.Panel1.ResumeLayout(false);
         splitContainer.Panel2.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
@@ -445,8 +443,8 @@ partial class OrderForm
     private SplitContainer splitContainer;
     private Panel panelLeft;
     private Panel panelRight;
-    private Label lblMenusTitle;
-    private DataGridView dgvMenus;
+    private System.Windows.Forms.Label lblMenusTitle;
+    private System.Windows.Forms.DataGridView dgvMenus;
     private Panel panelQuantity;
     private Label lblQuantity;
     private NumericUpDown numQuantity;

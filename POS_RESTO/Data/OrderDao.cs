@@ -437,6 +437,70 @@ namespace POS_RESTO.Data
             return dt;
         }
         
+        public static bool CheckStockAvailability(List<CartItem> cartItems, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            
+            try
+            {
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    // Regrouper les quantités par menu (au cas où un menu apparaît plusieurs fois)
+                    var quantitiesByMenu = cartItems
+                        .GroupBy(item => item.MenuId)
+                        .ToDictionary(g => g.Key, g => g.Sum(item => item.Quantity));
+                    
+                    foreach (var kvp in quantitiesByMenu)
+                    {
+                        int menuId = kvp.Key;
+                        int requiredQuantity = kvp.Value;
+                        
+                        string query = @"
+                            SELECT name, stock_quantity 
+                            FROM Menus 
+                            WHERE menu_id = @menuId";
+                        
+                        using (var cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@menuId", menuId);
+                            
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    string menuName = reader["name"].ToString();
+                                    int availableStock = Convert.ToInt32(reader["stock_quantity"]);
+                                    
+                                    if (availableStock < requiredQuantity)
+                                    {
+                                        errorMessage = 
+                                            $"Stock insuffisant pour '{menuName}'!\n" +
+                                            $"Stock disponible: {availableStock}\n" +
+                                            $"Quantité demandée: {requiredQuantity}";
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    errorMessage = $"Produit avec ID {menuId} non trouvé.";
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    
+                    return true; // Tout le stock est disponible
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Erreur vérification stock: {ex.Message}";
+                return false;
+            }
+        }
+        
         // Méthode pour obtenir les statistiques des commandes
         public static DataTable GetOrdersStatistics(DateTime startDate, DateTime endDate)
         {

@@ -80,8 +80,8 @@ namespace POS_RESTO.Forms
             this.Close();
         }
         
-        private Label lblOrderInfo;
-        private DataGridView dgvDetails;
-        private Label lblTotal;
+        private System.Windows.Forms.Label lblOrderInfo;
+        private System.Windows.Forms.DataGridView dgvDetails;
+        private System.Windows.Forms.Label lblTotal;
     }
 }

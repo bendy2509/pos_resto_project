@@ -13,141 +13,179 @@ namespace POS_RESTO.Views
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            dgvOrders = new DataGridView();
-            btnNewOrder = new Button();
-            btnRefresh = new Button();
-            btnUpdateStatus = new Button();
-            btnViewDetails = new Button();
-            btnExport = new Button();
-            btnClearFilters = new Button();
-            cmbFilterStatus = new ComboBox();
-            lblStatus = new Label();
-            lblTitle = new Label();
-            panelTools = new Panel();
-            lblFilterStatus = new Label();
-            dateFilterPicker = new DateTimePicker();
-            lblFilterDate = new Label();
-            
+            dgvOrders = new System.Windows.Forms.DataGridView();
+            btnNewOrder = new System.Windows.Forms.Button();
+            btnRefresh = new System.Windows.Forms.Button();
+            btnUpdateStatus = new System.Windows.Forms.Button();
+            btnViewDetails = new System.Windows.Forms.Button();
+            btnExport = new System.Windows.Forms.Button();
+            btnClearFilters = new System.Windows.Forms.Button();
+            cmbFilterStatus = new System.Windows.Forms.ComboBox();
+            lblStatus = new System.Windows.Forms.Label();
+            lblTitle = new System.Windows.Forms.Label();
+            panelTools = new System.Windows.Forms.Panel();
+            lblFilterStatus = new System.Windows.Forms.Label();
+            lblFilterDate = new System.Windows.Forms.Label();
+            dateFilterPicker = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)dgvOrders).BeginInit();
             panelTools.SuspendLayout();
-            this.SuspendLayout();
-            
-            // lblTitle
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Text = "GESTION DES COMMANDES";
-            lblTitle.Font = new Font("Segoe UI", 20, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(0, 123, 255);
-            lblTitle.Height = 50;
-            lblTitle.Padding = new Padding(20, 20, 20, 0);
-            lblTitle.TextAlign = ContentAlignment.MiddleLeft;
-            
-            // panelTools
-            panelTools.Dock = DockStyle.Top;
-            panelTools.Height = 70;
-            panelTools.BackColor = Color.White;
-            panelTools.Padding = new Padding(20, 10, 20, 10);
-            
+            SuspendLayout();
+            // 
+            // dgvOrders
+            // 
+            dgvOrders.AllowUserToAddRows = false;
+            dgvOrders.AllowUserToDeleteRows = false;
+            dgvOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dgvOrders.BackgroundColor = System.Drawing.Color.White;
+            dgvOrders.Dock = System.Windows.Forms.DockStyle.Fill;
+            dgvOrders.Location = new System.Drawing.Point(0, 120);
+            dgvOrders.Name = "dgvOrders";
+            dgvOrders.ReadOnly = true;
+            dgvOrders.RowHeadersVisible = false;
+            dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            dgvOrders.Size = new System.Drawing.Size(1200, 450);
+            dgvOrders.TabIndex = 0;
+            dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
+            dgvOrders.CellFormatting += DgvOrders_CellFormatting;
+            dgvOrders.SelectionChanged += DgvOrders_SelectionChanged;
+            // 
             // btnNewOrder
-            btnNewOrder.Text = "Nouvelle Commande";
-            btnNewOrder.BackColor = Color.FromArgb(0, 123, 255);
-            btnNewOrder.ForeColor = Color.White;
-            btnNewOrder.FlatStyle = FlatStyle.Flat;
+            // 
+            btnNewOrder.BackColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
             btnNewOrder.FlatAppearance.BorderSize = 0;
-            btnNewOrder.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            btnNewOrder.Size = new Size(180, 35);
-            btnNewOrder.Location = new Point(0, 10);
+            btnNewOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnNewOrder.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            btnNewOrder.ForeColor = System.Drawing.Color.White;
+            btnNewOrder.Location = new System.Drawing.Point(14, 10);
+            btnNewOrder.Name = "btnNewOrder";
+            btnNewOrder.Size = new System.Drawing.Size(166, 35);
+            btnNewOrder.TabIndex = 0;
+            btnNewOrder.Text = "Nouvelle Commande";
+            btnNewOrder.UseVisualStyleBackColor = false;
             btnNewOrder.Click += BtnNewOrder_Click;
-            
+            // 
             // btnRefresh
-            btnRefresh.Text = "Rafraîchir";
-            btnRefresh.BackColor = Color.FromArgb(108, 117, 125);
-            btnRefresh.ForeColor = Color.White;
-            btnRefresh.FlatStyle = FlatStyle.Flat;
+            // 
+            btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)((byte)108)), ((int)((byte)117)), ((int)((byte)125)));
             btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.Font = new Font("Segoe UI", 10);
-            btnRefresh.Size = new Size(100, 35);
-            btnRefresh.Location = new Point(190, 10);
+            btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnRefresh.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnRefresh.ForeColor = System.Drawing.Color.White;
+            btnRefresh.Location = new System.Drawing.Point(190, 10);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new System.Drawing.Size(100, 35);
+            btnRefresh.TabIndex = 1;
+            btnRefresh.Text = "Rafraîchir";
+            btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += BtnRefresh_Click;
-            
+            // 
             // btnUpdateStatus
-            btnUpdateStatus.Text = "Changer statut";
-            btnUpdateStatus.BackColor = Color.FromArgb(255, 193, 7);
-            btnUpdateStatus.ForeColor = Color.Black;
-            btnUpdateStatus.FlatStyle = FlatStyle.Flat;
-            btnUpdateStatus.FlatAppearance.BorderSize = 0;
-            btnUpdateStatus.Font = new Font("Segoe UI", 10);
-            btnUpdateStatus.Size = new Size(120, 35);
-            btnUpdateStatus.Location = new Point(400, 10);
+            // 
+            btnUpdateStatus.BackColor = System.Drawing.Color.FromArgb(((int)((byte)255)), ((int)((byte)193)), ((int)((byte)7)));
             btnUpdateStatus.Enabled = false;
+            btnUpdateStatus.FlatAppearance.BorderSize = 0;
+            btnUpdateStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnUpdateStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnUpdateStatus.ForeColor = System.Drawing.Color.Black;
+            btnUpdateStatus.Location = new System.Drawing.Point(424, 9);
+            btnUpdateStatus.Name = "btnUpdateStatus";
+            btnUpdateStatus.Size = new System.Drawing.Size(120, 35);
+            btnUpdateStatus.TabIndex = 2;
+            btnUpdateStatus.Text = "Changer statut";
+            btnUpdateStatus.UseVisualStyleBackColor = false;
             btnUpdateStatus.Click += BtnUpdateStatus_Click;
-            
+            // 
             // btnViewDetails
-            btnViewDetails.Text = "Voir détails";
-            btnViewDetails.BackColor = Color.FromArgb(111, 66, 193);
-            btnViewDetails.ForeColor = Color.White;
-            btnViewDetails.FlatStyle = FlatStyle.Flat;
-            btnViewDetails.FlatAppearance.BorderSize = 0;
-            btnViewDetails.Font = new Font("Segoe UI", 10);
-            btnViewDetails.Size = new Size(120, 35);
-            btnViewDetails.Location = new Point(530, 10);
+            // 
+            btnViewDetails.BackColor = System.Drawing.Color.FromArgb(((int)((byte)111)), ((int)((byte)66)), ((int)((byte)193)));
             btnViewDetails.Enabled = false;
+            btnViewDetails.FlatAppearance.BorderSize = 0;
+            btnViewDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnViewDetails.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnViewDetails.ForeColor = System.Drawing.Color.White;
+            btnViewDetails.Location = new System.Drawing.Point(550, 9);
+            btnViewDetails.Name = "btnViewDetails";
+            btnViewDetails.Size = new System.Drawing.Size(120, 35);
+            btnViewDetails.TabIndex = 3;
+            btnViewDetails.Text = "Voir détails";
+            btnViewDetails.UseVisualStyleBackColor = false;
             btnViewDetails.Click += BtnViewDetails_Click;
-            
+            // 
             // btnExport
-            btnExport.Text = "Exporter";
-            btnExport.BackColor = Color.FromArgb(23, 162, 184);
-            btnExport.ForeColor = Color.White;
-            btnExport.FlatStyle = FlatStyle.Flat;
+            // 
+            btnExport.BackColor = System.Drawing.Color.FromArgb(((int)((byte)23)), ((int)((byte)162)), ((int)((byte)184)));
             btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.Font = new Font("Segoe UI", 10);
-            btnExport.Size = new Size(100, 35);
-            btnExport.Location = new Point(800, 10);
+            btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnExport.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnExport.ForeColor = System.Drawing.Color.White;
+            btnExport.Location = new System.Drawing.Point(1077, 3);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new System.Drawing.Size(100, 35);
+            btnExport.TabIndex = 4;
+            btnExport.Text = "Exporter";
+            btnExport.UseVisualStyleBackColor = false;
             btnExport.Click += BtnExport_Click;
-            
-            // Filtres
-            lblFilterStatus.Text = "Statut:";
-            lblFilterStatus.Font = new Font("Segoe UI", 10);
-            lblFilterStatus.Location = new Point(660, 17);
-            lblFilterStatus.Size = new Size(50, 25);
-            
-            cmbFilterStatus.Items.AddRange(new object[] { 
-                "Tous", 
-                "en cours", 
-                "terminee", 
-                "annulee" 
-            });
-            cmbFilterStatus.SelectedIndex = 0;
-            cmbFilterStatus.Font = new Font("Segoe UI", 10);
-            cmbFilterStatus.Size = new Size(120, 25);
-            cmbFilterStatus.Location = new Point(710, 14);
-            cmbFilterStatus.SelectedIndexChanged += CmbFilterStatus_SelectedIndexChanged;
-            
-            lblFilterDate.Text = "Date:";
-            lblFilterDate.Font = new Font("Segoe UI", 10);
-            lblFilterDate.Location = new Point(840, 17);
-            lblFilterDate.Size = new Size(40, 25);
-            
-            dateFilterPicker.Font = new Font("Segoe UI", 10);
-            dateFilterPicker.Format = DateTimePickerFormat.Short;
-            dateFilterPicker.Size = new Size(120, 25);
-            dateFilterPicker.Location = new Point(880, 14);
-            dateFilterPicker.Checked = false;
-            dateFilterPicker.ValueChanged += DateFilterPicker_ValueChanged;
-            
+            // 
             // btnClearFilters
-            btnClearFilters.Text = "Effacer filtres";
-            btnClearFilters.BackColor = Color.FromArgb(52, 58, 64);
-            btnClearFilters.ForeColor = Color.White;
-            btnClearFilters.FlatStyle = FlatStyle.Flat;
+            // 
+            btnClearFilters.BackColor = System.Drawing.Color.FromArgb(((int)((byte)52)), ((int)((byte)58)), ((int)((byte)64)));
             btnClearFilters.FlatAppearance.BorderSize = 0;
-            btnClearFilters.Font = new Font("Segoe UI", 10);
-            btnClearFilters.Size = new Size(120, 25);
-            btnClearFilters.Location = new Point(1010, 14);
+            btnClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnClearFilters.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnClearFilters.ForeColor = System.Drawing.Color.White;
+            btnClearFilters.Location = new System.Drawing.Point(1068, 39);
+            btnClearFilters.Name = "btnClearFilters";
+            btnClearFilters.Size = new System.Drawing.Size(120, 25);
+            btnClearFilters.TabIndex = 9;
+            btnClearFilters.Text = "Effacer filtres";
+            btnClearFilters.UseVisualStyleBackColor = false;
             btnClearFilters.Click += BtnClearFilters_Click;
-            
+            // 
+            // cmbFilterStatus
+            // 
+            cmbFilterStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
+            cmbFilterStatus.Items.AddRange(new object[] { "Tous", "en cours", "terminee", "annulee" });
+            cmbFilterStatus.Location = new System.Drawing.Point(732, 14);
+            cmbFilterStatus.Name = "cmbFilterStatus";
+            cmbFilterStatus.Size = new System.Drawing.Size(120, 25);
+            cmbFilterStatus.TabIndex = 6;
+            cmbFilterStatus.SelectedIndexChanged += CmbFilterStatus_SelectedIndexChanged;
+            // 
+            // lblStatus
+            // 
+            lblStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
+            lblStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatus.ForeColor = System.Drawing.Color.Gray;
+            lblStatus.Location = new System.Drawing.Point(0, 570);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Padding = new System.Windows.Forms.Padding(20, 0, 20, 5);
+            lblStatus.Size = new System.Drawing.Size(1200, 30);
+            lblStatus.TabIndex = 1;
+            lblStatus.Text = "Chargement...";
+            lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblTitle
+            // 
+            lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
+            lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)0)), ((int)((byte)123)), ((int)((byte)255)));
+            lblTitle.Location = new System.Drawing.Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Padding = new System.Windows.Forms.Padding(20, 20, 20, 0);
+            lblTitle.Size = new System.Drawing.Size(1200, 50);
+            lblTitle.TabIndex = 3;
+            lblTitle.Text = "GESTION DES COMMANDES";
+            lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panelTools
+            // 
+            panelTools.BackColor = System.Drawing.Color.White;
             panelTools.Controls.Add(btnNewOrder);
             panelTools.Controls.Add(btnRefresh);
             panelTools.Controls.Add(btnUpdateStatus);
@@ -158,58 +196,70 @@ namespace POS_RESTO.Views
             panelTools.Controls.Add(lblFilterDate);
             panelTools.Controls.Add(dateFilterPicker);
             panelTools.Controls.Add(btnClearFilters);
-            
-            // dgvOrders
-            dgvOrders.Dock = DockStyle.Fill;
-            dgvOrders.BackgroundColor = Color.White;
-            dgvOrders.ReadOnly = true;
-            dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvOrders.RowHeadersVisible = false;
-            dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.AllowUserToAddRows = false;
-            dgvOrders.AllowUserToDeleteRows = false;
-            dgvOrders.AllowUserToOrderColumns = false;
-            dgvOrders.CellFormatting += DgvOrders_CellFormatting;
-            dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
-            dgvOrders.SelectionChanged += DgvOrders_SelectionChanged;
-            
-            // lblStatus
-            lblStatus.Dock = DockStyle.Bottom;
-            lblStatus.Text = "Chargement...";
-            lblStatus.Font = new Font("Segoe UI", 9);
-            lblStatus.ForeColor = Color.Gray;
-            lblStatus.Height = 30;
-            lblStatus.Padding = new Padding(20, 0, 20, 5);
-            lblStatus.TextAlign = ContentAlignment.MiddleLeft;
-            
+            panelTools.Dock = System.Windows.Forms.DockStyle.Top;
+            panelTools.Location = new System.Drawing.Point(0, 50);
+            panelTools.Name = "panelTools";
+            panelTools.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            panelTools.Size = new System.Drawing.Size(1200, 70);
+            panelTools.TabIndex = 2;
+            // 
+            // lblFilterStatus
+            // 
+            lblFilterStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
+            lblFilterStatus.Location = new System.Drawing.Point(676, 14);
+            lblFilterStatus.Name = "lblFilterStatus";
+            lblFilterStatus.Size = new System.Drawing.Size(50, 25);
+            lblFilterStatus.TabIndex = 5;
+            lblFilterStatus.Text = "Statut:";
+            lblFilterStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblFilterDate
+            // 
+            lblFilterDate.Font = new System.Drawing.Font("Segoe UI", 10F);
+            lblFilterDate.Location = new System.Drawing.Point(858, 14);
+            lblFilterDate.Name = "lblFilterDate";
+            lblFilterDate.Size = new System.Drawing.Size(40, 25);
+            lblFilterDate.TabIndex = 7;
+            lblFilterDate.Text = "Date:";
+            // 
+            // dateFilterPicker
+            // 
+            dateFilterPicker.Checked = false;
+            dateFilterPicker.Font = new System.Drawing.Font("Segoe UI", 10F);
+            dateFilterPicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            dateFilterPicker.Location = new System.Drawing.Point(922, 14);
+            dateFilterPicker.Name = "dateFilterPicker";
+            dateFilterPicker.Size = new System.Drawing.Size(120, 25);
+            dateFilterPicker.TabIndex = 8;
+            dateFilterPicker.ValueChanged += DateFilterPicker_ValueChanged;
+            // 
             // OrdersUserControl
-            this.BackColor = Color.White;
-            this.Controls.Add(dgvOrders);
-            this.Controls.Add(lblStatus);
-            this.Controls.Add(panelTools);
-            this.Controls.Add(lblTitle);
-            this.Size = new Size(1200, 600);
-            
+            // 
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(dgvOrders);
+            Controls.Add(lblStatus);
+            Controls.Add(panelTools);
+            Controls.Add(lblTitle);
+            Size = new System.Drawing.Size(1200, 600);
             ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
             panelTools.ResumeLayout(false);
-            panelTools.PerformLayout();
-            this.ResumeLayout(false);
+            ResumeLayout(false);
         }
         
         private System.ComponentModel.IContainer components = null;
         private DataGridView dgvOrders;
-        private Button btnNewOrder;
+        private System.Windows.Forms.Button btnNewOrder;
         private Button btnRefresh;
-        private Button btnUpdateStatus;
-        private Button btnViewDetails;
-        private Button btnExport;
-        private Button btnClearFilters;
-        private ComboBox cmbFilterStatus;
+        private System.Windows.Forms.Button btnUpdateStatus;
+        private System.Windows.Forms.Button btnViewDetails;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnClearFilters;
+        private System.Windows.Forms.ComboBox cmbFilterStatus;
         private Label lblStatus;
         private Label lblTitle;
         private Panel panelTools;
-        private Label lblFilterStatus;
-        private DateTimePicker dateFilterPicker;
-        private Label lblFilterDate;
+        private System.Windows.Forms.Label lblFilterStatus;
+        private System.Windows.Forms.DateTimePicker dateFilterPicker;
+        private System.Windows.Forms.Label lblFilterDate;
     }
 }

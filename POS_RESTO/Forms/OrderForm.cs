@@ -141,13 +141,33 @@ namespace POS_RESTO.Forms
             try
             {
                 var clientId = ((OrderDao.ClientItem)cmbClients.SelectedItem).Id;
-                
-                // Créer les commandes
+        
+                // Vérifier le stock AVANT de demander confirmation
+                if (!OrderDao.CheckStockAvailability(cartItems, out string stockError))
+                {
+                    MessageBox.Show($"Impossible de valider la commande:\n\n{stockError}", 
+                        "Stock insuffisant", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+        
+                // Demander confirmation à l'utilisateur
+                var result = MessageBox.Show(
+                    @$"Confirmer la commande pour {cartItems.Count} article(s) ?\n" +
+                    @$"Client: {cmbClients.Text}\n" +
+                    @"Stock disponible vérifié",
+                    @"Confirmation de commande",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+        
+                if (result != DialogResult.Yes)
+                    return;
+        
+                // Créer les commandes (le stock a déjà été vérifié)
                 OrderDao.CreateMultipleOrders(clientId, cartItems);
-                
+        
                 MessageBox.Show("Commande validée avec succès!", "Succès",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
+        
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

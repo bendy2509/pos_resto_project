@@ -49,7 +49,7 @@ namespace POS_RESTO.Views
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.Size = new System.Drawing.Size(1079, 450);
+            dgvOrders.Size = new System.Drawing.Size(1300, 700);
             dgvOrders.TabIndex = 0;
             dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
             dgvOrders.CellFormatting += DgvOrders_CellFormatting;
@@ -164,8 +164,8 @@ namespace POS_RESTO.Views
             lblStatus.ForeColor = System.Drawing.Color.Gray;
             lblStatus.Location = new System.Drawing.Point(0, 570);
             lblStatus.Name = "lblStatus";
-            lblStatus.Padding = new System.Windows.Forms.Padding(20, 0, 20, 5);
-            lblStatus.Size = new System.Drawing.Size(1079, 30);
+            lblStatus.Padding = new System.Windows.Forms.Padding(10, 0, 10, 5);
+            lblStatus.Size = new System.Drawing.Size(1400, 30);
             lblStatus.TabIndex = 1;
             lblStatus.Text = "Chargement...";
             lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -199,8 +199,8 @@ namespace POS_RESTO.Views
             panelTools.Controls.Add(btnClearFilters);
             panelTools.Location = new System.Drawing.Point(0, 50);
             panelTools.Name = "panelTools";
-            panelTools.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            panelTools.Size = new System.Drawing.Size(1079, 70);
+            panelTools.Padding = new System.Windows.Forms.Padding(5, 5, 10, 5);
+            panelTools.Size = new System.Drawing.Size(1500, 70);
             panelTools.TabIndex = 2;
             // 
             // lblFilterStatus
@@ -240,7 +240,7 @@ namespace POS_RESTO.Views
             Controls.Add(panelTools);
             Controls.Add(lblTitle);
             Controls.Add(dgvOrders);
-            Size = new System.Drawing.Size(1200, 600);
+            Size = new System.Drawing.Size(1400, 600);
             ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
             panelTools.ResumeLayout(false);
             ResumeLayout(false);

@@ -1,5 +1,6 @@
 ﻿==============================================
 PROJET POS RESTO - SYSTEME DE GESTION
+Depot : https://github.com/bendy2509/pos_resto_project.git
 ==============================================
 
 EQUIPE DE DEVELOPPEMENT
@@ -298,6 +299,7 @@ FICHIERS FOURNIS:
 1. README.txt (ce fichier)
 2. scripts.sql (script base de données)
 3. Code source complet
+4. Le lien du depot git : https://github.com/bendy2509/pos_resto_project.git
 
 CONCLUSION
 ==========

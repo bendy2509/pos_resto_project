@@ -2,32 +2,23 @@
 -- PROJET POS RESTO
 -- Base de donnees
 -- =====================================================
-
--- 1. Supprimer la base si elle existe
-DROP
-DATABASE IF EXISTS posresto;
-
--- 2. Creer la base de donnees
-CREATE
-DATABASE posresto 
+    
+-- Creer la base de donnees
+CREATE DATABASE posresto 
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 
--- 3. Supprimer l'utilisateur s'il existe
-DROP
-USER IF EXISTS 'pos_resto_admin'@'localhost';
+-- Supprimer l'utilisateur s'il existe
+DROP USER IF EXISTS 'pos_resto_admin'@'localhost';
 
--- 4. Creer l'utilisateur administrateur
-CREATE
-USER 'pos_resto_admin'@'localhost' IDENTIFIED BY 'groupabb';
+-- Creer l'utilisateur administrateur
+CREATE USER 'pos_resto_admin'@'localhost' IDENTIFIED BY 'groupabb';
 
--- 5. Attribution des droits sur la base posresto
-GRANT ALL PRIVILEGES ON posresto.* TO
-'pos_resto_admin'@'localhost';
-FLUSH
-PRIVILEGES;
+-- Attribution des droits sur la base posresto
+GRANT ALL PRIVILEGES ON posresto.* TO 'pos_resto_admin'@'localhost';
+FLUSH PRIVILEGES;
 
--- 6. Utiliser la base
+-- Utiliser la base
 USE posresto;
 
 -- =====================================================
@@ -76,6 +67,7 @@ CREATE TABLE Orders
     client_id  INT NOT NULL,
     quantity   INT NOT NULL,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('en cours', 'terminee', 'annulee') DEFAULT 'en cours',
     CONSTRAINT fk_order_menu FOREIGN KEY (menu_id) REFERENCES Menus (menu_id),
     CONSTRAINT fk_order_client FOREIGN KEY (client_id) REFERENCES Clients (client_id),
     CONSTRAINT chk_qty CHECK (quantity > 0)
@@ -96,6 +88,7 @@ CREATE TABLE Payments
 -- =====================================================
 -- TRIGGERS
 -- =====================================================
+
 DELIMITER //
 
 -- Trigger 1 : Gestion automatique du stock
@@ -122,8 +115,34 @@ END IF;
 END
 //
 
--- Trigger 2 : Mise a jour de la dette client apres paiement
-CREATE TRIGGER trg_update_client_debt
+-- Trigger 2 : Mise a jour de la dette client apres une commande
+CREATE TRIGGER trg_update_client_debt_after_order
+    AFTER INSERT
+    ON Orders
+    FOR EACH ROW
+BEGIN
+    DECLARE v_total_price DECIMAL(10,2);
+    
+    -- Calculer le total de la commande
+    SELECT unit_price * NEW.quantity
+    INTO v_total_price
+    FROM Menus
+    WHERE menu_id = NEW.menu_id;
+
+    -- Augmenter la dette du client du montant de la commande
+    UPDATE Clients
+    SET debt_amount = debt_amount + v_total_price
+    WHERE client_id = NEW.client_id;
+
+    -- Securite : Empecher une dette negative (au cas ou)
+    UPDATE Clients
+    SET debt_amount = 0
+    WHERE client_id = NEW.client_id
+      AND debt_amount < 0;
+END //
+
+-- Trigger 3 : Mise a jour de la dette client apres paiement
+CREATE TRIGGER trg_update_client_debt_after_payment
     AFTER INSERT
     ON Payments
     FOR EACH ROW
@@ -138,9 +157,9 @@ BEGIN
              JOIN Menus m ON o.menu_id = m.menu_id
     WHERE o.order_id = NEW.order_id;
 
-    -- On ajuste la dette : (Prix Total - Montant paye)
+    -- On reduit la dette : Montant paye est deduit de la dette
     UPDATE Clients
-    SET debt_amount = debt_amount + (v_total_price - NEW.amount)
+    SET debt_amount = debt_amount - NEW.amount
     WHERE client_id = v_client_id;
 
     -- Securite : Empecher une dette negative
@@ -150,7 +169,47 @@ BEGIN
       AND debt_amount < 0;
 END //
 
+-- Trigger 4 : Restaurer le stock et ajuster la dette si une commande est annulee
+CREATE TRIGGER trg_restore_stock_on_cancel
+    BEFORE UPDATE
+    ON Orders
+    FOR EACH ROW
+BEGIN
+    -- Si le statut passe a 'annulee'
+    IF OLD.status != 'annulee' AND NEW.status = 'annulee' THEN
+        -- Restaurer le stock
+    UPDATE Menus
+    SET stock_quantity = stock_quantity + OLD.quantity
+    WHERE menu_id = OLD.menu_id;
+
+    -- Reduire la dette du client (puisque la commande est annulee)
+    UPDATE Clients c
+        JOIN Menus m ON OLD.menu_id = m.menu_id
+        SET c.debt_amount = c.debt_amount - (m.unit_price * OLD.quantity)
+    WHERE c.client_id = OLD.client_id;
+
+    -- Securite : Empecher une dette negative
+    UPDATE Clients
+    SET debt_amount = 0
+    WHERE client_id = OLD.client_id
+      AND debt_amount < 0;
+END IF;
+END //
+
 DELIMITER ;
+
+-- =====================================================
+-- INDEX POUR PERFORMANCES
+-- =====================================================
+
+CREATE INDEX idx_orders_client ON Orders(client_id);
+CREATE INDEX idx_orders_menu ON Orders(menu_id);
+CREATE INDEX idx_orders_date ON Orders(order_date);
+CREATE INDEX idx_orders_status ON Orders(status);
+CREATE INDEX idx_payments_order ON Payments(order_id);
+CREATE INDEX idx_payments_date ON Payments(payment_date);
+CREATE INDEX idx_clients_name ON Clients(last_name, first_name);
+CREATE INDEX idx_menus_category ON Menus(category);
 
 -- =====================================================
 -- DONNEES DE TEST
@@ -158,9 +217,10 @@ DELIMITER ;
 
 -- Inserer des utilisateurs
 INSERT INTO Users (username, password, role)
-VALUES ('admin', 'admin123', 'admin'),
-       ('serveur', 'serveur123', 'staff'),
-       ('client', 'client123', 'user');
+VALUES ('Servilus_2509', 'admin123', 'admin'),
+       ('Albikendy', 'jean123', 'staff'),
+       ('Blemy', 'jblemy123', 'staff'),
+       ('User_test', 'user123', 'user');
 
 -- Inserer des menus
 INSERT INTO Menus (name, category, stock_quantity, unit_price, description)
@@ -171,15 +231,7 @@ VALUES ('Poulet Grille', 'plats', 50, 250.00, 'Poulet marine grille avec legumes
        ('Tiramisu', 'desserts', 20, 150.00, 'Dessert italien au cafe');
 
 -- Inserer des clients
-INSERT INTO Clients (last_name, first_name, gender, phone, email)
-VALUES ('Dupont', 'Jean', 'M', '41705257', 'jean@example.com'),
-       ('Martin', 'Marie', 'F', '41705259', 'marie@example.com'),
-       ('Pierre', 'Jacques', 'M', '41705258', 'jacques@example.com');
-
--- =====================================================
--- D'autres idees
--- =====================================================
-
--- Ajouter une colonne "status" dans la table Orders pour suivre l'etat de la commande (en cours, terminee, annulee).
-ALTER TABLE Orders
-    ADD COLUMN status ENUM('en cours', 'terminee', 'annulee') DEFAULT 'en cours';
+INSERT INTO Clients (last_name, first_name, gender, phone, email, debt_amount)
+VALUES ('SERVILUS', 'Bendy', 'M', '41705257', 'bendyservilus@gmail.com', 0),
+       ('JOSEPH', 'Blemy', 'M', '35359939', 'jblemy@gmail.com', 0),
+       ('JEAN', 'Albikendy', 'M', '35416402', 'jeanalbikendy@gmail.com', 0);

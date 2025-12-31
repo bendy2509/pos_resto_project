@@ -31,6 +31,11 @@ partial class ClientForm
     /// </summary>
     private void InitializeComponent()
     {
+        // Ajouter ErrorProvider
+        errorProvider = new ErrorProvider();
+        errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+        errorProvider.ContainerControl = this;
+        
         panel = new System.Windows.Forms.Panel();
         lblTitle = new System.Windows.Forms.Label();
         lblLastName = new System.Windows.Forms.Label();
@@ -170,6 +175,7 @@ partial class ClientForm
         txtEmail.Name = "txtEmail";
         txtEmail.Size = new System.Drawing.Size(300, 25);
         txtEmail.TabIndex = 10;
+        txtEmail.Validating += TxtEmail_Validating;
         // 
         // lblDebt
         // 
@@ -189,6 +195,9 @@ partial class ClientForm
         numDebt.Name = "numDebt";
         numDebt.Size = new System.Drawing.Size(150, 25);
         numDebt.TabIndex = 12;
+        numDebt.ThousandsSeparator = true;
+        numDebt.Value = new decimal(new int[] { 0, 0, 0, 0 });
+        numDebt.Enabled = false;
         // 
         // panelButtons
         // 
@@ -263,7 +272,7 @@ partial class ClientForm
     private NumericUpDown numDebt;
     private Button btnSave;
     private Button btnCancel;
-    
+    private ErrorProvider errorProvider;
 
     #endregion
 }

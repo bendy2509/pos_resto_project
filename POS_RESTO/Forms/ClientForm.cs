@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using POS_RESTO.Data;
 using POS_RESTO.Models;
+using POS_RESTO.Utils;
 
 namespace POS_RESTO.Forms
 {
@@ -71,6 +72,16 @@ namespace POS_RESTO.Forms
                 return;
             }
             
+            // Validation de l'email
+            string email = txtEmail.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(email) && !ValidationHelper.IsValidEmail(email))
+            {
+                MessageBox.Show(@"Adresse email invalide. Format attendu: exemple@domaine.com",
+                    @"Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
+            
             try
             {
                 var client = new Client
@@ -107,6 +118,21 @@ namespace POS_RESTO.Forms
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+        
+        // Validation en temps réel
+        private void TxtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            string email = txtEmail.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(email) && !ValidationHelper.IsValidEmail(email))
+            {
+                errorProvider.SetError(txtEmail, "Format email invalide (exemple@domaine.com)");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(txtEmail, "");
+            }
         }
     }
 }

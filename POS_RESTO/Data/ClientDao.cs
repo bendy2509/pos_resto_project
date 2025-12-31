@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
 using POS_RESTO.Models;
+using POS_RESTO.Utils;
 
 namespace POS_RESTO.Data
 {
@@ -53,6 +54,12 @@ namespace POS_RESTO.Data
         // Méthode pour sauvegarder un client (utilisée dans BtnSave_Click)
         public static void SaveClient(Client client)
         {
+            if (!string.IsNullOrWhiteSpace(client.Email) && 
+                !ValidationHelper.IsValidEmail(client.Email))
+            {
+                throw new Exception("Format email invalide");
+            }
+            
             try
             {
                 string query;

@@ -15,13 +15,13 @@ namespace POS_RESTO.Data
             {
                 // Vérifier si la commande existe
                 string checkOrderQuery = "SELECT COUNT(*) FROM Orders WHERE order_id = @orderId";
-                bool orderExists = false;
-                
+
                 using (var conn = Configuration.DatabaseConfig.GetConnection())
                 {
                     conn.Open();
                     
                     // Vérifier l'existence de la commande
+                    var orderExists = false;
                     using (var cmd = new MySqlCommand(checkOrderQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@orderId", orderId);
@@ -33,16 +33,32 @@ namespace POS_RESTO.Data
                         throw new Exception($"La commande #{orderId} n'existe pas.");
                     }
                     
-                    // Vérifier si un paiement existe déjà pour cette commande
-                    string checkPaymentQuery = "SELECT COUNT(*) FROM Payments WHERE order_id = @orderId";
-                    using (var cmd = new MySqlCommand(checkPaymentQuery, conn))
+                    // Calculer le total de la commande et le montant déjà payé
+                    decimal orderTotal = GetOrderTotal(orderId);
+                    decimal amountPaid = GetAmountPaidForOrder(orderId);
+                    decimal remainingAmount = orderTotal - amountPaid;
+                    
+                    // Si la commande est déjà entièrement payée
+                    if (remainingAmount <= 0)
                     {
-                        cmd.Parameters.AddWithValue("@orderId", orderId);
-                        bool paymentExists = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                        throw new Exception($"La commande #{orderId} est déjà entièrement payée.");
+                    }
+                    
+                    // Si le montant à payer dépasse le montant restant
+                    if (amount > remainingAmount)
+                    {
+                        var result = MessageBox.Show(
+                            $"Le montant ({amount:N0} HTG) dépasse le montant restant à payer ({remainingAmount:N0} HTG).\n" +
+                            $"Voulez-vous payer exactement le montant restant ({remainingAmount:N0} HTG)?",
+                            "Montant trop élevé", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         
-                        if (paymentExists)
+                        if (result == DialogResult.Yes)
                         {
-                            throw new Exception($"Un paiement existe déjà pour la commande #{orderId}.");
+                            amount = remainingAmount;
+                        }
+                        else
+                        {
+                            return;
                         }
                     }
                     
@@ -58,11 +74,49 @@ namespace POS_RESTO.Data
                         
                         cmd.ExecuteNonQuery();
                     }
+                    
+                    // Vérifier si la commande est maintenant entièrement payée
+                    decimal newAmountPaid = GetAmountPaidForOrder(orderId);
+                    if (newAmountPaid >= orderTotal)
+                    {
+                        // Marquer la commande comme terminée
+                        OrderDao.UpdateOrderStatus(orderId, "terminee");
+                    }
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception($"Erreur création paiement: {ex.Message}", ex);
+            }
+        }
+        
+        // Méthode pour obtenir le total d'une commande
+        public static decimal GetOrderTotal(int orderId)
+        {
+            try
+            {
+                string query = @"
+                    SELECT m.unit_price * o.quantity as total
+                    FROM Orders o
+                    JOIN Menus m ON o.menu_id = m.menu_id
+                    WHERE o.order_id = @orderId";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@orderId", orderId);
+                        
+                        var result = cmd.ExecuteScalar();
+                        return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur calcul total commande: {ex.Message}", ex);
             }
         }
         
@@ -171,6 +225,63 @@ namespace POS_RESTO.Data
             return null;
         }
         
+        // Méthode pour obtenir tous les paiements d'une commande
+        public static List<Payment> GetPaymentsByOrderId(int orderId)
+        {
+            var payments = new List<Payment>();
+            
+            try
+            {
+                string query = @"
+                    SELECT p.*, o.*, m.name as menu_name, m.unit_price,
+                           CONCAT(c.last_name, ' ', c.first_name) as client_name
+                    FROM Payments p
+                    JOIN Orders o ON p.order_id = o.order_id
+                    JOIN Menus m ON o.menu_id = m.menu_id
+                    JOIN Clients c ON o.client_id = c.client_id
+                    WHERE p.order_id = @orderId
+                    ORDER BY p.payment_date";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@orderId", orderId);
+                        
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                payments.Add(new Payment
+                                {
+                                    PaymentId = Convert.ToInt32(reader["payment_id"]),
+                                    OrderId = Convert.ToInt32(reader["order_id"]),
+                                    Amount = Convert.ToDecimal(reader["amount"]),
+                                    PaymentDate = Convert.ToDateTime(reader["payment_date"]),
+                                    PaymentMode = reader["payment_mode"].ToString(),
+                                    OrderDetails = new Order
+                                    {
+                                        MenuName = reader["menu_name"].ToString(),
+                                        ClientName = reader["client_name"].ToString(),
+                                        Quantity = Convert.ToInt32(reader["quantity"]),
+                                        UnitPrice = Convert.ToDecimal(reader["unit_price"])
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur chargement paiements commande: {ex.Message}", ex);
+            }
+            
+            return payments;
+        }
+        
         // Méthode pour obtenir le total des paiements par jour
         public static decimal GetDailyPaymentsTotal(DateTime date)
         {
@@ -196,23 +307,15 @@ namespace POS_RESTO.Data
             }
         }
         
-        // Méthode pour vérifier si une commande est déjà payée
-        public static bool IsOrderPaid(int orderId)
+        // Méthode pour vérifier si une commande est déjà payée (entièrement)
+        public static bool IsOrderFullyPaid(int orderId)
         {
             try
             {
-                string query = "SELECT COUNT(*) FROM Payments WHERE order_id = @orderId";
+                decimal orderTotal = GetOrderTotal(orderId);
+                decimal amountPaid = GetAmountPaidForOrder(orderId);
                 
-                using (var conn = Configuration.DatabaseConfig.GetConnection())
-                {
-                    conn.Open();
-                    
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@orderId", orderId);
-                        return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
-                    }
-                }
+                return amountPaid >= orderTotal;
             }
             catch (Exception ex)
             {
@@ -245,7 +348,24 @@ namespace POS_RESTO.Data
             }
         }
         
-         // Méthode pour obtenir un DataTable formaté pour l'affichage
+        // Méthode pour obtenir le montant restant à payer pour une commande
+        public static decimal GetRemainingAmountForOrder(int orderId)
+        {
+            try
+            {
+                decimal orderTotal = GetOrderTotal(orderId);
+                decimal amountPaid = GetAmountPaidForOrder(orderId);
+                
+                decimal remaining = orderTotal - amountPaid;
+                return remaining > 0 ? remaining : 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur calcul montant restant: {ex.Message}", ex);
+            }
+        }
+        
+        // Méthode pour obtenir un DataTable formaté pour l'affichage
         public static DataTable GetPaymentsDataTable(DateTime fromDate, DateTime toDate)
         {
             DataTable dt = new DataTable();
@@ -346,6 +466,58 @@ namespace POS_RESTO.Data
             catch (Exception ex)
             {
                 throw new Exception($"Erreur calcul total par mode paiement: {ex.Message}", ex);
+            }
+        }
+        
+        // Méthode pour supprimer un paiement
+        public static int DeletePayment(int paymentId)
+        {
+            try
+            {
+                string query = "DELETE FROM Payments WHERE payment_id = @id";
+                
+                using (var conn = Configuration.DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+                    
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", paymentId);
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur suppression paiement: {ex.Message}", ex);
+            }
+        }
+        
+        // Méthode pour obtenir un résumé de paiement pour une commande
+        public static PaymentSummary GetPaymentSummary(int orderId)
+        {
+            try
+            {
+                decimal orderTotal = GetOrderTotal(orderId);
+                decimal amountPaid = GetAmountPaidForOrder(orderId);
+                decimal remaining = orderTotal - amountPaid;
+                bool isFullyPaid = amountPaid >= orderTotal;
+                var payments = GetPaymentsByOrderId(orderId);
+                
+                return new PaymentSummary
+                {
+                    OrderId = orderId,
+                    OrderTotal = orderTotal,
+                    AmountPaid = amountPaid,
+                    RemainingAmount = remaining > 0 ? remaining : 0,
+                    IsFullyPaid = isFullyPaid,
+                    PaymentCount = payments.Count,
+                    Payments = payments
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erreur génération résumé paiement: {ex.Message}", ex);
             }
         }
     }

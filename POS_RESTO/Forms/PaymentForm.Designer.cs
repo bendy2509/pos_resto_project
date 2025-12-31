@@ -6,34 +6,13 @@ namespace POS_RESTO.Forms;
 
 partial class PaymentForm
 {
-    /// <summary>
-    /// Required designer variable.
-    /// </summary>
-    private IContainer components = null;
-
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing && (components != null))
-        {
-            components.Dispose();
-        }
-
-        base.Dispose(disposing);
-    }
-
-    #region Windows Form Designer generated code
-
-    /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
-    /// </summary>
+    private DataGridView dgvPayments;
+    private Label lblAmountPaid;
+    private Label lblRemaining;
+    
     private void InitializeComponent()
     {
-        this.Size = new Size(450, 450);
+        this.Size = new Size(500, 600);
         this.StartPosition = FormStartPosition.CenterScreen;
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
@@ -41,6 +20,7 @@ partial class PaymentForm
         var panel = new Panel();
         panel.Dock = DockStyle.Fill;
         panel.Padding = new Padding(20);
+        panel.AutoScroll = true;
         
         // Titre
         var lblTitle = new Label();
@@ -74,24 +54,60 @@ partial class PaymentForm
         lblOrderDetails.Location = new Point(0, 90);
         lblOrderDetails.Size = new Size(400, 25);
         
-        // Montant commande
+        // Total commande
         lblOrderTotal = new Label();
-        lblOrderTotal.Text = "Montant commande: -- HTG";
+        lblOrderTotal.Text = "Total commande: -- HTG";
         lblOrderTotal.Font = new Font("Segoe UI", 10, FontStyle.Bold);
         lblOrderTotal.Location = new Point(0, 120);
         lblOrderTotal.Size = new Size(400, 25);
         
+        // Montant déjà payé
+        lblAmountPaid = new Label();
+        lblAmountPaid.Text = "Déjà payé: -- HTG";
+        lblAmountPaid.Font = new Font("Segoe UI", 10);
+        lblAmountPaid.Location = new Point(0, 145);
+        lblAmountPaid.Size = new Size(400, 25);
+        
+        // Montant restant
+        lblRemaining = new Label();
+        lblRemaining.Text = "Reste à payer: -- HTG";
+        lblRemaining.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+        lblRemaining.Location = new Point(0, 170);
+        lblRemaining.Size = new Size(400, 25);
+        
         // Séparateur
         var separator = new Label();
         separator.BorderStyle = BorderStyle.Fixed3D;
-        separator.Location = new Point(0, 150);
+        separator.Location = new Point(0, 200);
         separator.Size = new Size(400, 2);
+        
+        // Historique des paiements
+        var lblHistoryTitle = new Label();
+        lblHistoryTitle.Text = "Historique des paiements:";
+        lblHistoryTitle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+        lblHistoryTitle.Location = new Point(0, 210);
+        lblHistoryTitle.Size = new Size(200, 25);
+        
+        dgvPayments = new DataGridView();
+        dgvPayments.Location = new Point(0, 240);
+        dgvPayments.Size = new Size(400, 150);
+        dgvPayments.ReadOnly = true;
+        dgvPayments.RowHeadersVisible = false;
+        dgvPayments.AllowUserToAddRows = false;
+        dgvPayments.AllowUserToDeleteRows = false;
+        dgvPayments.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        
+        // Séparateur 2
+        var separator2 = new Label();
+        separator2.BorderStyle = BorderStyle.Fixed3D;
+        separator2.Location = new Point(0, 400);
+        separator2.Size = new Size(400, 2);
         
         // Montant à payer
         var lblAmount = new Label();
-        lblAmount.Text = "Montant payé:*";
+        lblAmount.Text = "Montant à payer:*";
         lblAmount.Font = new Font("Segoe UI", 10);
-        lblAmount.Location = new Point(0, 165);
+        lblAmount.Location = new Point(0, 410);
         lblAmount.Size = new Size(120, 25);
         
         numAmount = new NumericUpDown();
@@ -99,21 +115,21 @@ partial class PaymentForm
         numAmount.Minimum = 0;
         numAmount.Maximum = 10000000;
         numAmount.Font = new Font("Segoe UI", 10);
-        numAmount.Location = new Point(130, 165);
+        numAmount.Location = new Point(130, 410);
         numAmount.Size = new Size(150, 25);
         
         // Mode de paiement
         var lblPaymentMode = new Label();
         lblPaymentMode.Text = "Mode paiement:*";
         lblPaymentMode.Font = new Font("Segoe UI", 10);
-        lblPaymentMode.Location = new Point(0, 205);
+        lblPaymentMode.Location = new Point(0, 445);
         lblPaymentMode.Size = new Size(120, 25);
         
         cmbPaymentMode = new ComboBox();
         cmbPaymentMode.Items.AddRange(new object[] { "cash", "card", "cheque" });
         cmbPaymentMode.SelectedIndex = 0;
         cmbPaymentMode.Font = new Font("Segoe UI", 10);
-        cmbPaymentMode.Location = new Point(130, 205);
+        cmbPaymentMode.Location = new Point(130, 445);
         cmbPaymentMode.Size = new Size(150, 25);
         
         // Boutons
@@ -152,7 +168,12 @@ partial class PaymentForm
         panel.Controls.Add(numOrderId);
         panel.Controls.Add(lblOrderDetails);
         panel.Controls.Add(lblOrderTotal);
+        panel.Controls.Add(lblAmountPaid);
+        panel.Controls.Add(lblRemaining);
         panel.Controls.Add(separator);
+        panel.Controls.Add(lblHistoryTitle);
+        panel.Controls.Add(dgvPayments);
+        panel.Controls.Add(separator2);
         panel.Controls.Add(lblAmount);
         panel.Controls.Add(numAmount);
         panel.Controls.Add(lblPaymentMode);
@@ -161,15 +182,13 @@ partial class PaymentForm
         this.Controls.Add(panel);
         this.Controls.Add(panelButtons);
     }
-        
-
-    #endregion
     
+    // Déclaration des contrôles
     private NumericUpDown numOrderId;
+    private Label lblOrderDetails;
+    private Label lblOrderTotal;
     private NumericUpDown numAmount;
     private ComboBox cmbPaymentMode;
     private Button btnSave;
     private Button btnCancel;
-    private Label lblOrderTotal;
-    private Label lblOrderDetails; // Nouveau label pour afficher plus de détails
 }

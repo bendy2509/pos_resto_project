@@ -152,8 +152,8 @@ namespace POS_RESTO.Forms
         
                 // Demander confirmation à l'utilisateur
                 var result = MessageBox.Show(
-                    @$"Confirmer la commande pour {cartItems.Count} article(s) ?\n" +
-                    @$"Client: {cmbClients.Text}\n" +
+                    $"Confirmer la commande pour {cartItems.Count} article(s) ?\n" +
+                    $"Client: {cmbClients.Text}\n" +
                     @"Stock disponible vérifié",
                     @"Confirmation de commande",
                     MessageBoxButtons.YesNo,
@@ -204,6 +204,8 @@ namespace POS_RESTO.Forms
                 numQuantity.Maximum = stock;
                 if (numQuantity.Value > stock)
                 {
+                    MessageBox.Show("Quantité ajustée selon le stock disponible.", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     numQuantity.Value = stock;
                 }
             }

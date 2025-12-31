@@ -49,7 +49,7 @@ namespace POS_RESTO.Views
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.Size = new System.Drawing.Size(1100, 400);
+            dgvOrders.Size = new System.Drawing.Size(1400, 850);
             dgvOrders.TabIndex = 0;
             dgvOrders.CellDoubleClick += DgvOrders_CellDoubleClick;
             dgvOrders.CellFormatting += DgvOrders_CellFormatting;
@@ -162,10 +162,10 @@ namespace POS_RESTO.Views
             lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
             lblStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
             lblStatus.ForeColor = System.Drawing.Color.Gray;
-            lblStatus.Location = new System.Drawing.Point(0, 570);
+            lblStatus.Location = new System.Drawing.Point(14, 570);
             lblStatus.Name = "lblStatus";
             lblStatus.Padding = new System.Windows.Forms.Padding(10, 0, 10, 5);
-            lblStatus.Size = new System.Drawing.Size(2950, 30);
+            lblStatus.Size = new System.Drawing.Size(1000, 30);
             lblStatus.TabIndex = 1;
             lblStatus.Text = "Chargement...";
             lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -199,7 +199,7 @@ namespace POS_RESTO.Views
             panelTools.Location = new System.Drawing.Point(0, 50);
             panelTools.Name = "panelTools";
             panelTools.Padding = new System.Windows.Forms.Padding(5, 5, 10, 5);
-            panelTools.Size = new System.Drawing.Size(1100, 70);
+            panelTools.Size = new System.Drawing.Size(2350, 70);
             panelTools.TabIndex = 2;
             // 
             // lblFilterStatus

@@ -55,6 +55,7 @@
             dgvReport.RowHeadersVisible = false;
             dgvReport.Size = new System.Drawing.Size(633, 275);
             dgvReport.TabIndex = 0;
+            dgvReport.AllowUserToAddRows = false;
             // 
             // btnGenerate
             // 

@@ -39,8 +39,8 @@ namespace POS_RESTO.Forms
                         }
                         
                         // Configurer le NumericUpDown pour le montant
-                        numAmount.Value = orderTotal; // Par défaut, montant exact
-                        numAmount.Maximum = orderTotal * 2; // Permet de payer plus que le total
+                        numAmount.Value = orderTotal; 
+                        numAmount.Maximum = orderTotal * 2;
                         numAmount.Minimum = 0;
                     }
                     else

@@ -51,7 +51,7 @@ namespace POS_RESTO.Views
             dgvClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgvClients.Size = new System.Drawing.Size(656, 296);
             dgvClients.TabIndex = 0;
-            dgvClients.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvClients_CellDoubleClick);
+            dgvClients.CellDoubleClick += DgvClients_CellDoubleClick;
             // 
             // btnAddClient
             // 
@@ -66,7 +66,7 @@ namespace POS_RESTO.Views
             btnAddClient.TabIndex = 2;
             btnAddClient.Text = "Nouveau Client";
             btnAddClient.UseVisualStyleBackColor = false;
-            btnAddClient.Click += new System.EventHandler(this.BtnAddClient_Click);
+            btnAddClient.Click += BtnAddClient_Click;
             // 
             // btnEditClient
             // 
@@ -81,7 +81,7 @@ namespace POS_RESTO.Views
             btnEditClient.TabIndex = 3;
             btnEditClient.Text = "Modifier";
             btnEditClient.UseVisualStyleBackColor = false;
-            btnEditClient.Click += new System.EventHandler(this.BtnEditClient_Click);
+            btnEditClient.Click += BtnEditClient_Click;
             // 
             // btnDeleteClient
             // 
@@ -96,7 +96,7 @@ namespace POS_RESTO.Views
             btnDeleteClient.TabIndex = 4;
             btnDeleteClient.Text = "Supprimer";
             btnDeleteClient.UseVisualStyleBackColor = false;
-            btnDeleteClient.Click += new System.EventHandler(this.BtnDeleteClient_Click);
+            btnDeleteClient.Click += BtnDeleteClient_Click;
             // 
             // txtSearch
             // 
@@ -105,7 +105,7 @@ namespace POS_RESTO.Views
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new System.Drawing.Size(200, 25);
             txtSearch.TabIndex = 1;
-            txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
+            txtSearch.TextChanged += TxtSearch_TextChanged;
             // 
             // lblStatus
             // 

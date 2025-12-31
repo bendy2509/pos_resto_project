@@ -13,6 +13,7 @@ namespace POS_RESTO.Views
         public ClientsUserControl()
         {
             InitializeComponent();
+            InitializeSearchTimer();
             LoadClients();
         }
         

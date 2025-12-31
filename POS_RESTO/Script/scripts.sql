@@ -85,7 +85,7 @@ CREATE TABLE Orders
 CREATE TABLE Payments
 (
     payment_id   INT AUTO_INCREMENT PRIMARY KEY,
-    order_id     INT UNIQUE     NOT NULL,
+    order_id     INT    NOT NULL,
     amount       DECIMAL(10, 2) NOT NULL,
     payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     payment_mode ENUM('cash', 'card', 'cheque'),
@@ -96,7 +96,6 @@ CREATE TABLE Payments
 -- =====================================================
 -- TRIGGERS
 -- =====================================================
-
 DELIMITER //
 
 -- Trigger 1 : Gestion automatique du stock
@@ -149,39 +148,6 @@ BEGIN
     SET debt_amount = 0
     WHERE client_id = v_client_id
       AND debt_amount < 0;
-END //
-
--- Trigger 3: lorsqu'on change le statut d'une commande a "annulee", on remet le stock a jour
--- si on passe de annulee a un autre statut on prend en compte les regle d'enregistrement d'une commande normale
-CREATE TRIGGER trg_update_order_status
-    AFTER UPDATE
-    ON Orders
-    FOR EACH ROW
-BEGIN
-    DECLARE v_current_stock INT;
-    
-    IF NEW.status = 'annulee' AND OLD.status <> 'annulee' THEN
-        -- Remettre le stock a jour
-    UPDATE Menus
-    SET stock_quantity = stock_quantity + NEW.quantity
-    WHERE menu_id = NEW.menu_id;
-
-    ELSEIF OLD.status = 'annulee' AND NEW.status <> 'annulee' THEN
-        -- Verifier le stock avant de remettre a jour
-    SELECT stock_quantity
-    INTO v_current_stock
-    FROM Menus
-    WHERE menu_id = NEW.menu_id;
-
-    IF v_current_stock < NEW.quantity THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Erreur : Stock insuffisant pour ce produit !';
-    ELSE
-    UPDATE Menus
-    SET stock_quantity = v_current_stock - NEW.quantity
-    WHERE menu_id = NEW.menu_id;
-END IF;
-END IF;
 END //
 
 DELIMITER ;
